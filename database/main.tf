@@ -1,46 +1,30 @@
-
-variable "type" { default = "mysql" }
-
-variable "name" { }
-
-variable "storage_gb" { default = 20 }
-
-variable "storage_type" { default = "gp2" }
-
-variable "instance" { default = "db.t3.medium" }
-
-variable "environment" { default = "dev" }
-
-variable "region" { default = "us-west-2" }
-
-variable "username" { default = "" }
-
-variable "version" { default = "" }
-
-variable "cost_center" { }
-
-variable "project" { default = "" }
-
-variable "subnets" { default = [] }
-
-variable "vpc_id" { }
-
 locals {
   ports = {
-    mysql = 3306
+    mysql    = 3306
     postgres = 5432
   }
+
   versions = {
-    mysql = "5.7"
+    mysql    = "5.7"
     postgres = "11.4"
   }
-  ver = "${var.version != "" ? var.version : lookup(local.versions,var.type)}"
-  project = "${var.project != "" ? var.project : var.name}"
+
+  default_tags = {
+    Project     = "${local.project}"
+    Region      = "${var.region}"
+    Environment = "${var.environment}"
+    Terraform   = "true"
+    CostCenter  = "${var.cost_center}"
+  }
+
+  ver      = "${var.version != "" ? var.version : lookup(local.versions,var.type)}"
+  project  = "${var.project != "" ? var.project : var.name}"
   username = "${var.username != "" ? var.username : var.name}"
+  tags = "${merge(var.extra_tags,local.default_tags)}"
 }
 
 resource "random_string" "password" {
-  length  = 16
+  length  = "${var.password_length}"
   special = false
 }
 
@@ -71,12 +55,7 @@ resource "aws_security_group" "default" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags {
-    Name      = "${var.name}-${var.environment}-rds-sg"
-    Project   = "${local.project}"
-    Region    = "${var.region}"
-    Terraform = "true"
-  }
+  tags = "${merge(local.tags,map("Name","${var.name}-${var.environment}-rds-sg"))}"
 }
 
 resource "aws_db_instance" "default" {
@@ -85,32 +64,15 @@ resource "aws_db_instance" "default" {
   engine                 = "${var.type}"
   engine_version         = "${local.ver}"
   instance_class         = "${var.instance}"
-  name                   = "${var.name}-${var.environment}"
-  identifier             = "${var.name}-${var.environment}"
+  name                   = "${var.name}"
+  identifier             = "${var.name}"
   username               = "${local.username}"
   password               = "${random_string.password.result}"
   db_subnet_group_name   = "${aws_db_subnet_group.subnet.id}"
   vpc_security_group_ids = ["${aws_security_group.default.id}"]
   skip_final_snapshot    = "true"
+  publicly_accessible    = "${var.publicly_accessible}"
+  multi_az               = "${var.multi_az}"
 
-  tags {
-    Name        = "${var.name}-${var.environment}"
-    Project     = "${local.project}"
-    Region      = "${var.region}"
-    Environment = "${var.environment}"
-    Terraform   = "true"
-    CostCenter  = "${var.cost_center}"
-  }
-}
-
-output "endpoint" {
-  value = "${aws_db_instance.default.endpoint}"
-}
-
-output "username" { 
-  value = "${local.username}"
-}
-
-output "password" {
-  value = "${random_string.password.result}"
+  tags = "${merge(local.tags,map("Name","${var.name}"))}"
 }
