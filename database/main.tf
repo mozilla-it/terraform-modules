@@ -20,7 +20,7 @@ locals {
   ver      = "${var.version != "" ? var.version : lookup(local.versions,var.type)}"
   project  = "${var.project != "" ? var.project : var.name}"
   username = "${var.username != "" ? var.username : var.name}"
-  tags = "${merge(var.extra_tags,local.default_tags)}"
+  tags     = "${merge(var.extra_tags,local.default_tags)}"
 }
 
 resource "random_string" "password" {

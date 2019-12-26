@@ -37,6 +37,7 @@ variable "project" {
 }
 
 variable "subnets" {
+  type    = "list"
   default = []
 }
 
@@ -55,5 +56,6 @@ variable "multi_az" {
 }
 
 variable "extra_tags" {
+  type    = "map"
   default = {}
 }
