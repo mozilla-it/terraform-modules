@@ -4,6 +4,10 @@ variable "type" {
 
 variable "name" {}
 
+variable "identifier" {
+  default = ""
+}
+
 variable "storage_gb" {
   default = 20
 }
@@ -58,4 +62,8 @@ variable "multi_az" {
 variable "extra_tags" {
   type    = "map"
   default = {}
+}
+
+variable "ca_cert_identifier" {
+  default = "rds-ca-2019"
 }

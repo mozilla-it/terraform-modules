@@ -17,13 +17,14 @@ locals {
     CostCenter  = "${var.cost_center}"
   }
 
-  ver      = "${var.version != "" ? var.version : lookup(local.versions,var.type)}"
-  project  = "${var.project != "" ? var.project : var.name}"
-  username = "${var.username != "" ? var.username : var.name}"
-  tags     = "${merge(var.extra_tags,local.default_tags)}"
+  ver        = "${var.version != "" ? var.version : lookup(local.versions,var.type)}"
+  project    = "${var.project != "" ? var.project : var.name}"
+  username   = "${var.username != "" ? var.username : var.name}"
+  identifier = "${var.identifier != "" ? var.identifier : var.name}"
+  tags       = "${merge(var.extra_tags,local.default_tags)}"
 }
 
-resource "random_string" "password" {
+resource "random_password" "password" {
   length  = "${var.password_length}"
   special = false
 }
@@ -33,11 +34,12 @@ data "aws_vpc" "this" {
 }
 
 resource "aws_db_subnet_group" "subnet" {
-  name       = "${var.name}-subnet_group"
+  name       = "${var.identifier}-subnet_group"
   subnet_ids = ["${var.subnets}"]
 }
 
 resource "aws_security_group" "default" {
+  name   = "${var.identifier}-security_group"
   vpc_id = "${var.vpc_id}"
 
   ingress {
@@ -65,14 +67,15 @@ resource "aws_db_instance" "default" {
   engine_version         = "${local.ver}"
   instance_class         = "${var.instance}"
   name                   = "${var.name}"
-  identifier             = "${var.name}"
+  identifier             = "${var.identifier}"
   username               = "${local.username}"
-  password               = "${random_string.password.result}"
+  password               = "${random_password.password.result}"
   db_subnet_group_name   = "${aws_db_subnet_group.subnet.id}"
   vpc_security_group_ids = ["${aws_security_group.default.id}"]
   skip_final_snapshot    = "true"
   publicly_accessible    = "${var.publicly_accessible}"
   multi_az               = "${var.multi_az}"
+  ca_cert_identifier     = "${var.ca_cert_identifier}"
 
   tags = "${merge(local.tags,map("Name","${var.name}"))}"
 }
