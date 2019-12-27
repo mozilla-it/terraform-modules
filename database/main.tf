@@ -76,6 +76,7 @@ resource "aws_db_instance" "default" {
   publicly_accessible    = "${var.publicly_accessible}"
   multi_az               = "${var.multi_az}"
   ca_cert_identifier     = "${var.ca_cert_identifier}"
+  apply_immediately      = "${var.apply_immediately}"
 
   tags = "${merge(local.tags,map("Name","${var.name}"))}"
 }

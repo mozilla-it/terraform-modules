@@ -67,3 +67,7 @@ variable "extra_tags" {
 variable "ca_cert_identifier" {
   default = "rds-ca-2019"
 }
+
+variable "apply_immediately" {
+  default = "false"
+}
