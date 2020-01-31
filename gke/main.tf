@@ -23,6 +23,7 @@ module "gke" {
   logging_service            = "logging.googleapis.com/kubernetes"
 
   identity_namespace = "${var.project_id}.svc.id.goog"
+  node_metadata      = "GKE_METADATA_SERVER"
 
   node_pools = [
     {
