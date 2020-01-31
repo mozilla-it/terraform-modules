@@ -22,6 +22,8 @@ module "gke" {
   monitoring_service         = "monitoring.googleapis.com/kubernetes"
   logging_service            = "logging.googleapis.com/kubernetes"
 
+  identity_namespace = "${var.project_id}.svc.id.goog"
+
   node_pools = [
     {
       name               = "default-node-pool"
