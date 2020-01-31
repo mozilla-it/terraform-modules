@@ -4,8 +4,7 @@ data "google_compute_network" "gke_network" {
 }
 
 module "gke" {
-  source     = "terraform-google-modules/kubernetes-engine/google"
-  version    = "7.0.0"
+  source     = "terraform-google-modules/kubernetes-engine/google//modules/beta-public-cluster"
   project_id = var.project_id
   name       = var.project_id
   region     = var.region
