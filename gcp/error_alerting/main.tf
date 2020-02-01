@@ -81,7 +81,7 @@ resource "google_monitoring_alert_policy" "alert-policy-webhook" {
     condition_threshold {
       filter          = "metric.type=\"logging.googleapis.com/user/${google_logging_metric.metric.name}\" resource.type=\"global\""
       duration        = "60s"
-      comparison      = "COMPARISON_GT"
+      comparison      = "COMPARISON_${var.operator}"
       threshold_value = "${var.alert_threshold}"
 
       aggregations {

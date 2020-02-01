@@ -6,6 +6,8 @@ variable "value_type" {
   default = "INT64"
 }
 
+variable "operator" { default = "GT" }
+
 variable "name" {}
 
 variable "error_code" {}
