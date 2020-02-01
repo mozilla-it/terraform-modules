@@ -1,13 +1,10 @@
-variable "project_id" {
-}
+variable "name" {}
 
-variable "region" {
-}
+variable "region" {}
 
-variable "network" {
-}
+variable "project_id" {}
 
-variable "labels" {
-  type = map(string)
-}
+variable "initial_node_count" { default = 1 }
+
+variable "node_type" { default = "n1-standard-1" }
 
