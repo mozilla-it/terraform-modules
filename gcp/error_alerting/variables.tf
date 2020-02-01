@@ -6,13 +6,18 @@ variable "value_type" {
   default = "INT64"
 }
 
-variable "operator" { default = "GT" }
+variable "operator" {
+  default = "GT"
+}
 
-variable "name" {}
+variable "name" {
+}
 
-variable "error_code" {}
+variable "error_code" {
+}
 
-variable "project" {}
+variable "project" {
+}
 
 variable "alert_threshold" {
   default = "0"
@@ -41,3 +46,4 @@ variable "aligner" {
 variable "alignment_period" {
   default = "60s"
 }
+
