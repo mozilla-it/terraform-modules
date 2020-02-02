@@ -12,6 +12,12 @@ resource "google_project_iam_member" "iam" {
   provider = google-beta
 }
 
+resource "google_project_iam_member" "iam-logging" {
+  project = var.project_id
+  role    = "roles/logging.logWriter"
+  member  = "serviceAccount:${google_service_account.gsa.email}"
+}
+
 resource "kubernetes_service_account" "ksa" {
   metadata {
     namespace = "default"
