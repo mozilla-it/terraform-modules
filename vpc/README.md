@@ -10,6 +10,7 @@ Example on how to use module
 module "vpc" {
   source = "github.com/mozilla-it/terraform-modules//vpc"
   region = "us-west-2"
+  name   = "the-name-of-your-vpc"
   tags   = {
     Name      = "MyVPC"
     Region    = "us-west-2"
@@ -17,3 +18,8 @@ module "vpc" {
   }
 }
 ```
+
+## Terraform versions
+This module is compatible with Terraform 0.11 as well as with Terraform 0.12.
+The example above assumes using Terraform 0.12. If your code is still using Terrafor 0.11 and you want to use this module,
+change the parameter `source` in the example above adding `source = "github.com/mozilla-it/terraform-modules//vpc?ref=bf05773fd43e91c070364ce164b9fdec13c5a311`.

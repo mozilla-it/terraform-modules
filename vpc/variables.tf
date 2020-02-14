@@ -6,7 +6,8 @@ variable "enable_vpc" {
   default = true
 }
 
-variable "name" {}
+variable "name" {
+}
 
 variable "vpc_cidr" {
   default = "172.16.0.0/16"
@@ -39,12 +40,12 @@ variable "vpc_enable_dns_support" {
 
 variable "tags" {
   default = {}
-  type    = "map"
+  type    = map(string)
 }
 
 variable "kubernetes_tags" {
   default = {}
-  type    = "map"
+  type    = map(string)
 }
 
 variable "newbits" {
@@ -58,3 +59,4 @@ variable "enable_s3_endpoint" {
 variable "enable_dynamodb_endpoint" {
   default = true
 }
+
