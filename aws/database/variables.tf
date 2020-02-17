@@ -2,7 +2,8 @@ variable "type" {
   default = "mysql"
 }
 
-variable "name" {}
+variable "name" {
+}
 
 variable "identifier" {
   default = ""
@@ -20,7 +21,8 @@ variable "instance" {
   default = "db.t3.medium"
 }
 
-variable "environment" {}
+variable "environment" {
+}
 
 variable "region" {
   default = "us-west-2"
@@ -34,18 +36,20 @@ variable "version" {
   default = ""
 }
 
-variable "cost_center" {}
+variable "cost_center" {
+}
 
 variable "project" {
   default = ""
 }
 
 variable "subnets" {
-  type    = "list"
+  type    = list(string)
   default = []
 }
 
-variable "vpc_id" {}
+variable "vpc_id" {
+}
 
 variable "password_length" {
   default = 16
@@ -60,7 +64,7 @@ variable "multi_az" {
 }
 
 variable "extra_tags" {
-  type    = "map"
+  type    = map(string)
   default = {}
 }
 
@@ -71,3 +75,4 @@ variable "ca_cert_identifier" {
 variable "apply_immediately" {
   default = "false"
 }
+
