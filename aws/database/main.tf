@@ -4,7 +4,7 @@ locals {
     postgres = 5432
   }
 
-  versions = {
+  db_versions = {
     mysql    = "5.7"
     postgres = "11.4"
   }
@@ -17,7 +17,7 @@ locals {
     CostCenter  = var.cost_center
   }
 
-  ver        = var.version != "" ? var.version : local.versions[var.type]
+  ver        = var.db_version != "" ? var.db_version : local.db_versions[var.type]
   project    = var.project != "" ? var.project : var.name
   username   = var.username != "" ? var.username : var.name
   identifier = var.identifier != "" ? var.identifier : var.name

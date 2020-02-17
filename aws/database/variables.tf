@@ -32,7 +32,7 @@ variable "username" {
   default = ""
 }
 
-variable "version" {
+variable "db_version" {
   default = ""
 }
 
