@@ -28,6 +28,6 @@ output "nat_public_ips" {
 # Cluster Security Groups ID
 output "cluster_security_group_id" {
   description = "Cluster security groups ID. Used by workers"
-  value       = module.vpc.default_security_group_id
+  value       = module.vpc.default_vpc_default_security_group_id
 }
 
