@@ -25,3 +25,9 @@ output "nat_public_ips" {
   value       = [module.vpc.nat_public_ips]
 }
 
+# Cluster Security Groups ID
+output "cluster_security_group_id" {
+  description = "Cluster security groups ID. Used by workers"
+  value       = [module.vpc.cluster_security_group_id]
+}
+
