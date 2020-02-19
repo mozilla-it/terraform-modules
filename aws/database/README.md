@@ -5,8 +5,21 @@ Use this module for deploying RDS instances in AWS
 Example on how to use module
 
 ```
-module "database" {
-	# TODO: Fill me
+module "my-database" {
+  source     = "github.com/mozilla-it/terraform-modules//aws/database"
+  type       = "mysql"
+  name       = "db-name"
+  username   = "db-username"
+  identifier = "db-name"
+  storage_gb = "30" # In GBs
+  db_version = "5.6"
+  multi_az   = "false"
+  vpc_id     = module.vpc.vpc_id
+  subnets    = module.vpc.private_subnets.0
+
+  cost_center = "1410"
+  project     = "your-project-name"
+  environment = "dev"
 }
 ```
 
