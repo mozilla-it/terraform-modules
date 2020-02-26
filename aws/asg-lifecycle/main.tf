@@ -1,21 +1,21 @@
 resource "aws_autoscaling_lifecycle_hook" "lifecycle_hook" {
-  count                   = "${var.worker_asg_count}"
+  count                   = var.worker_asg_count
   name                    = "${var.name}-termination-hook-${count.index}"
-  autoscaling_group_name  = "${element(var.worker_asg, count.index)}"
+  autoscaling_group_name  = element(var.worker_asg, count.index)
   default_result          = "CONTINUE"
   heartbeat_timeout       = "60"
   lifecycle_transition    = "autoscaling:EC2_INSTANCE_TERMINATING"
-  notification_target_arn = "${aws_sns_topic.main.arn}"
-  role_arn                = "${aws_iam_role.lifecycle_hook.arn}"
+  notification_target_arn = aws_sns_topic.main.arn
+  role_arn                = aws_iam_role.lifecycle_hook.arn
 }
 
 resource "aws_cloudwatch_log_group" "lifecycled" {
-  name              = "${var.lifecycled_log_group}"
-  retention_in_days = "${var.retention_log_days}"
+  name              = var.lifecycled_log_group
+  retention_in_days = var.retention_log_days
 
   tags = {
-    Name      = "${var.name}"
-    Region    = "${var.region}"
+    Name      = var.name
+    Region    = var.region
     Terraform = "true"
   }
 }
@@ -41,7 +41,7 @@ data "aws_iam_policy_document" "asg_permissions" {
     effect = "Allow"
 
     resources = [
-      "${aws_sns_topic.main.arn}",
+      aws_sns_topic.main.arn,
     ]
 
     actions = [
@@ -60,7 +60,7 @@ data "aws_iam_policy_document" "worker_permissions" {
     ]
 
     resources = [
-      "${aws_sns_topic.main.arn}",
+      aws_sns_topic.main.arn,
     ]
   }
 
@@ -107,24 +107,25 @@ data "aws_iam_policy_document" "worker_permissions" {
     ]
 
     resources = [
-      "${aws_cloudwatch_log_group.lifecycled.arn}",
+      aws_cloudwatch_log_group.lifecycled.arn,
     ]
   }
 }
 
 resource "aws_iam_role" "lifecycle_hook" {
   name               = "${var.name}-lifecycle-role"
-  assume_role_policy = "${data.aws_iam_policy_document.asg_assume.json}"
+  assume_role_policy = data.aws_iam_policy_document.asg_assume.json
 }
 
 resource "aws_iam_role_policy" "lifecycle_hook" {
   name   = "${var.name}-lifecycle-asg-permissions"
-  role   = "${aws_iam_role.lifecycle_hook.id}"
-  policy = "${data.aws_iam_policy_document.asg_permissions.json}"
+  role   = aws_iam_role.lifecycle_hook.id
+  policy = data.aws_iam_policy_document.asg_permissions.json
 }
 
 resource "aws_iam_role_policy" "worker_permission" {
   name   = "${var.name}-lifecycle-worker-permissions"
-  role   = "${var.worker_iam_role}"
-  policy = "${data.aws_iam_policy_document.worker_permissions.json}"
+  role   = var.worker_iam_role
+  policy = data.aws_iam_policy_document.worker_permissions.json
 }
+
