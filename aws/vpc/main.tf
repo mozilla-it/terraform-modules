@@ -7,15 +7,24 @@ locals {
     0,
     var.az_placement,
   )
-}
 
-# NOTE: modules don't accept count.index so i have no choice but to do this
-module "subnets" {
-  source   = "./subnets"
-  enabled  = var.enable_vpc
-  vpc_cidr = var.vpc_cidr
-  newbits  = var.newbits
-  azs      = local.az_placement
+  public_subnets = [
+    for num in local.az_placement :
+    cidrsubnet(
+      var.vpc_cidr,
+      4,
+      index(local.az_placement, num) % length(local.az_placement)
+    )
+  ]
+
+  private_subnets = [
+    for num in local.az_placement :
+    cidrsubnet(
+      var.vpc_cidr,
+      4,
+      index(local.az_placement, num) % length(local.az_placement) + length(local.az_placement)
+    )
+  ]
 }
 
 module "vpc" {
@@ -29,8 +38,8 @@ module "vpc" {
   enable_nat_gateway     = var.enable_nat_gateway
   single_nat_gateway     = var.single_nat_gateway
   one_nat_gateway_per_az = var.one_nat_gateway_per_az
-  private_subnets        = module.subnets.private_subnets
-  public_subnets         = module.subnets.public_subnets
+  private_subnets        = local.private_subnets
+  public_subnets         = local.public_subnets
 
   # DNS
   enable_dns_hostnames = var.vpc_enable_dns_hostnames
