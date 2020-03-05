@@ -23,22 +23,11 @@ resource "google_bigquery_dataset" "dataset" {
   delete_contents_on_destroy = "false"
 
   dynamic "access" {
-    for_each = [concat(
+    for_each = concat(
       local.default_access,
-      [
-        {
-          "role"          = "OWNER"
-          "user_by_email" = var.owner_email
-        },
-      ],
       var.extra_access,
-    )]
+    )
     content {
-      # TF-UPGRADE-TODO: The automatic upgrade tool can't predict
-      # which keys might be set in maps assigned here, so it has
-      # produced a comprehensive set here. Consider simplifying
-      # this after confirming which keys can be set in practice.
-
       domain         = lookup(access.value, "domain", null)
       group_by_email = lookup(access.value, "group_by_email", null)
       role           = lookup(access.value, "role", null)
