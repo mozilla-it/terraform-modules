@@ -18,6 +18,7 @@ resource "google_container_cluster" "primary" {
     istio_config {
       disabled = var.istio_disabled
     }
+  }
 }
 
 resource "google_container_node_pool" "default" {
