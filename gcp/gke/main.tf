@@ -10,6 +10,14 @@ resource "google_container_cluster" "primary" {
   workload_identity_config {
     identity_namespace = "${var.project_id}.svc.id.goog"
   }
+
+  addons_config {
+    http_load_balancing {
+      disabled = var.http_load_balancing_disabled
+    }
+    istio_config {
+      disabled = var.istio_disabled
+    }
 }
 
 resource "google_container_node_pool" "default" {
