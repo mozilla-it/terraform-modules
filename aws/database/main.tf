@@ -84,6 +84,7 @@ resource "aws_db_instance" "default" {
   apply_immediately       = var.apply_immediately
   parameter_group_name    = var.parameter_group_name != "" ? var.parameter_group_name : "default.${var.type}${local.ver}"
   backup_retention_period = var.backup_retention_period
+
   tags = merge(
     local.tags,
     {
