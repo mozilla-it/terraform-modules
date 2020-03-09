@@ -76,3 +76,7 @@ variable "apply_immediately" {
   default = "false"
 }
 
+variable "parameter_group_name" {
+  default = ""
+}
+

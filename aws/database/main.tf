@@ -82,6 +82,7 @@ resource "aws_db_instance" "default" {
   multi_az               = var.multi_az
   ca_cert_identifier     = var.ca_cert_identifier
   apply_immediately      = var.apply_immediately
+  parameter_group_name   = var.parameter_group_name != "" ? var.parameter_group_name : "default.${var.type}${local.ver}"
 
   tags = merge(
     local.tags,
