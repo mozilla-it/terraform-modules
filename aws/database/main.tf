@@ -66,23 +66,24 @@ resource "aws_security_group" "default" {
 }
 
 resource "aws_db_instance" "default" {
-  allocated_storage      = var.storage_gb
-  storage_type           = var.storage_type
-  engine                 = var.type
-  engine_version         = local.ver
-  instance_class         = var.instance
-  name                   = var.name
-  identifier             = var.identifier
-  username               = local.username
-  password               = random_password.password.result
-  db_subnet_group_name   = aws_db_subnet_group.subnet.id
-  vpc_security_group_ids = [aws_security_group.default.id]
-  skip_final_snapshot    = "true"
-  publicly_accessible    = var.publicly_accessible
-  multi_az               = var.multi_az
-  ca_cert_identifier     = var.ca_cert_identifier
-  apply_immediately      = var.apply_immediately
-  parameter_group_name   = var.parameter_group_name != "" ? var.parameter_group_name : "default.${var.type}${local.ver}"
+  allocated_storage       = var.storage_gb
+  storage_type            = var.storage_type
+  engine                  = var.type
+  engine_version          = local.ver
+  instance_class          = var.instance
+  name                    = var.name
+  identifier              = var.identifier
+  username                = local.username
+  password                = random_password.password.result
+  db_subnet_group_name    = aws_db_subnet_group.subnet.id
+  vpc_security_group_ids  = [aws_security_group.default.id]
+  skip_final_snapshot     = "true"
+  publicly_accessible     = var.publicly_accessible
+  multi_az                = var.multi_az
+  ca_cert_identifier      = var.ca_cert_identifier
+  apply_immediately       = var.apply_immediately
+  parameter_group_name    = var.parameter_group_name != "" ? var.parameter_group_name : "default.${var.type}${local.ver}"
+  backup_retention_period = var.backup_retention_period
 
   tags = merge(
     local.tags,
