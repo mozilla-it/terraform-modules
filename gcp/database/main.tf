@@ -8,8 +8,14 @@ resource "google_sql_database_instance" "master" {
     ip_configuration {
       ipv4_enabled = true
 
-      authorized_networks {
-        value = var.network
+      dynamic "authorized_networks" {
+        for_each = var.cloud_sql_authorized_ips
+        iterator = allowed_ip
+
+        content {
+            name  = "allowed_ip.value.name"
+            value = "allowed_ip.value.ip_range"
+        }
       }
     }
   }
