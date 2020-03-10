@@ -93,3 +93,20 @@ resource "aws_db_instance" "default" {
   )
 }
 
+resource "aws_db_instance" "read_replica" {
+  identifier           = "${var.identifier}-replica"
+  replicate_source_db  = var.identifier
+  instance_class       = var.instance_replica
+  storage_type         = var.storage_type
+  parameter_group_name = var.parameter_group_name != "" ? var.parameter_group_name : "default.${var.type}${local.ver}"
+  apply_immediately    = true
+  skip_final_snapshot  = "true"
+  count                = var.replica_enabled == "true" ? 1 : 0
+
+  tags = merge(
+    local.tags,
+    {
+      "Name" = "${var.name}-replica"
+    },
+  )
+}

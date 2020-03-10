@@ -21,6 +21,10 @@ variable "instance" {
   default = "db.t3.medium"
 }
 
+variable "instance_replica" {
+  default = "db.t3.medium"
+}
+
 variable "environment" {
 }
 
@@ -80,7 +84,10 @@ variable "parameter_group_name" {
   default = ""
 }
 
-
 variable "backup_retention_period" {
   default = 0
+}
+
+variable "replica_enabled" {
+  default = "false"
 }
