@@ -9,7 +9,7 @@ resource "google_sql_database_instance" "master" {
       ipv4_enabled = true
 
       dynamic "authorized_networks" {
-        for_each = var.cloud_sql_authorized_ips
+        for_each = var.authorized_ips
         iterator = allowed_ip
 
         content {

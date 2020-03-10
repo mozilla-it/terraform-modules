@@ -13,7 +13,7 @@ variable "network" {
   default = "0.0.0.0/0"
 }
 
-variable "cloud_sql_authorized_ips" {
+variable "authorized_ips" {
   type = list(object({
     name = string
     ip_range = string
