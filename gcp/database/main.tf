@@ -13,8 +13,8 @@ resource "google_sql_database_instance" "master" {
         iterator = allowed_ip
 
         content {
-            name  = "allowed_ip.value.name"
-            value = "allowed_ip.value.ip_range"
+            name  = allowed_ip.value.name
+            value = allowed_ip.value.ip_range
         }
       }
     }
