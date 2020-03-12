@@ -5,6 +5,10 @@ resource "google_sql_database_instance" "master" {
   settings {
     tier = var.tier
 
+    backup_configuration {
+      enabled = var.backups_enabled
+    }
+
     ip_configuration {
       ipv4_enabled = true
 

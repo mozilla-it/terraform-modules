@@ -27,3 +27,6 @@ variable "database" {
 variable "username" {
 }
 
+variable "backups_enabled" {
+  default = false
+}
