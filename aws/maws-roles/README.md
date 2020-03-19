@@ -7,8 +7,10 @@ If you know the policy ARN of a pre-existing policy that AWS has you can just re
 
 ```
 module "admin_role" {
-  source     = "github.com/mozila-it/terraform-modules//aws/maws-roles?ref=master"
-  policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
+  source       = "github.com/mozilila-it/terraform-modules//aws/maws-roles?ref=master"
+  role_name    = "maws-admin"
+  role_mapping = [ "team_foo" ]
+  policy_arn   = "arn:aws:iam::aws:policy/AdministratorAccess"
 }
 ```
 
@@ -38,15 +40,19 @@ resource "aws_iam_policy" "policy" {
 }
 
 module "role" {
-  source     = "github.com/mozila-it/terraform-modules//aws/maws-roles?ref=master"
-  policy_arn = aws_iam_policy.policy.arn
+  source       = "github.com/mozilla-it/terraform-modules//aws/maws-roles?ref=master"
+  role_name    = "maws-role"
+  role_mapping = [ "team_foo" ]
+  policy_arn   = aws_iam_policy.policy.arn
 }
 ```
 
 ## Inputs
 
-| Input                   | Description                                                       |
-|-------------------------|-------------------------------------------------------------------|
-| `idp_client_id`         | This is the client_id of the auth0 idp, an optional value         |
-| `max_session_duration`  | Max session time before your session exires (Default: 43200       |
-| `policy_arn`            | The mozillians or ldap group you want to grant access to the role |
+| Input                   | Description                                                                              |
+|-------------------------|------------------------------------------------------------------------------------------|
+| `role_name`             | Name of the role you want created                                                        |
+| `role_mapping`          | Name of the ldap or mozillian group you want to map to this role, can be multiple groups |
+| `idp_client_id`         | This is the client_id of the auth0 idp, an optional value                                |
+| `max_session_duration`  | Max session time before your session exires (Default: 43200)                             |
+| `policy_arn`            | The mozillians or ldap group you want to grant access to the role                        |
