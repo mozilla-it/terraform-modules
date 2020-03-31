@@ -22,6 +22,10 @@ variable "subnet_ids" {
   default = ""
 }
 
+variable "ingress_security_groups" {
+  default = ""
+}
+
 variable "vpc_id" {
   default = ""
 }
