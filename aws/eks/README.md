@@ -1,6 +1,6 @@
 # teraform-eks
-This is an opinionated way of getting setting up an EKS cluster using terraform. This module installs several helm packages
-by default and the packages are:
+This is an opinionated way of setting up an EKS cluster using terraform. This module installs several helm packages
+by default, packages installed listed below:
 
  - `aws-node-termination-handler` - Drains node when a node is terminated
  - `metrics-server` - metrics server we all know and love
