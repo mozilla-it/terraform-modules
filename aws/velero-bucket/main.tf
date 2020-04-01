@@ -7,7 +7,7 @@ resource "aws_s3_bucket" "this" {
   acl    = "private"
 
   tags = merge({
-    "Name"    = local.backup_bucket
+    "Name"    = local.bucket_name
     "Cluster" = var.cluster_name
     },
     local.tags
@@ -34,14 +34,14 @@ resource "aws_iam_user" "velero_iam_user" {
 
 resource "aws_iam_access_key" "velero_iam_access_key" {
   count = var.create_bucket && var.create_user ? 1 : 0
-  user  = aws_iam_user.backup_user.name
+  user  = aws_iam_user.velero_iam_user[0].name
 }
 
 resource "aws_iam_user_policy" "velero_iam_user_policy" {
   count  = var.create_bucket && var.create_user ? 1 : 0
   name   = "${local.backup_user}-policy"
-  user   = aws_iam_user.backup_user.name
-  policy = data.aws_iam_policy_document.this.json
+  user   = aws_iam_user.velero_iam_user[0].name
+  policy = data.aws_iam_policy_document.this[0].json
 }
 
 # Create an IAM role for service accounts which is the recommended
@@ -52,8 +52,8 @@ module "velero_role" {
   version                       = "~> v2.6.0"
   create_role                   = var.create_role
   role_name                     = "${local.backup_user}-role"
-  provider_url                  = replace(data.aws_eks_cluster.this.identity.0.oidc.0.issuer, "https://", "")
-  role_policy_arns              = [aws_iam_policy.this.arn]
+  provider_url                  = replace(data.aws_eks_cluster.this[0].identity.0.oidc.0.issuer, "https://", "")
+  role_policy_arns              = [aws_iam_policy.velero_iam_role_policy[0].arn]
   oidc_fully_qualified_subjects = ["system:serviceaccount:${var.velero_sa_namespace}:${var.velero_sa_name}"]
 }
 
@@ -61,5 +61,5 @@ resource "aws_iam_policy" "velero_iam_role_policy" {
   count       = var.create_role ? 1 : 0
   name_prefix = "${local.backup_user}-policy"
   description = "EKS cluster-autoscaler policy for cluster ${var.cluster_name}"
-  policy      = data.aws_iam_policy_document.this.json
+  policy      = data.aws_iam_policy_document.this[0].json
 }

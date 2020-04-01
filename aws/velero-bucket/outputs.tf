@@ -1,17 +1,17 @@
 output "bucket_name" {
-  value = aws_s3_bucket.backup_bucket.id
+  value = element(concat(aws_s3_bucket.this.*.id, list("")), 0)
 }
 
 output "velero_iam_user_name" {
-  value = aws_iam_user.velero_iam_user.name
+  value = element(concat(aws_iam_user.velero_iam_user.*.name, list("")), 0)
 }
 
 output "velero_iam_user_access_key" {
-  value = aws_iam_access_key.velero_iam_access_key.id
+  value = element(concat(aws_iam_access_key.velero_iam_access_key.*.id, list("")), 0)
 }
 
 output "velero_iam_user_secret_key" {
-  value = aws_iam_access_key.velero_iam_access_key.secret
+  value = element(concat(aws_iam_access_key.velero_iam_access_key.*.secret, list("")), 0)
 }
 
 output "velero_role_name" {

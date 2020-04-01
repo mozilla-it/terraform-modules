@@ -36,3 +36,8 @@ variable "velero_sa_name" {
   description = "Name of velero service account"
   default     = "velero"
 }
+
+variable "tags" {
+  type    = map(string)
+  default = {}
+}
