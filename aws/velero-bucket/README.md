@@ -25,4 +25,5 @@ IAM access key pair for you to use for the deployment.
 
 ## Other documentation
 [IAM Roles for Service Accounts](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html)
+[IRSA Blog post](https://aws.amazon.com/blogs/opensource/introducing-fine-grained-iam-roles-service-accounts/)
 [Velero Helm Chart](https://github.com/vmware-tanzu/helm-charts/tree/master/charts/velero)
