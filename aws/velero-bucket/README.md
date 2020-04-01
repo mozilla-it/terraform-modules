@@ -1,4 +1,5 @@
 # velero-bucket
+
 Creates a velero s3 bucket with a standard naming convention and tagging, also has the option of creating
 an IAM user or creating an IAM role for service accounts.
 
@@ -9,7 +10,7 @@ Naming convention are as follows:
  - IAM Role: `<backup user name>-<cluster_name>-role`
 
 ## Usage:
-```
+```hcl
 module "velero"  {
   source       = "github.com/mozilla-it/terraform-modules//aws/velero-bucket?ref=master
   cluster_name = "my-cluster"
@@ -24,6 +25,7 @@ grant access this way you can set `create_user` to `true` and `create_role` to `
 IAM access key pair for you to use for the deployment.
 
 ## Other documentation
-[IAM Roles for Service Accounts](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html)
-[IRSA Blog post](https://aws.amazon.com/blogs/opensource/introducing-fine-grained-iam-roles-service-accounts/)
-[Velero Helm Chart](https://github.com/vmware-tanzu/helm-charts/tree/master/charts/velero)
+
+* [IAM Roles for Service Accounts](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html)
+* [IRSA Blog post](https://aws.amazon.com/blogs/opensource/introducing-fine-grained-iam-roles-service-accounts/)
+* [Velero Helm Chart](https://github.com/vmware-tanzu/helm-charts/tree/master/charts/velero)
