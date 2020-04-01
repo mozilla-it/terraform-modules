@@ -12,12 +12,19 @@ variable "backup_user" {
   default = "velero"
 }
 
+variable "create_bucket" {
+  description = "Flag to create or not create bucket"
+  default     = true
+}
+
 variable "create_user" {
-  default = false
+  description = "Flag to create IAM user"
+  default     = false
 }
 
 variable "create_role" {
-  default = true
+  description = "Flag to create IAM role"
+  default     = true
 }
 
 variable "velero_sa_namespace" {

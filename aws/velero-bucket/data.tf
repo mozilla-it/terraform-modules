@@ -1,6 +1,7 @@
 data "aws_caller_identity" "current" {}
 
 data "aws_iam_policy_document" "this" {
+  count = var.create_bucket ? 1 : 0
 
   statement {
     effect = "Allow"
@@ -44,7 +45,7 @@ data "aws_iam_policy_document" "this" {
 }
 
 data "aws_eks_cluster" "this" {
-  count = var.create_role ? 1 : 0
+  count = var.create_bucket && var.create_role ? 1 : 0
   name  = var.cluster_name
 }
 
