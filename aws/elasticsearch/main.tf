@@ -30,7 +30,7 @@ resource "aws_elasticsearch_domain" "cluster" {
 }
 
 resource "aws_security_group" "cluster_sg" {
-  name        = "${var.domain_name}-sg"
+  name        = "${var.domain_name}-es-sg"
   description = "Managed by Terraform"
   vpc_id      = var.vpc_id
 
