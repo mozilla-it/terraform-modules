@@ -25,6 +25,12 @@ data "helm_repository" "stable" {
   url  = "https://kubernetes-charts.storage.googleapis.com"
 }
 
+data "helm_repository" "vmware_tanzu" {
+  count = var.enable_velero ? 1 : 0
+  name  = "vmware-tanzu"
+  url   = "https://vmware-tanzu.github.io/helm-charts"
+}
+
 resource "helm_release" "node_drain" {
   name       = "aws-node-termination-handler"
   repository = data.helm_repository.eks.metadata.0.name
@@ -54,8 +60,8 @@ resource "helm_release" "cluster_autoscaler" {
     for_each = local.cluster_autoscaler_settings
 
     content {
-      name  = item.value.name
-      value = item.value.value
+      name  = item.key
+      value = item.value
     }
   }
 
@@ -73,8 +79,8 @@ resource "helm_release" "reloader" {
     for_each = local.reloader_settings
 
     content {
-      name  = item.value.name
-      value = item.value.value
+      name  = item.key
+      value = item.value
     }
   }
 
@@ -86,15 +92,54 @@ resource "helm_release" "flux_helm_operator" {
   name       = "helm-operator"
   repository = data.helm_repository.fluxcd.0.name
   chart      = "fluxcd/helm-operator"
-  namespace  = "flux"
+  namespace  = "fluxcd"
 
   dynamic "set" {
     iterator = item
     for_each = local.flux_helm_operator_settings
 
     content {
-      name  = item.value.name
-      value = item.value.value
+      name  = item.key
+      value = item.value
+    }
+  }
+
+  depends_on = [module.eks]
+}
+
+resource "helm_release" "fluxcd" {
+  count      = var.enable_flux ? 1 : 0
+  name       = "flux"
+  repository = data.helm_repository.fluxcd.0.name
+  chart      = "fluxcd/flux"
+  namespace  = "fluxcd"
+
+  dynamic "set" {
+    iterator = item
+    for_each = local.flux_settings
+
+    content {
+      name  = item.key
+      value = item.value
+    }
+  }
+
+}
+
+resource "helm_release" "velero" {
+  count      = var.enable_velero ? 1 : 0
+  name       = "velero"
+  repository = data.helm_repository.vmware_tanzu.0.name
+  chart      = "vmware-tanzu/velero"
+  namespace  = "velero"
+
+  dynamic "set" {
+    iterator = item
+    for_each = local.velero_settings
+
+    content {
+      name  = item.key
+      value = item.value
     }
   }
 
