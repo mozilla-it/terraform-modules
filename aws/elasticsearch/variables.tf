@@ -15,11 +15,12 @@ variable "es_instance_count" {
 }
 
 variable "ebs_volume_size" {
-  default = "50"
+  default = "35"
 }
 
 variable "subnet_ids" {
-  default = ""
+  type    = list
+  default = []
 }
 
 variable "ingress_security_groups" {

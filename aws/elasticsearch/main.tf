@@ -1,4 +1,4 @@
-resource "aws_elasticsearch_domain" "domain" {
+resource "aws_elasticsearch_domain" "cluster" {
   domain_name           = var.domain_name
   elasticsearch_version = var.es_version
 
@@ -8,9 +8,9 @@ resource "aws_elasticsearch_domain" "domain" {
   }
 
   vpc_options {
-    subnet_ids = [var.subnet_ids]
+    subnet_ids = var.subnet_ids
 
-    security_group_ids = [aws_security_group.domain.id]
+    security_group_ids = [aws_security_group.cluster_sg.id]
   }
 
   ebs_options {
@@ -29,7 +29,7 @@ resource "aws_elasticsearch_domain" "domain" {
   tags = var.tags
 }
 
-resource "aws_security_group" "domain" {
+resource "aws_security_group" "cluster_sg" {
   name        = "${var.domain_name}-sg"
   description = "Managed by Terraform"
   vpc_id      = var.vpc_id
@@ -45,10 +45,10 @@ resource "aws_security_group" "domain" {
   }
 }
 
-data "aws_iam_policy_document" "domain" {
+data "aws_iam_policy_document" "cluster_policy_doc" {
   statement {
     actions   = ["es:*"]
-    resources = ["${aws_elasticsearch_domain.domain.arn}/*"]
+    resources = ["${aws_elasticsearch_domain.cluster.arn}/*"]
 
     principals {
       type        = "*"
@@ -57,8 +57,8 @@ data "aws_iam_policy_document" "domain" {
   }
 }
 
-resource "aws_elasticsearch_domain_policy" "domain" {
-  domain_name = aws_elasticsearch_domain.domain.domain_name
+resource "aws_elasticsearch_domain_policy" "cluster_policy" {
+  domain_name = aws_elasticsearch_domain.cluster.domain_name
 
-  access_policies = data.aws_iam_policy_document.domain.json
+  access_policies = data.aws_iam_policy_document.cluster_policy_doc.json
 }
