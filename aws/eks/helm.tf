@@ -94,6 +94,14 @@ resource "helm_release" "flux_helm_operator" {
   chart      = "fluxcd/helm-operator"
   namespace  = "fluxcd"
 
+  # This option has potential to cause issues
+  # apparently helm wants you to manage CRDs outside of terraform
+  # we should investigate this more to  find out whats the downside if
+  # we leave this here.
+  # See: https://helm.sh/docs/chart_best_practices/custom_resource_definitions/
+  # TODO: Figure out a way to do an out of band install of the CRD? which is ugh
+  skip_crds = true
+
   dynamic "set" {
     iterator = item
     for_each = local.flux_helm_operator_settings
