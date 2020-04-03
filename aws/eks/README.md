@@ -87,22 +87,28 @@ module "eks" {
 
 ## Inputs
 
-| Name              | Description                                                                                          | Default      |
-|-------------------|------------------------------------------------------------------------------------------------------|--------------|
-| `region`          | Region to deploy EKS cluster to                                                                      | `us-west-2`  |
-| `cluster_name`    | Name of cluster identifier (This is required)                                                        | `n/a`        |
-| `cluster_version` | Kubernetes version                                                                                   | `1.14`       |
-| `vpc_id`          | VPC ID to deploy EKS to                                                                              | `n/a`        |
-| `cluster_subnets` | A list of subnets to place the EKS cluster and workers within.                                       | `n/a         |
-| `map_roles`       | Additional IAM roles to add to the aws-auth configmap                                                | `[]`         |
-| `map_users`       | Additional IAM users to add to the aws-auth configmap                                                | `[]`         |
-| `map_accounts`    | Additional AWS account numbers to add to the aws-auth configmap                                      | `[]`         |
-| `node_groups`     | Map of map of node groups to create                                                                  | `{}`         |
-| `worker_groups`   | A list of maps defining worker group configurations to be defined using AWS Launch Configurations.   | `{}`         |
-| `enable_flux`     | Enable or disable flux helm operator                                                                 | `false`      |
-| `enable_logging`  | Enable kubernetes cluster logging                                                                    | `false`      |
-| `log_retention`   | Number of days to retain log events                                                                  | `30`         |
-| `tags`            | A map of tags to add to all resources.                                                               | `{}`         |
+| Name                           | Description                                                                                          | Default      |
+|--------------------------------|------------------------------------------------------------------------------------------------------|--------------|
+| `region`                       | Region to deploy EKS cluster to                                                                      | `us-west-2`  |
+| `cluster_name`                 | Name of cluster identifier (This is required)                                                        | `n/a`        |
+| `cluster_version`              | Kubernetes version                                                                                   | `1.14`       |
+| `vpc_id`                       | VPC ID to deploy EKS to                                                                              | `n/a`        |
+| `cluster_subnets`              | A list of subnets to place the EKS cluster and workers within.                                       | `n/a         |
+| `map_roles`                    | Additional IAM roles to add to the aws-auth configmap                                                | `[]`         |
+| `map_users`                    | Additional IAM users to add to the aws-auth configmap                                                | `[]`         |
+| `map_accounts`                 | Additional AWS account numbers to add to the aws-auth configmap                                      | `[]`         |
+| `node_groups`                  | Map of map of node groups to create                                                                  | `{}`         |
+| `worker_groups`                | A list of maps defining worker group configurations to be defined using AWS Launch Configurations.   | `{}`         |
+| `enable_flux`                  | Enable or disable flux helm operator                                                                 | `false`      |
+| `enable_logging`               | Enable kubernetes cluster logging                                                                    | `false`      |
+| `enable_velero`                | Creates bucket and sets up velero app on cluster                                                     | `true`       |
+| `cluster_autoscaler_settings`  | Map to customize or override default helm chart values for cluster autoscaler                        | `{}`         |
+| `reloader_settings`            | Map to customize or override default helm chart values for reloader                                  | `{}`         |
+| `velero_settings`              | Map to customize or override default helm chart values for velero                                    | `{}`         |
+| `flux_helm_operator_settings`  | Map to customize or override default helm chart values for flux helm operator                        | `{}`         |
+| `flux_settings`                | Map to customize or override default helm chart values for flux                                      | `{}          |
+| `log_retention`                | Number of days to retain log events                                                                  | `30`         |
+| `tags`                         | A map of tags to add to all resources.                                                               | `{}`         |
 
 ## Other documentation
 
