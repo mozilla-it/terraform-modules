@@ -12,6 +12,6 @@ variable "http_load_balancing_disabled" { default = false }
 
 variable "istio_disabled" { default = true }
 
-variable "min_nodes" { default = 1 }
+variable "min_nodes_per_zone" { default = 1 }
 
-variable "max_nodes" { default = 5 }
+variable "max_nodes_per_zone" { default = 5 }
