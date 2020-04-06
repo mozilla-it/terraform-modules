@@ -52,6 +52,10 @@ variable "enable_velero" {
   default = true
 }
 
+variable "enable_sealed_secrets" {
+  default = true
+}
+
 variable "cluster_autoscaler_settings" {
   description = "Customize or override autoscaler helm chart values"
   type        = map(string)
