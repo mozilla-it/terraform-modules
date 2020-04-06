@@ -10,7 +10,7 @@ resource "google_logging_metric" "metric" {
 }
 
 resource "google_monitoring_notification_channel" "notification-email" {
-  count        = var.notification_path == "email" ? 1 : 0
+  count        = var.notification_path == "email-legacy" ? 1 : 0
   display_name = "${var.name}-${terraform.workspace}-${var.notification_path}"
   type         = "email"
   project      = var.project
@@ -43,7 +43,7 @@ resource "google_monitoring_notification_channel" "notification-webhook" {
 }
 
 resource "google_monitoring_alert_policy" "alert-policy-email" {
-  count        = var.notification_path == "email" ? 1 : 0
+  count        = var.notification_path == "email-legacy" ? 1 : 0
   display_name = "${var.name}-${terraform.workspace}-${var.notification_path}"
   combiner     = "OR"
   project      = var.project
