@@ -90,7 +90,7 @@ resource "helm_release" "reloader" {
 resource "helm_release" "flux_helm_operator" {
   count      = var.enable_flux ? 1 : 0
   name       = "helm-operator"
-  repository = data.helm_repository.fluxcd.metadata.0.name
+  repository = data.helm_repository.fluxcd[0].metadata.0.name
   chart      = "fluxcd/helm-operator"
   namespace  = "fluxcd"
 
@@ -118,7 +118,7 @@ resource "helm_release" "flux_helm_operator" {
 resource "helm_release" "fluxcd" {
   count      = var.enable_flux ? 1 : 0
   name       = "flux"
-  repository = data.helm_repository.fluxcd.metadata.0.name
+  repository = data.helm_repository.fluxcd[0].metadata.0.name
   chart      = "fluxcd/flux"
   namespace  = "fluxcd"
 
@@ -137,7 +137,7 @@ resource "helm_release" "fluxcd" {
 resource "helm_release" "velero" {
   count      = var.enable_velero ? 1 : 0
   name       = "velero"
-  repository = data.helm_repository.vmware_tanzu.metadata.0.name
+  repository = data.helm_repository.vmware_tanzu[0].metadata.0.name
   chart      = "vmware-tanzu/velero"
   namespace  = "velero"
 
@@ -160,4 +160,7 @@ resource "helm_release" "sealed_secrets" {
   repository = data.helm_repository.stable.metadata.0.name
   chart      = "stable/sealed-secrets"
   namespace  = "kube-system"
+
+  # TODO: Figure out the downsides of this
+  skip_crds = true
 }
