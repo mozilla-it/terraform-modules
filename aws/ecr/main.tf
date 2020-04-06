@@ -28,7 +28,7 @@ resource "aws_ecr_lifecycle_policy" "this" {
       "rulePriority": 1,
       "description": "Expire untagged image older than ${var.ecr_expire_days} days",
       "selection": {
-        "tagStatus": "untagged",
+        "tagStatus": "any",
         "countType": "sinceImagePushed",
         "countUnit": "days",
         "countNumber": ${var.ecr_expire_days}
