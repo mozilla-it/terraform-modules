@@ -1,13 +1,13 @@
 # maws-roles
-This creates roles that we can assume into using an OIDC provider
+This module creates roles that we can be assumes using an OIDC provider.
 
 ## Usage
 
-If you know the policy ARN of a pre-existing policy that AWS has you can just reference it
+If you know the policy ARN of a pre-existing policy you can just reference it, like in the next example:
 
 ```
 module "admin_role" {
-  source       = "github.com/mozilila-it/terraform-modules//aws/maws-roles?ref=master"
+  source       = "github.com/mozilla-it/terraform-modules//aws/maws-roles?ref=master"
   role_name    = "maws-admin"
   role_mapping = [ "team_foo" ]
   policy_arn   = "arn:aws:iam::aws:policy/AdministratorAccess"
