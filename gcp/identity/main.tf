@@ -20,7 +20,7 @@ resource "google_project_iam_member" "iam-logging" {
 
 resource "kubernetes_service_account" "ksa" {
   metadata {
-    namespace = "default"
+    namespace = var.namespace
     name = var.name
     annotations = {
       "iam.gke.io/gcp-service-account" = google_service_account.gsa.email
