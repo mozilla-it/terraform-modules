@@ -1,5 +1,5 @@
 # maws-roles
-This module creates roles that we can be assumes using an OIDC provider.
+This module creates roles that we can be assumed using an OIDC provider.
 
 ## Usage
 
