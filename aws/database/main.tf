@@ -102,7 +102,7 @@ resource "aws_db_instance" "read_replica" {
   apply_immediately    = true
   skip_final_snapshot  = "true"
   count                = var.replica_enabled == "true" ? 1 : 0
-	engine_version       = var.replica_db_version
+  engine_version       = var.replica_db_version
 
   tags = merge(
     local.tags,
