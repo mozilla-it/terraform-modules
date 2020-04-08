@@ -89,5 +89,26 @@ variable "backup_retention_period" {
 }
 
 variable "replica_enabled" {
-  default = "false"
+  description = "Set to true for creating a Read Only replica of the main DB"
+  default     = "false"
+}
+
+variable "performance_insights_enabled" {
+  description = "Enables RDS performance insights feature"
+  default     = "false"
+}
+
+variable "performance_insights_retention" {
+  description = "The amount of days to retain performance insights"
+  default     = "7"
+}
+
+variable "replica_performance_insights_enabled" {
+  description = "Enables RDS performance insights feature for the DB replica"
+  default     = "false"
+}
+
+variable "replica_performance_insights_retention" {
+  description = "The amount of days to retain performance insights for the DB replica"
+  default     = "7"
 }

@@ -66,24 +66,26 @@ resource "aws_security_group" "default" {
 }
 
 resource "aws_db_instance" "default" {
-  allocated_storage       = var.storage_gb
-  storage_type            = var.storage_type
-  engine                  = var.type
-  engine_version          = local.ver
-  instance_class          = var.instance
-  name                    = var.name
-  identifier              = var.identifier
-  username                = local.username
-  password                = random_password.password.result
-  db_subnet_group_name    = aws_db_subnet_group.subnet.id
-  vpc_security_group_ids  = [aws_security_group.default.id]
-  skip_final_snapshot     = "true"
-  publicly_accessible     = var.publicly_accessible
-  multi_az                = var.multi_az
-  ca_cert_identifier      = var.ca_cert_identifier
-  apply_immediately       = var.apply_immediately
-  parameter_group_name    = var.parameter_group_name != "" ? var.parameter_group_name : "default.${var.type}${local.ver}"
-  backup_retention_period = var.backup_retention_period
+  allocated_storage                     = var.storage_gb
+  storage_type                          = var.storage_type
+  engine                                = var.type
+  engine_version                        = local.ver
+  instance_class                        = var.instance
+  name                                  = var.name
+  identifier                            = var.identifier
+  username                              = local.username
+  password                              = random_password.password.result
+  db_subnet_group_name                  = aws_db_subnet_group.subnet.id
+  vpc_security_group_ids                = [aws_security_group.default.id]
+  skip_final_snapshot                   = "true"
+  publicly_accessible                   = var.publicly_accessible
+  multi_az                              = var.multi_az
+  ca_cert_identifier                    = var.ca_cert_identifier
+  apply_immediately                     = var.apply_immediately
+  parameter_group_name                  = var.parameter_group_name != "" ? var.parameter_group_name : "default.${var.type}${local.ver}"
+  backup_retention_period               = var.backup_retention_period
+  performance_insights_enabled          = var.performance_insights_enabled
+  performance_insights_retention_period = var.performance_insights_retention
 
   tags = merge(
     local.tags,
@@ -94,14 +96,16 @@ resource "aws_db_instance" "default" {
 }
 
 resource "aws_db_instance" "read_replica" {
-  identifier           = "${var.identifier}-replica"
-  replicate_source_db  = var.identifier
-  instance_class       = var.instance_replica
-  storage_type         = var.storage_type
-  parameter_group_name = var.parameter_group_name != "" ? var.parameter_group_name : "default.${var.type}${local.ver}"
-  apply_immediately    = true
-  skip_final_snapshot  = "true"
-  count                = var.replica_enabled == "true" ? 1 : 0
+  identifier                            = "${var.identifier}-replica"
+  replicate_source_db                   = var.identifier
+  instance_class                        = var.instance_replica
+  storage_type                          = var.storage_type
+  parameter_group_name                  = var.parameter_group_name != "" ? var.parameter_group_name : "default.${var.type}${local.ver}"
+  apply_immediately                     = true
+  skip_final_snapshot                   = "true"
+  count                                 = var.replica_enabled == "true" ? 1 : 0
+  performance_insights_enabled          = var.replica_performance_insights_enabled
+  performance_insights_retention_period = var.replica_performance_insights_retention
 
   tags = merge(
     local.tags,
