@@ -106,6 +106,7 @@ resource "aws_db_instance" "read_replica" {
   count                                 = var.replica_enabled == "true" ? 1 : 0
   performance_insights_enabled          = var.replica_performance_insights_enabled
   performance_insights_retention_period = var.replica_performance_insights_retention
+  engine_version       = var.replica_db_version
 
   tags = merge(
     local.tags,

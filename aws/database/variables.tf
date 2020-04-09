@@ -40,6 +40,10 @@ variable "db_version" {
   default = ""
 }
 
+variable "replica_db_version" {
+  default = ""
+}
+
 variable "cost_center" {
 }
 
