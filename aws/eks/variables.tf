@@ -45,10 +45,6 @@ variable "worker_groups" {
   default     = []
 }
 
-variable "enable_flux" {
-  default = false
-}
-
 variable "enable_logging" {
   default = false
 }
@@ -57,12 +53,10 @@ variable "log_retention" {
   default = "30"
 }
 
-variable "enable_velero" {
-  default = true
-}
-
-variable "enable_sealed_secrets" {
-  default = true
+variable "cluster_features" {
+  description = "Map of features to enable on cluster, see local.tf for all feature flags"
+  type        = map(string)
+  default     = {}
 }
 
 variable "cluster_autoscaler_settings" {

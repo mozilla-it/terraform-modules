@@ -6,6 +6,8 @@ by default, packages installed listed below:
  - `metrics-server` - metrics server we all know and love
  - `cluster-autoscaler` - Cluster autoscaler
  - `reloader` - Reloads a deployment when you update a configmap or secret
+ - `sealed-secrets` - A controller that enables you check in secrets in git and the controller decrypts secrets
+ - `flux` - This is an optional package and installs the flux package
  - `helm-operator` - This is an optional package and installs the flux helm operator
 
 ## Usage
@@ -82,7 +84,6 @@ module "eks" {
   cluster_subnets = data.terraform_remote_state.vpc.outputs.private_subnets
   node_groups     = local.node_groups
 }
-
 ```
 
 ## Inputs
