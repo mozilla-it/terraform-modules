@@ -1,2 +1,2 @@
 # terraform-modules
-Shared Terraform modules, curated by it-sre
+Shared Terraform modules, curated by it-se
