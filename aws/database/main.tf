@@ -86,7 +86,7 @@ resource "aws_db_instance" "default" {
   backup_retention_period               = var.backup_retention_period
   performance_insights_enabled          = var.performance_insights_enabled
   performance_insights_retention_period = var.performance_insights_retention
-	snapshot_identifier                   = var.snapshot_identifier
+  snapshot_identifier                   = var.snapshot_identifier
 
   tags = merge(
     local.tags,
@@ -107,7 +107,7 @@ resource "aws_db_instance" "read_replica" {
   count                                 = var.replica_enabled == "true" ? 1 : 0
   performance_insights_enabled          = var.replica_performance_insights_enabled
   performance_insights_retention_period = var.replica_performance_insights_retention
-  engine_version       = var.replica_db_version
+  engine_version                        = var.replica_db_version
 
   tags = merge(
     local.tags,
