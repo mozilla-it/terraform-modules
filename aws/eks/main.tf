@@ -14,7 +14,7 @@ resource "aws_iam_role_policy_attachment" "ssm" {
 
 module "eks" {
   source                        = "terraform-aws-modules/eks/aws"
-  version                       = "~> 10"
+  version                       = "~> 11"
   cluster_name                  = var.cluster_name
   cluster_version               = var.cluster_version
   cluster_enabled_log_types     = local.cluster_log_type
@@ -23,8 +23,8 @@ module "eks" {
   vpc_id  = var.vpc_id
   subnets = var.cluster_subnets
 
-  node_groups   = var.node_groups
-  worker_groups = var.worker_groups
+  node_groups          = var.node_groups
+  node_groups_defaults = var.node_groups_defaults
 
   map_roles    = var.map_roles
   map_users    = var.map_users

@@ -29,11 +29,20 @@ variable "map_accounts" {
 }
 
 variable "node_groups" {
-  default = {}
+  description = "Map of map of node groups to create."
+  type        = any
+  default     = {}
+}
+
+variable "node_groups_defaults" {
+  description = "Map of values to be applied to all node groups"
+  type        = any
+  default     = {}
 }
 
 variable "worker_groups" {
-  default = {}
+  description = "A list of maps defining worker group configurations to be defined using AWS Launch Configurations"
+  default     = []
 }
 
 variable "enable_flux" {
