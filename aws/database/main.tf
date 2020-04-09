@@ -86,6 +86,7 @@ resource "aws_db_instance" "default" {
   backup_retention_period               = var.backup_retention_period
   performance_insights_enabled          = var.performance_insights_enabled
   performance_insights_retention_period = var.performance_insights_retention
+	snapshot_identifier                   = var.snapshot_identifier
 
   tags = merge(
     local.tags,
