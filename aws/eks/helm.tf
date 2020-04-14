@@ -81,10 +81,6 @@ resource "helm_release" "velero" {
   chart      = "vmware-tanzu/velero"
   namespace  = "velero"
 
-  # FIXME: release as of today 2.9.9 seems to be broken
-  # so sticking with 2.9.8 for now
-  version = "2.9.8"
-
   dynamic "set" {
     iterator = item
     for_each = local.velero_settings

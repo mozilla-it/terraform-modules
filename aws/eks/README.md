@@ -32,7 +32,7 @@ locals {
   ]
 
   node_groups = {
-    node-group-1 = {
+    default-ng = {
       desired_capacity = 2
       max_capactiy     = 5
       min_capacity     = 2
@@ -81,7 +81,8 @@ module "eks" {
   cluster_name    = local.cluster_name
   cluster_version = local.cluster_version
   vpc_id          = data.terraform_remote_state.vpc.outputs.vpc_id
-  cluster_subnets = data.terraform_remote_state.vpc.outputs.private_subnets
+  cluster_subnets = data.terraform_remote_state.vpc.outputs.public_subnets
+  map_roles       = local.map_roles
   node_groups     = local.node_groups
 }
 ```

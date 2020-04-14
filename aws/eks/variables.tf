@@ -17,14 +17,25 @@ variable "tags" {
 }
 
 variable "map_roles" {
+  type = list(object({
+    rolearn  = string
+    username = string
+    groups   = list(string)
+  }))
   default = []
 }
 
 variable "map_users" {
+  type = list(object({
+    userarn  = string
+    username = string
+    groups   = list(string)
+  }))
   default = []
 }
 
 variable "map_accounts" {
+  type    = list(string)
   default = []
 }
 
