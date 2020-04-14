@@ -116,3 +116,8 @@ variable "replica_performance_insights_retention" {
   description = "The amount of days to retain performance insights for the DB replica"
   default     = "7"
 }
+
+variable "snapshot_identifier" {
+  description = "If a snapshot identifier is specified, a new database will be created from the snapshot"
+  default     = ""
+}
