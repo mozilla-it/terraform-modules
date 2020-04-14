@@ -8,6 +8,17 @@ locals {
     var.tags,
   )
 
+  cluster_features_defaults = {
+    "cluster_autoscaler" = true
+    "metrics_server"     = true
+    "reloader"           = true
+    "velero"             = true
+    "sealed_secrets"     = true
+    "flux"               = false
+    "flux_helm_operator" = false
+  }
+  cluster_features = merge(local.cluster_features_defaults, var.cluster_features)
+
   cluster_log_type = var.enable_logging ? ["api", "audit", "authenticator", "controllerManager", "scheduler"] : []
 
   cluster_autoscaler_name_prefix               = "${module.eks.cluster_id}-cluster-autoscaler"
@@ -27,14 +38,6 @@ locals {
     "1.17" = "v1.17.1"
   }
 
-  kube_state_metrics_versions = {
-    "1.13" = "v1.6.0"
-    "1.14" = "v1.7.2"
-    "1.15" = "v1.8.0"
-    "1.16" = "v1.9.5"
-    "1.17" = "master"
-  }
-
   cluster_autoscaler_defaults = {
     "awsRegion"                                                     = var.region
     "image.tag"                                                     = lookup(local.cluster_autoscaler_versions, var.cluster_version)
@@ -52,18 +55,6 @@ locals {
   }
   reloader_settings = merge(local.reloader_defaults, var.reloader_settings)
 
-  flux_helm_operator_defaults = {
-    "createCRD"          = "true"
-    "helm.versions"      = "v3"
-    "git.ssh.secretName" = "flux-git-deploy"
-  }
-  flux_helm_operator_settings = merge(local.flux_helm_operator_defaults, var.flux_helm_operator_settings)
-
-  flux_defaults = {
-    "git.ciSkip" = "true"
-  }
-  flux_settings = merge(local.flux_defaults, var.flux_settings)
-
   # Settings taken from
   # https://github.com/vmware-tanzu/helm-charts/tree/master/charts/velero
   velero_defaults = {
@@ -71,8 +62,6 @@ locals {
     "configuration.backupStorageLocation.name"                         = "aws"
     "configuration.backupStorageLocation.bucket"                       = module.velero.bucket_name
     "configuration.backupStorageLocation.config.region"                = var.region
-    "configuration.volumeSnapshotLocation.name"                        = "aws"
-    "configuration.volumeSnapshotLocation.config.region"               = var.region
     "configuration.volumeSnapshotLocation.name"                        = "aws"
     "configuration.volumeSnapshotLocation.config.region"               = var.region
     "serviceAccount.server.name"                                       = "velero"
