@@ -6,13 +6,27 @@ resource "aws_s3_bucket" "this" {
   bucket = local.bucket_name
   acl    = "private"
 
-  tags = merge({
-    "Name"    = local.bucket_name
-    "Cluster" = var.cluster_name
-    },
-    local.tags
-  )
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        kms_master_key_id = aws_kms_key.velero.this
+        sse_algorithm     = "aws:kms"
+      }
+    }
+  }
 
+  tags = merge({ "Name" = local.bucket_name }, local.tags)
+
+}
+
+resource "aws_kms_key" "this" {
+  description = "Key used by velero for bucket ${local.bucket_name}"
+  tags        = local.tags
+}
+
+resource "aws_kms_alias" "this" {
+  name          = "alias/velero-${var.cluster_name}"
+  target_key_id = aws_kms_key.this.key_id
 }
 
 # TODO: Find a way to logically set create_role have
@@ -23,13 +37,7 @@ resource "aws_iam_user" "velero_iam_user" {
   count = var.create_bucket && var.create_user ? 1 : 0
   name  = local.backup_user
 
-  tags = merge({
-    Name    = local.backup_user
-    Cluster = var.cluster_name
-
-    },
-    local.tags
-  )
+  tags = merge({ "Name" = local.backup_user }, local.tags)
 }
 
 resource "aws_iam_access_key" "velero_iam_access_key" {
@@ -60,6 +68,6 @@ module "velero_role" {
 resource "aws_iam_policy" "velero_iam_role_policy" {
   count       = var.create_role ? 1 : 0
   name_prefix = "${local.backup_user}-policy"
-  description = "EKS cluster-autoscaler policy for cluster ${var.cluster_name}"
+  description = "EKS velero policy for cluster ${var.cluster_name}"
   policy      = data.aws_iam_policy_document.this[0].json
 }
