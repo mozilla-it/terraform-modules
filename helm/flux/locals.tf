@@ -8,8 +8,10 @@ locals {
   flux_helm_operator_settings = merge(local.flux_helm_operator_defaults, var.flux_helm_operator_settings)
 
   flux_defaults = {
-    "git.ciSkip" = "true"
-    "namespace"  = "fluxcd"
+    "git.ciSkip"                    = true
+    "rbac.pspEnabled"               = true
+    "syncGarbageCollection.enabled" = true
+    "namespace"                     = "fluxcd"
   }
   flux_settings = merge(local.flux_defaults, var.flux_settings)
 
