@@ -63,6 +63,7 @@ locals {
     "configuration.backupStorageLocation.name"                         = "aws"
     "configuration.backupStorageLocation.bucket"                       = module.velero.bucket_name
     "configuration.backupStorageLocation.config.region"                = var.region
+    "configuration.backupStorageLocation.config.kmsKeyId"              = module.velero.velero_kms_key_id
     "configuration.volumeSnapshotLocation.name"                        = "aws"
     "configuration.volumeSnapshotLocation.config.region"               = var.region
     "serviceAccount.server.name"                                       = "velero"
