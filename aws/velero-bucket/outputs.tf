@@ -21,3 +21,23 @@ output "velero_role_name" {
 output "velero_role_arn" {
   value = module.velero_role.this_iam_role_arn
 }
+
+output "velero_kms_key_arn" {
+  value = aws_kms_key.this.arn
+}
+
+output "velero_kms_key_id" {
+  value = aws_kms_key.this.key_id
+}
+
+output "velero_kms_alias_arn" {
+  value = aws_kms_alias.this.arn
+}
+
+output "velero_kms_alias_target_key_id" {
+  value = aws_kms_alias.this.target_key_id
+}
+
+output "velero_kms_alias_target_key_arn" {
+  value = aws_kms_alias.this.target_key_arn
+}
