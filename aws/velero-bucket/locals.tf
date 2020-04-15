@@ -4,6 +4,7 @@ locals {
 
   tags = merge(
     {
+      "Cluster"   = var.cluster_name
       "Region"    = var.region
       "Service"   = "velero"
       "Terraform" = "true"

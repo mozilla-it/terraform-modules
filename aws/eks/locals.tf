@@ -2,6 +2,7 @@ locals {
 
   tags = merge(
     {
+      "Name"      = var.cluster_name
       "Region"    = var.region
       "Terraform" = "true"
     },
