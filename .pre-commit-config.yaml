@@ -7,16 +7,16 @@ repos:
       - id: check-merge-conflict
       - id: check-executables-have-shebangs
   - repo: git://github.com/Yelp/detect-secrets
-    rev: v0.13.0
+    rev: v0.13.1
     hooks:
       - id: detect-secrets
         args: ['--baseline', '.secrets.baseline']
   - repo: git://github.com/detailyang/pre-commit-shell
-    rev: v1.0.6
+    rev: 1.0.5
     hooks:
       - id: shell-lint
   - repo: git://github.com/antonbabenko/pre-commit-terraform
-    rev: v1.25.0
+    rev: v1.29.0
     hooks:
       - id: terraform_fmt
         exclude: \.terraform\/.*$

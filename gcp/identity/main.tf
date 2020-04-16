@@ -21,7 +21,7 @@ resource "google_project_iam_member" "iam-logging" {
 resource "kubernetes_service_account" "ksa" {
   metadata {
     namespace = var.namespace
-    name = var.name
+    name      = var.name
     annotations = {
       "iam.gke.io/gcp-service-account" = google_service_account.gsa.email
     }
@@ -33,7 +33,7 @@ resource "kubernetes_service_account" "ksa" {
 }
 
 resource "google_service_account_iam_binding" "ksa-gsa-binding" {
-  provider = google-beta
+  provider           = google-beta
   service_account_id = google_service_account.gsa.name
   role               = "roles/iam.workloadIdentityUser"
 

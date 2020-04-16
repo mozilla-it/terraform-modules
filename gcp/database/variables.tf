@@ -15,10 +15,10 @@ variable "network" {
 
 variable "authorized_ips" {
   type = list(object({
-    name = string
+    name     = string
     ip_range = string
   }))
-  default = [ ]
+  default = []
 }
 
 variable "database" {
