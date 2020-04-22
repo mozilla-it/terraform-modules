@@ -29,7 +29,7 @@ resource "aws_iam_role" "admin_role" {
 
 resource "aws_iam_role" "readonly_role" {
   name                 = "itsre-readonly"
-  description          = "IT SRE Delegated  Readonly role"
+  description          = "IT SRE Delegated Readonly role"
   max_session_duration = var.max_session_duration
   assume_role_policy   = data.aws_iam_policy_document.assume_role_policy.json
 
