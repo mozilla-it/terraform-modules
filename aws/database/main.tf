@@ -109,6 +109,7 @@ resource "aws_db_instance" "read_replica" {
   performance_insights_enabled          = var.replica_performance_insights_enabled
   performance_insights_retention_period = var.replica_performance_insights_retention
   engine_version                        = var.replica_db_version
+  publicly_accessible                   = var.replica_publicly_accessible
 
   tags = merge(
     local.tags,

@@ -64,7 +64,13 @@ variable "password_length" {
 }
 
 variable "publicly_accessible" {
-  default = false
+  description = "Set DB open to the internet"
+  default     = false
+}
+
+variable "replica_publicly_accessible" {
+  description = "Set replica DB open to the internet"
+  default     = "false"
 }
 
 variable "multi_az" {
