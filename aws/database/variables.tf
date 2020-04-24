@@ -121,3 +121,18 @@ variable "snapshot_identifier" {
   description = "If a snapshot identifier is specified, a new database will be created from the snapshot"
   default     = ""
 }
+
+variable "custom_sg" {
+  description = "Custom security Group ID to use in the main Database"
+  default     = ""
+}
+
+variable "custom_replica_sg" {
+  description = "Custom security Group ID to use in the replica Database"
+  default     = ""
+}
+
+variable "custom_subnet" {
+  description = "Custom subnet to use in the main Database"
+  default     = ""
+}

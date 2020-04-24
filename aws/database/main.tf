@@ -75,8 +75,8 @@ resource "aws_db_instance" "default" {
   identifier                            = var.identifier
   username                              = local.username
   password                              = random_password.password.result
-  db_subnet_group_name                  = aws_db_subnet_group.subnet.id
-  vpc_security_group_ids                = [aws_security_group.default.id]
+  db_subnet_group_name                  = var.custom_subnet == "" ? aws_db_subnet_group.subnet.id : var.custom_subnet
+  vpc_security_group_ids                = [var.custom_sg == "" ? aws_security_group.default.id : var.custom_sg]
   skip_final_snapshot                   = "true"
   publicly_accessible                   = var.publicly_accessible
   multi_az                              = var.multi_az
@@ -104,6 +104,7 @@ resource "aws_db_instance" "read_replica" {
   parameter_group_name                  = var.parameter_group_name != "" ? var.parameter_group_name : "default.${var.type}${local.ver}"
   apply_immediately                     = true
   skip_final_snapshot                   = "true"
+  vpc_security_group_ids                = [var.custom_replica_sg == "" ? aws_security_group.default.id : var.custom_replica_sg]
   count                                 = var.replica_enabled == "true" ? 1 : 0
   performance_insights_enabled          = var.replica_performance_insights_enabled
   performance_insights_retention_period = var.replica_performance_insights_retention
