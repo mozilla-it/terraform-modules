@@ -87,6 +87,7 @@ resource "aws_db_instance" "default" {
   performance_insights_enabled          = var.performance_insights_enabled
   performance_insights_retention_period = var.performance_insights_retention
   snapshot_identifier                   = var.snapshot_identifier
+  allow_major_version_upgrade           = var.allow_major_version_upgrade
 
   tags = merge(
     local.tags,
@@ -110,6 +111,7 @@ resource "aws_db_instance" "read_replica" {
   performance_insights_retention_period = var.replica_performance_insights_retention
   engine_version                        = var.replica_db_version
   publicly_accessible                   = var.replica_publicly_accessible
+  allow_major_version_upgrade           = var.replica_allow_major_version_upgrade
 
   tags = merge(
     local.tags,

@@ -142,3 +142,13 @@ variable "custom_subnet" {
   description = "Custom subnet to use in the main Database"
   default     = ""
 }
+
+variable "allow_major_version_upgrade" {
+  description = "If set to 'true', it enables engine major version upgrades"
+  default     = "false"
+}
+
+variable "replica_allow_major_version_upgrade" {
+  description = "If set to 'true', it enables engine major version upgrades for replica DB"
+  default     = "false"
+}
