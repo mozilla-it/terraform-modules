@@ -14,6 +14,14 @@ output "cluster_arn" {
   value = module.eks.cluster_arn
 }
 
+output "cluster_primary_security_group_id" {
+  value = module.eks.cluster_primary_security_group_id
+}
+
+output "cluster_security_group_id" {
+  value = module.eks.cluster_security_group_id
+}
+
 output "worker_asg_names" {
   value = module.eks.workers_asg_names
 }
