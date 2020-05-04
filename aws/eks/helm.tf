@@ -10,7 +10,7 @@ data "helm_repository" "stable" {
 }
 
 data "helm_repository" "vmware_tanzu" {
-  count = local.cluster_features["velero"] ? 1 : 0
+  count = var.create_eks && local.cluster_features["velero"] ? 1 : 0
   name  = "vmware-tanzu"
   url   = "https://vmware-tanzu.github.io/helm-charts"
 }
@@ -25,7 +25,7 @@ resource "helm_release" "node_drain" {
 }
 
 resource "helm_release" "metrics_server" {
-  count      = local.cluster_features["metrics_server"] ? 1 : 0
+  count      = var.create_eks && local.cluster_features["metrics_server"] ? 1 : 0
   name       = "metrics-server"
   repository = data.helm_repository.stable.metadata.0.name
   chart      = "stable/metrics-server"
@@ -35,7 +35,7 @@ resource "helm_release" "metrics_server" {
 }
 
 resource "helm_release" "cluster_autoscaler" {
-  count      = local.cluster_features["cluster_autoscaler"] ? 1 : 0
+  count      = var.create_eks && local.cluster_features["cluster_autoscaler"] ? 1 : 0
   name       = "cluster-autoscaler"
   repository = data.helm_repository.stable.metadata.0.name
   chart      = "stable/cluster-autoscaler"
@@ -55,7 +55,7 @@ resource "helm_release" "cluster_autoscaler" {
 }
 
 resource "helm_release" "reloader" {
-  count      = local.cluster_features["reloader"] ? 1 : 0
+  count      = var.create_eks && local.cluster_features["reloader"] ? 1 : 0
   name       = "reloader"
   repository = data.helm_repository.stable.metadata.0.name
   chart      = "stable/reloader"
@@ -75,7 +75,7 @@ resource "helm_release" "reloader" {
 }
 
 resource "helm_release" "velero" {
-  count      = local.cluster_features["velero"] ? 1 : 0
+  count      = var.create_eks && local.cluster_features["velero"] ? 1 : 0
   name       = "velero"
   repository = data.helm_repository.vmware_tanzu[0].metadata.0.name
   chart      = "vmware-tanzu/velero"
@@ -95,7 +95,7 @@ resource "helm_release" "velero" {
 }
 
 resource "helm_release" "sealed_secrets" {
-  count      = local.cluster_features["sealed_secrets"] ? 1 : 0
+  count      = var.create_eks && local.cluster_features["sealed_secrets"] ? 1 : 0
   name       = "sealed-secrets"
   repository = data.helm_repository.stable.metadata.0.name
   chart      = "stable/sealed-secrets"
