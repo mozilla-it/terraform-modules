@@ -85,7 +85,7 @@ resource "aws_db_instance" "default" {
   parameter_group_name                  = var.parameter_group_name != "" ? var.parameter_group_name : "default.${var.type}${local.ver}"
   backup_retention_period               = var.backup_retention_period
   performance_insights_enabled          = var.performance_insights_enabled
-  performance_insights_retention_period = var.performance_insights_retention
+  performance_insights_retention_period = var.performance_insights_enabled == "false" ? 0 : var.performance_insights_retention
   snapshot_identifier                   = var.snapshot_identifier
   allow_major_version_upgrade           = var.allow_major_version_upgrade
 
