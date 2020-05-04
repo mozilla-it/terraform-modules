@@ -5,11 +5,11 @@ variable "region" {
 variable "cluster_name" {}
 
 variable "bucket_name" {
-  default = "velero"
+  default = ""
 }
 
 variable "backup_user" {
-  default = "velero"
+  default = ""
 }
 
 variable "create_bucket" {
