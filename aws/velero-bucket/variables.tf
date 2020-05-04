@@ -12,6 +12,10 @@ variable "backup_user" {
   default = ""
 }
 
+variable "kms_key_alias" {
+  default = ""
+}
+
 variable "create_bucket" {
   description = "Flag to create or not create bucket"
   default     = true

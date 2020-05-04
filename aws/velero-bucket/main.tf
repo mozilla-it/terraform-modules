@@ -25,7 +25,7 @@ resource "aws_kms_key" "this" {
 }
 
 resource "aws_kms_alias" "this" {
-  name          = "alias/velero-${var.cluster_name}"
+  name          = "alias/${local.kms_key_alias}"
   target_key_id = aws_kms_key.this.key_id
 }
 
