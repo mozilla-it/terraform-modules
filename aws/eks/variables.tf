@@ -16,6 +16,11 @@ variable "tags" {
   default = {}
 }
 
+variable "create_eks" {
+  type    = bool
+  default = true
+}
+
 variable "map_roles" {
   type = list(object({
     rolearn  = string
@@ -62,6 +67,10 @@ variable "enable_logging" {
 
 variable "log_retention" {
   default = "30"
+}
+
+variable "velero_bucket_name" {
+  default = ""
 }
 
 variable "cluster_features" {
