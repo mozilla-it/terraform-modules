@@ -7,6 +7,7 @@ module "cluster_autoscaler_role" {
   provider_url                  = replace(module.eks.cluster_oidc_issuer_url, "https://", "")
   role_policy_arns              = [aws_iam_policy.cluster_autoscaler.arn]
   oidc_fully_qualified_subjects = ["system:serviceaccount:${local.cluster_autoscaler_service_account_namespace}:${local.cluster_autoscaler_service_account_name}"]
+  tags                          = merge({ "Name" = local.cluster_autoscaler_name_prefix }, local.tags)
 }
 
 resource "aws_iam_policy" "cluster_autoscaler" {

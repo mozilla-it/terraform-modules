@@ -22,7 +22,7 @@ locals {
 
   cluster_log_type = var.enable_logging ? ["api", "audit", "authenticator", "controllerManager", "scheduler"] : []
 
-  cluster_autoscaler_name_prefix               = "${module.eks.cluster_id}-cluster-autoscaler"
+  cluster_autoscaler_name_prefix               = "${module.eks.cluster_id}-cluster-autoscaler-${var.region}"
   cluster_autoscaler_service_account_namespace = "kube-system"
   cluster_autoscaler_service_account_name      = "cluster-autoscaler-aws-cluster-autoscaler"
 
