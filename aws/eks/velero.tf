@@ -11,6 +11,7 @@ resource "kubernetes_namespace" "velero" {
 
 module "velero" {
   source              = "github.com/mozilla-it/terraform-modules//aws/velero-bucket?ref=master"
+  region              = var.region
   cluster_name        = module.eks.cluster_id
   create_bucket       = var.create_eks && local.cluster_features["velero"]
   bucket_name         = var.velero_bucket_name
