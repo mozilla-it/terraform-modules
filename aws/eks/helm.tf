@@ -104,3 +104,13 @@ resource "helm_release" "sealed_secrets" {
   # TODO: Figure out the downsides of this
   skip_crds = true
 }
+
+# NOTE: Does not install the CRD, to install the crd run this
+# kubectl apply -k github.com/aws/eks-charts/stable/aws-calico//crds?ref=master -n kube-system
+resource "helm_release" "calico" {
+  count      = var.create_eks && local.cluster_features["aws_calico"] ? 1 : 0
+  name       = "aws-calico"
+  repository = data.helm_repository.eks.metadata.0.name
+  chart      = "eks/aws-calico"
+  namespace  = "kube-system"
+}
