@@ -15,6 +15,7 @@ locals {
     "reloader"           = true
     "velero"             = true
     "sealed_secrets"     = true
+    "aws_calico"         = false
     "flux"               = false
     "flux_helm_operator" = false
   }
