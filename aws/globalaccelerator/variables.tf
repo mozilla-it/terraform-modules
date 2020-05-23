@@ -60,3 +60,6 @@ variable "client_affinity" {
 variable "project" {
   default = ""
 }
+
+variable "name" {
+}

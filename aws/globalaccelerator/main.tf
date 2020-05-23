@@ -34,7 +34,7 @@ resource "aws_globalaccelerator_listener" "listener" {
 }
 
 resource "aws_globalaccelerator_accelerator" "global_accelerator" {
-  name            = "refractr-stage"
+  name            = var.name
   ip_address_type = var.ip_address_type
   enabled         = true
   tags            = merge(var.extra_tags, local.default_tags)
