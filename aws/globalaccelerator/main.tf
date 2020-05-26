@@ -20,7 +20,7 @@ resource "aws_globalaccelerator_endpoint_group" "endpoint_group" {
 }
 
 resource "aws_globalaccelerator_listener" "listener" {
-  accelerator_arn = aws_globalaccelerator.global_accelerator.id
+  accelerator_arn = aws_globalaccelerator_accelerator.global_accelerator.id
   client_affinity = var.client_affinity
   protocol        = var.protocol
 
