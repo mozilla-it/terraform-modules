@@ -77,7 +77,7 @@ resource "google_composer_environment" "etl_airflow" {
     }
 
     software_config {
-      image_version = "composer-1.8.1-airflow-1.10.3"
+      image_version = var.composer_image_version
 
       airflow_config_overrides = {
         core-dags_are_paused_at_creation = "True"
