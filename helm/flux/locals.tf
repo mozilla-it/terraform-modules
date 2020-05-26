@@ -1,4 +1,7 @@
 locals {
+
+  helm_fluxcd_repository = "https://charts.fluxcd.io"
+
   flux_helm_operator_defaults = {
     "createCRD"          = "true"
     "helm.versions"      = "v3"

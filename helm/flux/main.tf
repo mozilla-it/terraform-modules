@@ -5,7 +5,7 @@
 resource "helm_release" "flux_helm_operator" {
   count      = var.enable_flux && var.enable_flux_helm_operator ? 1 : 0
   name       = "helm-operator"
-  repository = data.helm_repository.fluxcd[0].metadata.0.name
+  repository = local.helm_fluxcd_repository
   chart      = "fluxcd/helm-operator"
   namespace  = local.flux_helm_operator_settings["namespace"]
 
@@ -25,7 +25,7 @@ resource "helm_release" "flux_helm_operator" {
 resource "helm_release" "fluxcd" {
   count      = var.enable_flux ? 1 : 0
   name       = "flux"
-  repository = data.helm_repository.fluxcd[0].metadata.0.name
+  repository = local.helm_fluxcd_repository
   chart      = "fluxcd/flux"
   namespace  = local.flux_settings["namespace"]
 
