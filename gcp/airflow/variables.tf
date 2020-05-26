@@ -1,5 +1,5 @@
 variable "composer_image_version" {
-  type = string
+  type    = string
   default = "composer-1.8.1-airflow-1.10.3"
 }
 
