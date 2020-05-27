@@ -8,7 +8,7 @@ locals {
 resource "helm_release" "node_drain" {
   name       = "aws-node-termination-handler"
   repository = local.helm_eks_repository
-  chart      = "eks/aws-node-termination-handler"
+  chart      = "aws-node-termination-handler"
   namespace  = "kube-system"
 
   depends_on = [module.eks]
@@ -18,7 +18,7 @@ resource "helm_release" "metrics_server" {
   count      = var.create_eks && local.cluster_features["metrics_server"] ? 1 : 0
   name       = "metrics-server"
   repository = local.helm_stable_repository
-  chart      = "stable/metrics-server"
+  chart      = "metrics-server"
   namespace  = "kube-system"
 
   depends_on = [module.eks]
@@ -28,7 +28,7 @@ resource "helm_release" "cluster_autoscaler" {
   count      = var.create_eks && local.cluster_features["cluster_autoscaler"] ? 1 : 0
   name       = "cluster-autoscaler"
   repository = local.helm_stable_repository
-  chart      = "stable/cluster-autoscaler"
+  chart      = "cluster-autoscaler"
   namespace  = "kube-system"
 
   dynamic "set" {
@@ -48,7 +48,7 @@ resource "helm_release" "reloader" {
   count      = var.create_eks && local.cluster_features["reloader"] ? 1 : 0
   name       = "reloader"
   repository = local.helm_stable_repository
-  chart      = "stable/reloader"
+  chart      = "reloader"
   namespace  = "kube-system"
 
   dynamic "set" {
@@ -68,7 +68,7 @@ resource "helm_release" "velero" {
   count      = var.create_eks && local.cluster_features["velero"] ? 1 : 0
   name       = "velero"
   repository = local.helm_vmware_tanzu_repository
-  chart      = "vmware-tanzu/velero"
+  chart      = "velero"
   namespace  = "velero"
 
   dynamic "set" {
@@ -88,7 +88,7 @@ resource "helm_release" "sealed_secrets" {
   count      = var.create_eks && local.cluster_features["sealed_secrets"] ? 1 : 0
   name       = "sealed-secrets"
   repository = local.helm_stable_repository
-  chart      = "stable/sealed-secrets"
+  chart      = "sealed-secrets"
   namespace  = "kube-system"
 
   # TODO: Figure out the downsides of this
@@ -101,6 +101,6 @@ resource "helm_release" "calico" {
   count      = var.create_eks && local.cluster_features["aws_calico"] ? 1 : 0
   name       = "aws-calico"
   repository = local.helm_eks_repository
-  chart      = "eks/aws-calico"
+  chart      = "aws-calico"
   namespace  = "kube-system"
 }
