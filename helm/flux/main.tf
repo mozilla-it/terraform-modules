@@ -6,7 +6,7 @@ resource "helm_release" "flux_helm_operator" {
   count      = var.enable_flux && var.enable_flux_helm_operator ? 1 : 0
   name       = "helm-operator"
   repository = local.helm_fluxcd_repository
-  chart      = "fluxcd/helm-operator"
+  chart      = "helm-operator"
   namespace  = local.flux_helm_operator_settings["namespace"]
 
   dynamic "set" {
@@ -26,7 +26,7 @@ resource "helm_release" "fluxcd" {
   count      = var.enable_flux ? 1 : 0
   name       = "flux"
   repository = local.helm_fluxcd_repository
-  chart      = "fluxcd/flux"
+  chart      = "flux"
   namespace  = local.flux_settings["namespace"]
 
   dynamic "set" {
