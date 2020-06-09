@@ -16,6 +16,7 @@ locals {
     "velero"             = true
     "sealed_secrets"     = true
     "aws_calico"         = false
+    "alb_ingress"        = false
     "flux"               = false
     "flux_helm_operator" = false
   }
@@ -73,4 +74,14 @@ locals {
     "initContainers[0].volumeMounts[0].name"                           = "plugins"
   }
   velero_settings = merge(local.velero_defaults, var.velero_settings)
+
+  alb_ingress_namespace   = "kube-system"
+  alb_ingress_name_prefix = "${module.eks.cluster_id}-alb-ingress-${var.region}"
+  alb_ingress_defaults = {
+    "clusterName"                                                    = var.cluster_name
+    "autoDiscoverAwsRegion"                                          = "true"
+    "awsVpcID"                                                       = var.vpc_id
+    "rbac.serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn" = module.alb_ingress_role.this_iam_role_arn
+  }
+  alb_ingress_settings = merge(local.alb_ingress_defaults, var.alb_ingress_settings)
 }

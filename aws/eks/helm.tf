@@ -2,6 +2,7 @@
 locals {
   helm_eks_repository          = "https://aws.github.io/eks-charts"
   helm_stable_repository       = "https://kubernetes-charts.storage.googleapis.com"
+  helm_incubator_repository    = "http://storage.googleapis.com/kubernetes-charts-incubator"
   helm_vmware_tanzu_repository = "https://vmware-tanzu.github.io/helm-charts"
 }
 
@@ -103,4 +104,24 @@ resource "helm_release" "calico" {
   repository = local.helm_eks_repository
   chart      = "aws-calico"
   namespace  = "kube-system"
+}
+
+resource "helm_release" "alb_ingress" {
+  count      = var.create_eks && local.cluster_features["alb_ingress"] ? 1 : 0
+  name       = "aws-alb-ingress-controller"
+  repository = local.helm_incubator_repository
+  chart      = "aws-alb-ingress-controller"
+  namespace  = "kube-system"
+
+  dynamic "set" {
+    iterator = item
+    for_each = local.alb_ingress_settings
+
+    content {
+      name  = item.key
+      value = item.value
+    }
+  }
+
+  depends_on = [module.eks]
 }
