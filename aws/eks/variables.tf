@@ -108,3 +108,9 @@ variable "flux_settings" {
   type        = map(string)
   default     = {}
 }
+
+variable "alb_ingress_settings" {
+  description = "Customize or override alb ingress helm chart values"
+  type        = map(string)
+  default     = {}
+}
