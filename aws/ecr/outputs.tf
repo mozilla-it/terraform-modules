@@ -15,14 +15,13 @@ output "ecr_repository_url" {
 }
 
 output "ecr_iam_user" {
-  value = aws_iam_access_key.this[0].user
+  value = var.create_user ? aws_iam_access_key.this[0].user : ""
 }
 
 output "ecr_iam_access_key" {
-  value = aws_iam_access_key.this[0].id
-
+  value = var.create_user ? aws_iam_access_key.this[0].id : ""
 }
 
 output "ecr_iam_secret_access_key" {
-  value = aws_iam_access_key.this[0].secret
+  value = var.create_user ? aws_iam_access_key.this[0].secret : ""
 }
