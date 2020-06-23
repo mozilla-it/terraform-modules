@@ -153,7 +153,7 @@ module "alb_ingress_role" {
   create_role                   = var.create_eks && local.cluster_features["alb_ingress"]
   role_name                     = local.alb_ingress_name_prefix
   provider_url                  = replace(module.eks.cluster_oidc_issuer_url, "https://", "")
-  role_policy_arns              = [aws_iam_policy.alb[0].arn]
+  role_policy_arns              = var.create_eks && local.cluster_features["alb_ingress"] ? [aws_iam_policy.alb[0].arn] : []
   oidc_fully_qualified_subjects = ["system:serviceaccount:${local.alb_ingress_namespace}:aws-alb-ingress-controller"]
   tags                          = merge({ "Name" = local.alb_ingress_name_prefix }, local.tags)
 }
