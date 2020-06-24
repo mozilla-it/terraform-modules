@@ -1,4 +1,3 @@
-
 variable "idp_client_id" {
   default = "N7lULzWtfVUDGymwDs0yDEq6ZcwmFazj" #pragma: allowlist secret
 }
@@ -17,3 +16,8 @@ variable "role_name" {
 }
 
 variable "policy_arn" {}
+
+variable "create_role" {
+  value       = true
+  description = "Set to false to do not perform any action on module instanciation"
+}

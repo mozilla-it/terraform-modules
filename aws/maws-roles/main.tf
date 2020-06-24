@@ -36,6 +36,7 @@ locals {
 }
 
 resource "aws_iam_role" "this" {
+  count                = var.create_role ? 1 : 0
   name                 = var.role_name
   description          = "MAWS role for ${var.role_name}, managed by terraform"
   max_session_duration = var.max_session_duration
@@ -50,6 +51,7 @@ resource "aws_iam_role" "this" {
 }
 
 resource "aws_iam_role_policy_attachment" "this" {
+  count      = var.create_role ? 1 : 0
   role       = aws_iam_role.this.name
   policy_arn = var.policy_arn
 }

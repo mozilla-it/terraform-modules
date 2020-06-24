@@ -56,3 +56,4 @@ module "role" {
 | `idp_client_id`         | This is the client_id of the auth0 idp, an optional value                                |
 | `max_session_duration`  | Max session time before your session exires (Default: 43200)                             |
 | `policy_arn`            | The mozillians or ldap group you want to grant access to the role                        |
+| 'create_role'           | Set to false to do not perform any action on module instanciation                        |
