@@ -9,6 +9,7 @@ by default, packages installed listed below:
  - `sealed-secrets` - A controller that enables you check in secrets in git and the controller decrypts secrets
  - `flux` - This is an optional package and installs the flux package
  - `helm-operator` - This is an optional package and installs the flux helm operator
+ - `kubernetes-external-secrets` - This is an optional package for transforming ASM secrets into Kubernetes secrets
 
 ## Usage
 Example usage:
