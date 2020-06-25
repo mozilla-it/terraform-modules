@@ -114,3 +114,15 @@ variable "alb_ingress_settings" {
   type        = map(string)
   default     = {}
 }
+
+variable "external_secrets_settings" {
+  description = "Customize or override kubernetes_external_secrets helm chart values"
+  type        = map(string)
+  default     = {}
+}
+
+variable "external_secrets_secret_paths" {
+  description = "Paths to allow the new AWS role to fecth secrets from"
+  type        = list
+  default     = ["*"]
+}

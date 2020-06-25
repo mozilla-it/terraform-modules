@@ -19,6 +19,7 @@ locals {
     "alb_ingress"        = false
     "flux"               = false
     "flux_helm_operator" = false
+    "external_secrets"   = false
   }
   cluster_features = merge(local.cluster_features_defaults, var.cluster_features)
 
@@ -84,4 +85,12 @@ locals {
     "rbac.serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn" = module.alb_ingress_role.this_iam_role_arn
   }
   alb_ingress_settings = merge(local.alb_ingress_defaults, var.alb_ingress_settings)
+
+  external_secrets_role_name = "${module.eks.cluster_id}-kubernetes-external-secrets-${var.region}"
+  external_secrets_defaults = {
+    "securityContext.fsGroup"                                   = "65534"
+    "serviceAccount.name"                                       = "kubernetes-external-secrets"
+    "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn" = module.external_secrets.this_iam_role_arn
+  }
+  external_secrets_settings = merge(local.external_secrets_defaults, var.external_secrets_settings)
 }
