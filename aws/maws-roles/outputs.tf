@@ -1,9 +1,7 @@
-
-
 output "role_id" {
-  value = aws_iam_role.this.id
+  value = var.create_role ? aws_iam_role.this[0].arn : ""
 }
 
 output "role_arn" {
-  value = aws_iam_role.this.arn
+  value = var.create_role ? aws_iam_role.this[0].arn : ""
 }
