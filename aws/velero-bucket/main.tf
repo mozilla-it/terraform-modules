@@ -63,6 +63,7 @@ module "velero_role" {
   provider_url                  = var.create_role ? replace(data.aws_eks_cluster.this[0].identity.0.oidc.0.issuer, "https://", "") : ""
   role_policy_arns              = var.create_role ? [aws_iam_policy.velero_iam_role_policy[0].arn] : []
   oidc_fully_qualified_subjects = ["system:serviceaccount:${var.velero_sa_namespace}:${var.velero_sa_name}"]
+  tags                          = merge({ "Name" = "${local.backup_user}-role" }, local.tags)
 }
 
 resource "aws_iam_policy" "velero_iam_role_policy" {
