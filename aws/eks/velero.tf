@@ -4,6 +4,10 @@ resource "kubernetes_namespace" "velero" {
 
   metadata {
     name = "velero"
+
+    labels = {
+      app = "velero"
+    }
   }
 
   depends_on = [module.eks]

@@ -1,8 +1,11 @@
-
 resource "kubernetes_namespace" "flux" {
   count = var.create_eks && local.cluster_features["flux"] ? 1 : 0
   metadata {
     name = "fluxcd"
+
+    labels = {
+      app = "fluxcd"
+    }
   }
 }
 
