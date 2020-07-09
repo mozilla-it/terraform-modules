@@ -15,7 +15,10 @@ variable "role_name" {
   description = "The name of the role you want created"
 }
 
-variable "policy_arn" {}
+variable "policy_arn" {
+  type        = list(string)
+  description = "List of policy arns"
+}
 
 variable "create_role" {
   default     = true
