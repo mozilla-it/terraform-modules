@@ -15,3 +15,7 @@ variable "istio_disabled" { default = true }
 variable "min_nodes_per_zone" { default = 1 }
 
 variable "max_nodes_per_zone" { default = 5 }
+
+variable "release_channel" { default = "REGULAR" }
+
+variable "min_master_version" { default = "1.16" }

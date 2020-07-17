@@ -1,14 +1,25 @@
 
+data "google_container_engine_versions" "gkeversions" {
+  provider       = google-beta
+  location       = var.region
+  version_prefix = "${var.min_master_version}."
+}
+
 resource "google_container_cluster" "primary" {
-  name     = var.name
-  location = var.region
-  provider = google-beta
+  name               = var.name
+  location           = var.region
+  provider           = google-beta
+  min_master_version = data.google_container_engine_versions.gkeversions.latest_node_version
 
   remove_default_node_pool = true
   initial_node_count       = 1
 
   workload_identity_config {
     identity_namespace = "${var.project_id}.svc.id.goog"
+  }
+
+  release_channel {
+    channel = var.release_channel
   }
 
   addons_config {
