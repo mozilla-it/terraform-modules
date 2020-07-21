@@ -1,69 +1,32 @@
-resource "google_compute_network" "main" {
-  project                 = var.project_id
-  name                    = var.project_id
-  auto_create_subnetworks = "true"
-}
 
-resource "google_compute_firewall" "allow_icmp" {
-  project = var.project_id
-  name    = "allow-icmp"
-  network = google_compute_network.main.name
-
-  allow {
-    protocol = "icmp"
-  }
-}
-
-resource "google_compute_firewall" "allow_all_internal" {
-  project = var.project_id
-  name    = "allow-all-internal"
-  network = google_compute_network.main.name
-
-  allow {
-    protocol = "tcp"
+locals {
+  cidr_map = {
+    for region in var.regions :
+    region => cidrsubnet(
+      var.base_cidr, var.cidr_bit, index(var.regions, region) % length(var.regions)
+    )
   }
 
-  allow {
-    protocol = "udp"
-  }
-
-  allow {
-    protocol = "icmp"
-  }
-
-  # XXX: This is some magical default from auto_create_subnets...
-  source_ranges = ["10.128.0.0/9"]
+  subnet_settings = flatten([
+    for region, cidr in local.cidr_map : [
+      {
+        subnet_name           = "${var.vpc_name}-subnet-${region}",
+        subnet_ip             = cidr,
+        subnet_region         = region,
+        subnet_private_access = true
+      }
+    ]
+  ])
 }
 
-resource "google_compute_router" "router_us_west1" {
-  project = var.project_id
-  name    = "router"
-  region  = "us-west1"
-  network = google_compute_network.main.self_link
-}
+module "vpc" {
+  source                  = "terraform-google-modules/network/google"
+  version                 = "~> 2.4"
+  project_id              = var.project_id
+  network_name            = var.vpc_name
+  routing_mode            = var.routing_mode
+  auto_create_subnetworks = var.auto_create_subnetworks
 
-resource "google_compute_router_nat" "simple_nat_us_west1" {
-  project                            = var.project_id
-  name                               = "us-west1-nat-1"
-  router                             = google_compute_router.router_us_west1.name
-  region                             = "us-west1"
-  nat_ip_allocate_option             = "AUTO_ONLY"
-  source_subnetwork_ip_ranges_to_nat = "ALL_SUBNETWORKS_ALL_IP_RANGES"
+  # Subnet setting
+  subnets = var.auto_create_subnetworks ? [] : local.subnet_settings
 }
-
-resource "google_compute_router" "router_us_central1" {
-  project = var.project_id
-  name    = "router"
-  region  = "us-central1"
-  network = google_compute_network.main.self_link
-}
-
-resource "google_compute_router_nat" "simple_nat_us_central1" {
-  project                            = var.project_id
-  name                               = "us-central1-nat-1"
-  router                             = google_compute_router.router_us_central1.name
-  region                             = "us-central1"
-  nat_ip_allocate_option             = "AUTO_ONLY"
-  source_subnetwork_ip_ranges_to_nat = "ALL_SUBNETWORKS_ALL_IP_RANGES"
-}
-
