@@ -23,7 +23,7 @@ locals {
   velero_defaults = {
     "configuration.provider"                             = "gcp"
     "configuration.backupStorageLocation.name"           = "gcp"
-    "configuration.backupStorageLocation.bucket"         = google_storage_bucket.bucket[0].name
+    "configuration.backupStorageLocation.bucket"         = local.cluster_features["velero"] ? google_storage_bucket.bucket[0].name : ""
     "configuration.backupStorageLocation.config.region"  = var.region
     "configuration.volumeSnapshotLocation.name"          = "gcp"
     "configuration.volumeSnapshotLocation.config.region" = var.region

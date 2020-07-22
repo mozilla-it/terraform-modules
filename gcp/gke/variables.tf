@@ -11,6 +11,12 @@ variable "kubernetes_version" {
   default     = "latest"
 }
 
+variable "release_channel" {
+  type        = string
+  description = "(Beta) The release channel of this cluster. Accepted values are `UNSPECIFIED`, `RAPID`, `REGULAR` and `STABLE`. Defaults to `UNSPECIFIED`."
+  default     = null
+}
+
 variable "costcenter" {}
 
 variable "project_id" {}
