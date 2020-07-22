@@ -11,7 +11,7 @@ Sample usage
 ```hcl
 locals {
   project_id   = "mozilla-it-service-engineering"
-  cluster_name = "test-cluster"
+  name         = "test-cluster"
 
   node_pools = [
     {
@@ -33,7 +33,7 @@ module "gke" {
   costcenter   = "1410"
   environment  = "dev"
   project_id   = local.project_id
-  cluster_name = local.cluster_name
+  name         = local.name
   region       = var.region
   network      = "default"
   subnetwork   = "default"
