@@ -21,7 +21,7 @@ variable "costcenter" {}
 
 variable "project_id" {}
 
-variable "cluster_name" {}
+variable "name" {}
 
 variable "network" {}
 
@@ -37,7 +37,7 @@ variable "ip_range_services" {
 
 variable "regional" {
   description = "Configure cluster as a regional or zonal cluster"
-  default     = true
+  default     = false
 }
 
 variable "cluster_addons" {

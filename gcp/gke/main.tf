@@ -2,6 +2,7 @@ resource "random_shuffle" "zones" {
   input        = data.google_compute_zones.available.names
   result_count = 3
 }
+
 module "gke" {
   # We are using this module path to take advantage of workload identity
   source                          = "terraform-google-modules/kubernetes-engine/google//modules/beta-public-cluster"
@@ -9,7 +10,7 @@ module "gke" {
   kubernetes_version              = var.kubernetes_version
   release_channel                 = var.release_channel
   project_id                      = var.project_id
-  name                            = local.cluster_name
+  name                            = local.name
   region                          = var.region
   regional                        = var.regional
   zones                           = random_shuffle.zones.result
@@ -30,7 +31,7 @@ module "gke" {
   node_pools    = var.node_pools
   node_pools_labels = {
     all = {
-      "cluster"     = local.cluster_name
+      "cluster"     = local.name
       "environment" = var.environment
       "node"        = "managed"
       "costcenter"  = var.costcenter
@@ -40,7 +41,7 @@ module "gke" {
 
   node_pools_tags = {
     all = [
-      var.project_id, local.cluster_name, var.region
+      var.project_id, local.name, var.region
     ]
   }
 

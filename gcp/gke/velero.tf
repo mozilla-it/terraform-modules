@@ -1,6 +1,6 @@
 locals {
-  bucket_name = "velero-${var.cluster_name}-${data.google_project.project.number}"
-  sa_name     = "velero-${var.cluster_name}-sa"
+  bucket_name = "velero-${var.name}-${data.google_project.project.number}"
+  sa_name     = "velero-${var.name}-sa"
 }
 
 resource "kubernetes_namespace" "velero" {
@@ -37,14 +37,14 @@ resource "google_service_account" "velero" {
   project      = var.project_id
   account_id   = local.sa_name
   display_name = local.sa_name
-  description  = "Service account for velero on cluster ${local.cluster_name}"
+  description  = "Service account for velero on cluster ${local.name}"
 }
 
 resource "google_project_iam_custom_role" "velero" {
   count       = local.cluster_features["velero"] ? 1 : 0
-  role_id     = "velero.server.${replace(local.cluster_name, "-", "_")}"
-  title       = "Velero Server ${local.cluster_name}"
-  description = "Custom role for velero on cluster ${local.cluster_name}"
+  role_id     = "velero.server.${replace(local.name, "-", "_")}"
+  title       = "Velero Server ${local.name}"
+  description = "Custom role for velero on cluster ${local.name}"
 
   permissions = [
     "compute.disks.get",
