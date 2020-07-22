@@ -7,6 +7,7 @@ module "gke" {
   source                          = "terraform-google-modules/kubernetes-engine/google//modules/beta-public-cluster"
   version                         = "~> 10"
   kubernetes_version              = var.kubernetes_version
+  release_channel                 = var.release_channel
   project_id                      = var.project_id
   name                            = local.cluster_name
   region                          = var.region
