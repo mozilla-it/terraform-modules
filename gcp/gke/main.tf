@@ -1,71 +1,50 @@
-
-data "google_container_engine_versions" "gkeversions" {
-  provider       = google-beta
-  location       = var.region
-  version_prefix = "${var.min_master_version}."
+resource "random_shuffle" "zones" {
+  input        = data.google_compute_zones.available.names
+  result_count = 3
 }
+module "gke" {
+  # We are using this module path to take advantage of workload identity
+  source                          = "terraform-google-modules/kubernetes-engine/google//modules/beta-public-cluster"
+  version                         = "~> 10"
+  kubernetes_version              = var.kubernetes_version
+  project_id                      = var.project_id
+  name                            = local.cluster_name
+  region                          = var.region
+  regional                        = var.regional
+  zones                           = random_shuffle.zones.result
+  network                         = var.network
+  subnetwork                      = var.subnetwork
+  ip_range_pods                   = var.ip_range_pods
+  ip_range_services               = var.ip_range_services
+  remove_default_node_pool        = true
+  horizontal_pod_autoscaling      = local.cluster_addons["horizontal_pod_autoscaling"]
+  http_load_balancing             = local.cluster_addons["http_load_balancing"]
+  dns_cache                       = local.cluster_addons["dns_cache"]
+  istio                           = local.cluster_addons["istio"]
+  cloudrun                        = local.cluster_addons["cloudrun"]
+  enable_vertical_pod_autoscaling = local.cluster_addons["vertical_pod_autoscaling"]
 
-resource "google_container_cluster" "primary" {
-  name               = var.name
-  location           = var.region
-  provider           = google-beta
-  min_master_version = data.google_container_engine_versions.gkeversions.latest_node_version
-
-  remove_default_node_pool = true
-  initial_node_count       = 1
-
-  workload_identity_config {
-    identity_namespace = "${var.project_id}.svc.id.goog"
-  }
-
-  release_channel {
-    channel = var.release_channel
-  }
-
-  addons_config {
-    http_load_balancing {
-      disabled = var.http_load_balancing_disabled
+  # Node configs
+  node_metadata = "GKE_METADATA_SERVER"
+  node_pools    = var.node_pools
+  node_pools_labels = {
+    all = {
+      "cluster"     = local.cluster_name
+      "environment" = var.environment
+      "node"        = "managed"
+      "costcenter"  = var.costcenter
+      "terraform"   = "true"
     }
-    istio_config {
-      disabled = var.istio_disabled
-    }
-  }
-}
-
-resource "google_container_node_pool" "default" {
-  name       = "default-node-pool"
-  location   = var.region
-  cluster    = google_container_cluster.primary.name
-  provider   = google-beta
-  node_count = var.initial_node_count
-
-  autoscaling {
-    min_node_count = var.min_nodes_per_zone
-    max_node_count = var.max_nodes_per_zone
   }
 
-  management {
-    auto_repair  = true
-    auto_upgrade = true
+  node_pools_tags = {
+    all = [
+      var.project_id, local.cluster_name, var.region
+    ]
   }
 
-  upgrade_settings {
-    max_surge       = 3
-    max_unavailable = 1
-  }
-
-  node_config {
-    workload_metadata_config {
-      node_metadata = "GKE_METADATA_SERVER"
-    }
-    preemptible  = false
-    machine_type = var.node_type
-
-    metadata = {
-      disable-legacy-endpoints = true
-    }
-
-    oauth_scopes = [
+  node_pools_oauth_scopes = {
+    all = [
       "https://www.googleapis.com/auth/devstorage.read_only",
       "https://www.googleapis.com/auth/logging.write",
       "https://www.googleapis.com/auth/monitoring",

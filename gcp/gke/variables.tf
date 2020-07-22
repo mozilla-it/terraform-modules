@@ -1,21 +1,58 @@
-variable "name" {}
+variable "region" {
+  default = "us-central1"
+}
 
-variable "region" {}
+variable "environment" {
+  default = ""
+}
+
+variable "kubernetes_version" {
+  description = "Version of kubernetes to setup"
+  default     = "latest"
+}
+
+variable "costcenter" {}
 
 variable "project_id" {}
 
-variable "initial_node_count" { default = 1 }
+variable "cluster_name" {}
 
-variable "node_type" { default = "n1-standard-1" }
+variable "network" {}
 
-variable "http_load_balancing_disabled" { default = false }
+variable "subnetwork" {}
 
-variable "istio_disabled" { default = true }
+variable "ip_range_pods" {
+  default = ""
+}
 
-variable "min_nodes_per_zone" { default = 1 }
+variable "ip_range_services" {
+  default = ""
+}
 
-variable "max_nodes_per_zone" { default = 5 }
+variable "regional" {
+  description = "Configure cluster as a regional or zonal cluster"
+  default     = true
+}
 
-variable "release_channel" { default = "REGULAR" }
+variable "cluster_addons" {
+  description = "List of addons to install on cluster"
+  type        = map(string)
+  default     = {}
+}
 
-variable "min_master_version" { default = "1.16" }
+variable "cluster_features" {
+  description = "Additional packages to install via helm onto cluster"
+  type        = map(string)
+  default     = {}
+}
+
+variable "node_pools" {
+  description = "List of maps containing node pools"
+  type        = list(map(string))
+}
+
+variable "velero_settings" {
+  description = "Settings for velero helm chart"
+  type        = map(string)
+  default     = {}
+}
