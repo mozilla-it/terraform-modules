@@ -34,6 +34,7 @@ locals {
   }
   velero_settings = merge(local.velero_defaults, var.velero_settings)
 
+  #NOTE: Consider setting up pd-ssd storage class
   prometheus_defaults = {
     "server.persistentVolume.storageClass"       = "standard" # Up for discussion
     "server.persistentVolume.size"               = "50Gi"     # Without any idea of what normal is I'm just setting this as a random value
