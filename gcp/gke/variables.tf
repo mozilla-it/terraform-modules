@@ -59,7 +59,7 @@ variable "node_pools" {
     {
       name               = "default-node-pool",
       machine_type       = "n2-standard-4"
-      min_count          = "3"
+      min_count          = "1"
       max_count          = "20"
       max_surge          = "3"
       autoscaling        = true
@@ -72,6 +72,18 @@ variable "node_pools" {
 
 variable "velero_settings" {
   description = "Settings for velero helm chart"
+  type        = map(string)
+  default     = {}
+}
+
+variable "flux_settings" {
+  description = "Settings for flux helm chart"
+  type        = map(string)
+  default     = {}
+}
+
+variable "prometheus_settings" {
+  description = "Settings for prometheus helm chart"
   type        = map(string)
   default     = {}
 }
