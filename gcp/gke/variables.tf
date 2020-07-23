@@ -55,6 +55,19 @@ variable "cluster_features" {
 variable "node_pools" {
   description = "List of maps containing node pools"
   type        = list(map(string))
+  default = [
+    {
+      name               = "default-node-pool",
+      machine_type       = "n2-standard-4"
+      min_count          = "3"
+      max_count          = "20"
+      max_surge          = "3"
+      autoscaling        = true
+      auto_repair        = true
+      auto_upgrade       = true
+      initial_node_count = 2
+    }
+  ]
 }
 
 variable "velero_settings" {
