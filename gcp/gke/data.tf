@@ -16,5 +16,6 @@ data "google_client_config" "default" {
 
 data "google_container_cluster" "cluster" {
   name     = module.gke.name
-  location = var.region
+  project  = var.project_id
+  location = module.gke.location
 }
