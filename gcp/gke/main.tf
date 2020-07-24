@@ -53,3 +53,15 @@ module "gke" {
     ]
   }
 }
+
+resource "kubernetes_storage_class" "ssd" {
+  metadata {
+    name = "faster"
+  }
+  storage_provisioner = "kubernetes.io/gce-pd"
+  reclaim_policy      = "Retain"
+
+  parameters = {
+    type = "pd-ssd"
+  }
+}
