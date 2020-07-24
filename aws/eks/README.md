@@ -1,4 +1,4 @@
-# teraform-eks
+# terraform-eks
 This is an opinionated way of setting up an EKS cluster using terraform. This module installs several helm packages
 by default, packages installed listed below:
 
