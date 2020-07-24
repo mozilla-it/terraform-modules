@@ -54,8 +54,8 @@ locals {
   name         = "test-cluster"
 
   cluster_features = {
-    "flux"          = true
-    "flux_operator" = true
+    "flux"               = true
+    "flux_helm_operator" = true
   }
 
   flux_settings = {
