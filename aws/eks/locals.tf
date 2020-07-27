@@ -93,4 +93,29 @@ locals {
     "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn" = module.external_secrets.this_iam_role_arn
   }
   external_secrets_settings = merge(local.external_secrets_defaults, var.external_secrets_settings)
+
+  node_groups_attributes = {
+    k8s_labels = {
+      Node = "managed"
+    }
+
+    additional_tags = {
+      "kubernetes.io/cluster/${var.cluster_name}" = "owned"
+      "k8s.io/cluster-autoscaler/enabled"         = local.cluster_features["cluster_autoscaler"] ? "true" : "false"
+    }
+  }
+  node_groups_defaults = merge(local.node_groups_attributes, var.node_groups_defaults)
+
+  default_node_groups = {
+    default_node_group = {
+      desired_capacity = 3,
+      min_capacity     = 3,
+      max_capacity     = 10,
+      instance_type    = "t3.large",
+      disk_size        = 100,
+      subnets          = var.cluster_subnets
+    }
+  }
+
+  node_groups = length(var.node_groups) > 0 ? var.node_groups : local.default_node_groups
 }
