@@ -93,4 +93,20 @@ locals {
     "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn" = module.external_secrets.this_iam_role_arn
   }
   external_secrets_settings = merge(local.external_secrets_defaults, var.external_secrets_settings)
+
+  node_groups_attributes = {
+    k8s_labels = {
+      Node = "managed"
+    }
+
+    additional_tags = {
+      "kubernetes.io/cluster/${var.cluster_name}" = "owned"
+      "k8s.io/cluster-autoscaler/enabled"         = local.cluster_features["cluster_autoscaler"] ? "true" : "false"
+    }
+  }
+  node_groups_defaults = merge(local.node_groups_attributes, var.node_groups_defaults)
+
+  # if var.node_groups_subnets is supplied, we are using the default node pool. So we will append the subnets
+
+  node_groups = length(var.node_groups_subnets) > 0 ? merge(var.node_groups, merge(var.node_groups["default_node_group"], map("subnets", var.node_groups_subnets))) : var.node_groups
 }

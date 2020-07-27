@@ -46,14 +46,36 @@ variable "map_accounts" {
 
 variable "node_groups" {
   description = "Map of map of node groups to create."
-  type        = any
-  default     = {}
+  type        = map(object({}))
+  #  desired_capacity = number,
+  #  min_capacity     = number,
+  #  max_capacity     = number,
+  #  instance_type    = string,
+  #  disk_size        = number,
+  #  #subnets          = list(string)
+  #}))
+
+  default = {
+    default_node_group = {
+      desired_capacity = 3,
+      min_capacity     = 3,
+      max_capacity     = 10,
+      instance_type    = "t3.large",
+      disk_size        = 100,
+      subnets          = []
+    }
+  }
 }
 
 variable "node_groups_defaults" {
   description = "Map of values to be applied to all node groups"
   type        = any
   default     = {}
+}
+
+variable "node_groups_subnets" {
+  description = "A list subnets where to place the nodes"
+  default     = []
 }
 
 variable "worker_groups" {
@@ -126,3 +148,4 @@ variable "external_secrets_secret_paths" {
   type        = list
   default     = ["*"]
 }
+
