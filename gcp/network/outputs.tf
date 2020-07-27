@@ -20,6 +20,13 @@ output "subnets" {
   value = module.vpc.subnets
 }
 
+output "subnets_names_map" {
+  value = {
+    for region in var.regions :
+    region => "${var.vpc_name}-subnet-${region}"
+  }
+}
+
 output "subnets_names" {
   value       = module.vpc.subnets_names
   description = "The names of the subnets being created"
