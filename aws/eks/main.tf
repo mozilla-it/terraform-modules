@@ -35,8 +35,8 @@ module "eks" {
   vpc_id  = var.vpc_id
   subnets = var.cluster_subnets
 
-  node_groups          = var.node_groups
-  node_groups_defaults = var.node_groups_defaults
+  node_groups          = local.node_groups
+  node_groups_defaults = local.node_groups_defaults
 
   map_roles    = var.map_roles
   map_users    = var.map_users
