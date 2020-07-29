@@ -60,10 +60,12 @@ module "vpc" {
   # We have no idea if the vpc will host an eks
   # cluster but we put this here anyway
   public_subnet_tags = {
+    "Tier"                   = "public"
     "kubernetes.io/role/elb" = "1"
   }
 
   private_subnet_tags = {
+    "Tier"                            = "private"
     "kubernetes.io/role/internal-elb" = "1"
   }
 }
