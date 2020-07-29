@@ -1,6 +1,15 @@
 
 locals {
 
+  cluster_resource_labels_defaults = {
+    "name"        = var.name
+    "region"      = var.region
+    "environment" = var.environment
+    "costcenter"  = var.costcenter
+    "terraform"   = "true"
+  }
+  cluster_resource_labels = merge(local.cluster_resource_labels_defaults, var.cluster_resource_labels)
+
   cluster_addons_defaults = {
     horizontal_pod_autoscaling = true
     http_load_balancing        = true

@@ -40,6 +40,12 @@ variable "regional" {
   default     = false
 }
 
+variable "cluster_resource_labels" {
+  description = "The GCE resource labels (a map of key/value pairs) to be applied to the cluster"
+  type        = map(string)
+  default     = {}
+}
+
 variable "cluster_addons" {
   description = "List of addons to install on cluster"
   type        = map(string)
