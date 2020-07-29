@@ -10,7 +10,7 @@ module "gke" {
   kubernetes_version              = var.kubernetes_version
   release_channel                 = var.release_channel
   project_id                      = var.project_id
-  name                            = local.name
+  name                            = var.name
   region                          = var.region
   regional                        = var.regional
   zones                           = random_shuffle.zones.result
@@ -31,7 +31,7 @@ module "gke" {
   node_pools    = var.node_pools
   node_pools_labels = {
     all = {
-      "cluster"     = local.name
+      "cluster"     = var.name
       "environment" = var.environment
       "node"        = "managed"
       "costcenter"  = var.costcenter
@@ -41,7 +41,7 @@ module "gke" {
 
   node_pools_tags = {
     all = [
-      var.project_id, local.name, var.region
+      var.project_id, var.name, var.region
     ]
   }
 

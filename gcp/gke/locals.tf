@@ -1,6 +1,5 @@
 
 locals {
-  name = var.environment == "" ? var.name : "${var.name}-${var.environment}"
 
   cluster_addons_defaults = {
     horizontal_pod_autoscaling = true

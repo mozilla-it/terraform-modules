@@ -37,14 +37,14 @@ resource "google_service_account" "velero" {
   project      = var.project_id
   account_id   = local.sa_name
   display_name = local.sa_name
-  description  = "Service account for velero on cluster ${local.name}"
+  description  = "Service account for velero on cluster ${var.name}"
 }
 
 resource "google_project_iam_custom_role" "velero" {
   count       = local.cluster_features["velero"] ? 1 : 0
-  role_id     = "velero.server.${replace(local.name, "-", "_")}"
-  title       = "Velero Server ${local.name}"
-  description = "Custom role for velero on cluster ${local.name}"
+  role_id     = "velero.server.${replace(var.name, "-", "_")}"
+  title       = "Velero Server ${var.name}"
+  description = "Custom role for velero on cluster ${var.name}"
 
   permissions = [
     "compute.disks.get",
