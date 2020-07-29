@@ -108,5 +108,5 @@ locals {
 
   # if var.node_groups_subnets is supplied, we are using the default node pool. So we will append the subnets
 
-  node_groups = length(var.node_groups_subnets) > 0 ? merge(var.node_groups, merge(var.node_groups["default_node_group"], map("subnets", var.node_groups_subnets))) : var.node_groups
+  #node_groups = length(var.node_groups_subnets) > 0 ? merge(var.node_groups, merge(var.node_groups["default_node_group"], map("subnets", var.node_groups_subnets))) : var.node_groups
 }

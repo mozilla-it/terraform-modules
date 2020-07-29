@@ -47,13 +47,6 @@ variable "map_accounts" {
 variable "node_groups" {
   description = "Map of map of node groups to create."
   type        = map(object({}))
-  #  desired_capacity = number,
-  #  min_capacity     = number,
-  #  max_capacity     = number,
-  #  instance_type    = string,
-  #  disk_size        = number,
-  #  #subnets          = list(string)
-  #}))
 
   default = {
     default_node_group = {
