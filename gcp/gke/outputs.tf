@@ -5,6 +5,7 @@ output "name" {
 }
 
 output "endpoint" {
+  sensitive   = true
   description = "Cluster endpoint"
   value       = module.gke.endpoint
 }
@@ -32,4 +33,9 @@ output "node_pools_versions" {
 output "zones" {
   description = "List of zones in which the cluster resides"
   value       = module.gke.zones
+}
+
+output "kubeconfig" {
+  description = "Raw kubeconfig value"
+  value       = module.gke_auth.kubeconfig_raw
 }

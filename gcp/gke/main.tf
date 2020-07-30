@@ -55,6 +55,14 @@ module "gke" {
   }
 }
 
+module "gke_auth" {
+  source = "terraform-google-modules/kubernetes-engine/google//modules/auth"
+
+  project_id   = var.project_id
+  cluster_name = module.gke.name
+  location     = module.gke.location
+}
+
 resource "kubernetes_storage_class" "ssd" {
   metadata {
     name = "faster"
