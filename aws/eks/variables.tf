@@ -134,3 +134,8 @@ variable "external_secrets_secret_paths" {
   default     = ["*"]
 }
 
+variable "admin_users_arn" {
+  description = "List of ARNs to be mapped as a cluster global admins"
+  type        = list
+  default     = []
+}
