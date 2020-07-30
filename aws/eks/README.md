@@ -114,6 +114,7 @@ module "eks" {
 | `flux_settings`                | Map to customize or override default helm chart values for flux                                      | `{}          |
 | `log_retention`                | Number of days to retain log events                                                                  | `30`         |
 | `tags`                         | A map of tags to add to all resources.                                                               | `{}`         |
+| `admin_users_arn`              | A list of ARNs to be mapped as global cluster admins.                                                | `[]`         |
 
 ## Other documentation
 

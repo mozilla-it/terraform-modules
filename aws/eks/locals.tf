@@ -118,4 +118,15 @@ locals {
   }
 
   node_groups = length(var.node_groups) > 0 ? var.node_groups : local.default_node_groups
+
+  admin_users = [for role in var.admin_users_arn :
+    {
+      username = "cluster-admin",
+      rolearn  = role,
+      groups   = ["system:masters"]
+    }
+  ]
+
+  roles_expanded = length(local.admin_users) > 0 ? concat(local.admin_users, var.map_roles) : var.map_roles
+
 }

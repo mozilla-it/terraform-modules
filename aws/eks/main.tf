@@ -38,7 +38,7 @@ module "eks" {
   node_groups          = local.node_groups
   node_groups_defaults = local.node_groups_defaults
 
-  map_roles    = var.map_roles
+  map_roles    = local.roles_expanded
   map_users    = var.map_users
   map_accounts = var.map_accounts
 
