@@ -14,7 +14,7 @@ locals {
     "metrics_server"     = true
     "reloader"           = true
     "velero"             = true
-    "sealed_secrets"     = true
+    "sealed_secrets"     = false
     "aws_calico"         = false
     "alb_ingress"        = false
     "flux"               = false
