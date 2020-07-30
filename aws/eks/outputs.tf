@@ -53,3 +53,7 @@ output "cluster_oidc_issuer_url" {
 output "oidc_provider_arn" {
   value = module.eks.oidc_provider_arn
 }
+
+output "kubeconfig" {
+  value = module.eks.kubeconfig
+}
