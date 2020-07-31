@@ -93,3 +93,9 @@ variable "prometheus_settings" {
   type        = map(string)
   default     = {}
 }
+
+variable "external_secrets_settings" {
+  description = "Settings for external secrets helm chart"
+  type        = map(string)
+  default     = {}
+}
