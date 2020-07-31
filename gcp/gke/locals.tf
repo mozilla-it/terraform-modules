@@ -23,6 +23,7 @@ locals {
   cluster_features_defaults = {
     "velero"             = false
     "prometheus"         = false
+    "external_secrets"   = false
     "flux"               = false
     "flux_helm_operator" = false
   }
@@ -50,5 +51,14 @@ locals {
     "alertmanager.persistentVolume.size"         = "25Gi"
   }
   prometheus_settings = merge(local.prometheus_defaults, var.prometheus_settings)
+
+  external_secrets_defaults = {
+    "securityContext.fsGroup"                                       = "65534"
+    "env.POLLER_INTERVAL_MILLISECONDS"                              = "300000"
+    "serviceAccount.name"                                           = "kubernetes-external-secrets"
+    "serviceAccount.annotations.iam\\.gke\\.io/gcp-service-account" = "kubernetes-external-secrets@${var.project_id}.iam.gserviceaccount.com"
+
+  }
+  external_secrets_settings = merge(local.external_secrets_defaults, var.external_secrets_settings)
 
 }

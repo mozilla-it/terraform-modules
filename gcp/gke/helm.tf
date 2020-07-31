@@ -1,7 +1,8 @@
 locals {
-  helm_stable_repository       = "https://kubernetes-charts.storage.googleapis.com"
-  helm_incubator_repository    = "http://storage.googleapis.com/kubernetes-charts-incubator"
-  helm_vmware_tanzu_repository = "https://vmware-tanzu.github.io/helm-charts"
+  helm_stable_repository           = "https://kubernetes-charts.storage.googleapis.com"
+  helm_incubator_repository        = "http://storage.googleapis.com/kubernetes-charts-incubator"
+  helm_vmware_tanzu_repository     = "https://vmware-tanzu.github.io/helm-charts"
+  helm_external_secrets_repository = "https://godaddy.github.io/kubernetes-external-secrets"
 }
 
 resource "helm_release" "velero" {
@@ -22,4 +23,23 @@ resource "helm_release" "velero" {
   }
 
   depends_on = [module.gke]
+}
+
+resource "helm_release" "external_secrets" {
+  count      = local.cluster_features["external_secrets"] ? 1 : 0
+  name       = "kubernetes-external-secrets"
+  repository = local.helm_external_secrets_repository
+  chart      = "kubernetes-external-secrets"
+  namespace  = "kube-system"
+
+  dynamic "set" {
+    iterator = item
+    for_each = local.external_secrets_settings
+
+    content {
+      name  = item.key
+      value = item.value
+    }
+  }
+
 }
