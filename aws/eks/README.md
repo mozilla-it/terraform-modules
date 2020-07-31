@@ -21,35 +21,17 @@ locals {
   cluster_name    = "my-cluster"
   cluster_version = "1.16"
 
-  map_roles = [
-    {
-      username = "itsre-admin"
-      rolearn  = "arn:aws:iam::178589013767:role/itsre-admin"
-      groups   = ["system:masters"]
-    },
-	{
-	  username = "maws-admin"
-      rolearn  = "arn:aws:iam::517826968395:role/maws-admin"
-      groups   = ["system:masters"]
-	}
-  ]
-
   node_groups = {
     default-ng = {
       desired_capacity = 2
       max_capactiy     = 5
       min_capacity     = 2
       instance_type    = "t3.small"
-	  subnets          = data.terraform_remote_state.vpc.outputs.private_subnets
+      subnets          = data.terraform_remote_state.vpc.outputs.private_subnets
 
       k8s_labels = {
         Environment = "test"
         Node        = "managed"
-      }
-
-      additional_tags = {
-        "kubernetes.io/cluster/${local.cluster_name}" = "owned"
-        "k8s.io/cluster-autoscaler/enabled"           = "true"
       }
     }
   }
@@ -85,8 +67,8 @@ module "eks" {
   cluster_version = local.cluster_version
   vpc_id          = data.terraform_remote_state.vpc.outputs.vpc_id
   cluster_subnets = data.terraform_remote_state.vpc.outputs.public_subnets
-  map_roles       = local.map_roles
   node_groups     = local.node_groups
+  admin_users_arn = ["arn:aws:iam::0123456789:role/maws-admin", "arn:aws:iam::0123456789:role/itsre-admin"]
 }
 ```
 
