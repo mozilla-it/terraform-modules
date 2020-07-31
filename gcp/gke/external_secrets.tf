@@ -1,5 +1,4 @@
 
-# Less than ideal situation because we can't feature flag it
 module "external-secrets-workload-identity" {
   source      = "github.com/mozilla-it/terraform-modules//gcp/identity?ref=master"
   enabled     = local.cluster_features["external_secrets"]
