@@ -9,10 +9,10 @@ locals {
 
   prometheus_helm_defaults = {
     "server.persistentVolume.storageClass"       = lookup(local.storage_class, var.cloud_provider, "gp2")
-    "server.persistentVolume.size"               = "500Gi"
+    "server.persistentVolume.size"               = "20Gi"
     "server.retention"                           = "7d"
     "alertmanager.persistentVolume.storageClass" = lookup(local.storage_class, var.cloud_provider, "gp2")
-    "alertmanager.persistentVolume.size"         = "100Gi"
+    "alertmanager.persistentVolume.size"         = "5Gi"
   }
   prometheus_helm_settings = merge(local.prometheus_helm_defaults, var.prometheus_helm_settings)
 
