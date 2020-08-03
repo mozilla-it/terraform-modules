@@ -85,17 +85,6 @@ resource "helm_release" "velero" {
   depends_on = [module.eks]
 }
 
-resource "helm_release" "sealed_secrets" {
-  count      = var.create_eks && local.cluster_features["sealed_secrets"] ? 1 : 0
-  name       = "sealed-secrets"
-  repository = local.helm_stable_repository
-  chart      = "sealed-secrets"
-  namespace  = "kube-system"
-
-  # TODO: Figure out the downsides of this
-  skip_crds = true
-}
-
 # NOTE: Does not install the CRD, to install the crd run this
 # kubectl apply -k github.com/aws/eks-charts/stable/aws-calico//crds?ref=master -n kube-system
 resource "helm_release" "calico" {

@@ -6,10 +6,10 @@ by default, packages installed listed below:
  - `metrics-server` - metrics server we all know and love
  - `cluster-autoscaler` - Cluster autoscaler
  - `reloader` - Reloads a deployment when you update a configmap or secret
- - `sealed-secrets` - A controller that enables you check in secrets in git and the controller decrypts secrets
  - `flux` - This is an optional package and installs the flux package
  - `helm-operator` - This is an optional package and installs the flux helm operator
  - `kubernetes-external-secrets` - This is an optional package for transforming ASM secrets into Kubernetes secrets
+ - `prometheus` - Optional package to install prometheus metric server
 
 ## Usage
 Setting a node pool is optional, if omitted a default node pool will ber created.
