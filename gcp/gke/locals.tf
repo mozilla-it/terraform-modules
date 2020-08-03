@@ -43,15 +43,6 @@ locals {
   }
   velero_settings = merge(local.velero_defaults, var.velero_settings)
 
-  #NOTE: Consider setting up pd-ssd storage class
-  prometheus_defaults = {
-    "server.persistentVolume.storageClass"       = "standard" # Up for discussion
-    "server.persistentVolume.size"               = "50Gi"     # Without any idea of what normal is I'm just setting this as a random value
-    "alertmanager.persistentVolume.storageClass" = "standard"
-    "alertmanager.persistentVolume.size"         = "25Gi"
-  }
-  prometheus_settings = merge(local.prometheus_defaults, var.prometheus_settings)
-
   external_secrets_defaults = {
     "securityContext.fsGroup"                                       = "65534"
     "env.POLLER_INTERVAL_MILLISECONDS"                              = "300000"
