@@ -9,7 +9,7 @@ locals {
 
   prometheus_helm_defaults = {
     "server.persistentVolume.storageClass"       = lookup(local.storage_class, var.cloud_provider, "gp2")
-    "server.persistentVolume.size"               = "500Gi" # Without any idea of what normal is I'm just setting this as a random value
+    "server.persistentVolume.size"               = "500Gi"
     "server.retention"                           = "7d"
     "alertmanager.persistentVolume.storageClass" = lookup(local.storage_class, var.cloud_provider, "gp2")
     "alertmanager.persistentVolume.size"         = "100Gi"
