@@ -122,6 +122,12 @@ variable "alb_ingress_settings" {
   default     = {}
 }
 
+variable "prometheus_settings" {
+  description = "Customized or override prometheus helm chart values"
+  type        = map(string)
+  default     = {}
+}
+
 variable "external_secrets_settings" {
   description = "Customize or override kubernetes_external_secrets helm chart values"
   type        = map(string)
