@@ -31,13 +31,23 @@ resource "google_storage_bucket" "bucket" {
   }
 }
 
-# TODO: See if we can use https://github.com/terraform-google-modules/terraform-google-kubernetes-engine/tree/master/modules/workload-identity
-resource "google_service_account" "velero" {
-  count        = local.cluster_features["velero"] ? 1 : 0
-  project      = var.project_id
-  account_id   = local.sa_name
-  display_name = local.sa_name
-  description  = "Service account for velero on cluster ${var.name}"
+resource "google_storage_bucket_iam_binding" "object_admin" {
+  count  = local.cluster_features["velero"] ? 1 : 0
+  bucket = google_storage_bucket.bucket[0].name
+  role   = "roles/storage.objectAdmin"
+  members = [
+    module.velero_workload_identity.gcp_service_account_fqn
+  ]
+}
+
+module "velero_workload_identity" {
+  source                 = "github.com/mozilla-it/terraform-modules//gcp/identity?ref=master"
+  create_ksa             = false
+  additional_permissions = false
+  name                   = "velero"
+  namespace              = "velero"
+  gke_cluster            = module.gke.name
+  project_id             = var.project_id
 }
 
 resource "google_project_iam_custom_role" "velero" {
@@ -61,13 +71,6 @@ resource "google_project_iam_custom_role" "velero" {
 
 resource "google_project_iam_member" "velero" {
   count  = local.cluster_features["velero"] ? 1 : 0
-  member = "serviceAccount:${google_service_account.velero[0].email}"
+  member = module.velero_workload_identity.gcp_service_account_fqn
   role   = google_project_iam_custom_role.velero[0].id
-}
-
-resource "google_storage_bucket_iam_member" "velero_server" {
-  count  = local.cluster_features["velero"] ? 1 : 0
-  bucket = google_storage_bucket.bucket[0].name
-  member = "serviceAccount:${google_service_account.velero[0].email}"
-  role   = "roles/storage.objectAdmin"
 }

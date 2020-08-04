@@ -21,7 +21,7 @@ locals {
   cluster_addons = merge(local.cluster_addons_defaults, var.cluster_addons)
 
   cluster_features_defaults = {
-    "velero"             = false
+    "velero"             = true
     "prometheus"         = false
     "external_secrets"   = false
     "flux"               = false
@@ -30,16 +30,18 @@ locals {
   cluster_features = merge(local.cluster_features_defaults, var.cluster_features)
 
   velero_defaults = {
-    "configuration.provider"                             = "gcp"
-    "configuration.backupStorageLocation.name"           = "gcp"
-    "configuration.backupStorageLocation.bucket"         = local.cluster_features["velero"] ? google_storage_bucket.bucket[0].name : ""
-    "configuration.backupStorageLocation.config.region"  = var.region
-    "configuration.volumeSnapshotLocation.name"          = "gcp"
-    "configuration.volumeSnapshotLocation.config.region" = var.region
-    "initContainers[0].name"                             = "velero-plugin-for-gcp"
-    "initContainers[0].image"                            = "velero/velero-plugin-for-gcp:v1.0.1"
-    "initContainers[0].volumeMounts[0].mountPath"        = "/target"
-    "initContainers[0].volumeMounts[0].name"             = "plugins"
+    "credentials.useSecret"                                                = false
+    "configuration.provider"                                               = "gcp"
+    "configuration.backupStorageLocation.name"                             = "gcp"
+    "configuration.backupStorageLocation.bucket"                           = local.cluster_features["velero"] ? google_storage_bucket.bucket[0].name : ""
+    "configuration.backupStorageLocation.config.serviceAccount"            = module.velero_workload_identity.gcp_service_account_email
+    "configuration.volumeSnapshotLocation.name"                            = "gcp"
+    "initContainers[0].name"                                               = "velero-plugin-for-gcp"
+    "initContainers[0].image"                                              = "velero/velero-plugin-for-gcp:v1.0.1"
+    "initContainers[0].volumeMounts[0].mountPath"                          = "/target"
+    "initContainers[0].volumeMounts[0].name"                               = "plugins"
+    "serviceAccount.server.name"                                           = "velero"
+    "serviceAccount.server.annotations.iam\\.gke\\.io/gcp-service-account" = module.velero_workload_identity.gcp_service_account_email
   }
   velero_settings = merge(local.velero_defaults, var.velero_settings)
 

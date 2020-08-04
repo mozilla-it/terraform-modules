@@ -22,7 +22,12 @@ resource "helm_release" "velero" {
     }
   }
 
-  depends_on = [module.gke]
+  depends_on = [
+    module.gke,
+    module.velero_workload_identity,
+    google_storage_bucket.bucket,
+
+  ]
 }
 
 resource "helm_release" "external_secrets" {
@@ -41,5 +46,10 @@ resource "helm_release" "external_secrets" {
       value = item.value
     }
   }
+
+  depends_on = [
+    module.gke,
+    module.external-secrets-workload-identity
+  ]
 
 }
