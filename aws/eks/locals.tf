@@ -14,6 +14,7 @@ locals {
     "metrics_server"     = true
     "reloader"           = true
     "velero"             = true
+    "prometheus"         = false
     "aws_calico"         = false
     "alb_ingress"        = false
     "flux"               = false
