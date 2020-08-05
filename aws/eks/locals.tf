@@ -133,6 +133,8 @@ locals {
     "git.path"                  = "k8s/"
     "syncGarbageCollection.dry" = true
     "git.pollInterval"          = "2m"
+    "git.branch"                = "main"
+    "git.url"                   = "git@github.com:mozilla-it/${var.cluster_name}-infra"
   }
   flux_settings_expanded = merge(local.flux_settings_defaults, var.flux_settings)
 

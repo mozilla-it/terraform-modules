@@ -72,6 +72,28 @@ module "eks" {
 }
 ```
 
+## Cluster Add-ons
+### FluxCD
+FluxCD can be installed into the cluster by setting the cluster feature to true:
+```
+locals {
+  cluster_features = {
+    "flux" = true
+  }
+}
+```
+Flux configuration is performed by flags, this module exposes the next flags:
+```
+flux_settings_defaults = {
+  "git.path"                  = "k8s/"
+  "syncGarbageCollection.dry" = true
+  "git.pollInterval"          = "2m"
+  "git.branch"                = "main"
+  "git.url"                   = "git@github.com:mozilla-it/${var.cluster_name}-infra"
+}
+```
+Their default values are very opinionated towards Mozilla IT-SE best practices on how to configure clusters. If you are using this module ouside of Mozilla IT you most likely want to customize `git.url`, `git.path` and `git.branch`.
+
 ## Inputs
 
 | Name                           | Description                                                                                          | Default      |
