@@ -49,7 +49,7 @@ locals {
     "securityContext.fsGroup"                                       = "65534"
     "env.POLLER_INTERVAL_MILLISECONDS"                              = "300000"
     "serviceAccount.name"                                           = "kubernetes-external-secrets"
-    "serviceAccount.annotations.iam\\.gke\\.io/gcp-service-account" = "kubernetes-external-secrets@${var.project_id}.iam.gserviceaccount.com"
+    "serviceAccount.annotations.iam\\.gke\\.io/gcp-service-account" = module.external-secrets-workload-identity.gcp_service_account_email
 
   }
   external_secrets_settings = merge(local.external_secrets_defaults, var.external_secrets_settings)
