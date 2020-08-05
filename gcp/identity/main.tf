@@ -16,10 +16,11 @@ locals {
 }
 
 resource "google_service_account" "gsa" {
-  count      = var.enabled ? 1 : 0
-  account_id = var.name
-  project    = var.project_id
-  provider   = google-beta
+  count        = var.enabled ? 1 : 0
+  account_id   = var.name
+  display_name = substr("gsa bound to ksa for cluster ${var.gke_cluster}", 0, 100)
+  project      = var.project_id
+  provider     = google-beta
 }
 
 # NOTE: Consider moving this outside of this module?
