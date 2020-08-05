@@ -4,6 +4,7 @@ locals {
   helm_incubator_repository        = "http://storage.googleapis.com/kubernetes-charts-incubator"
   helm_vmware_tanzu_repository     = "https://vmware-tanzu.github.io/helm-charts"
   helm_external_secrets_repository = "https://godaddy.github.io/kubernetes-external-secrets"
+  helm_jetstack_repository         = "https://charts.jetstack.io"
 }
 
 resource "helm_release" "node_drain" {
@@ -134,4 +135,21 @@ resource "helm_release" "kubernetes_external_secrets" {
       value = item.value
     }
   }
+}
+
+resource "helm_release" "cert_manager" {
+  # CRDs have to be installed by hand, there is a drama about it in the community.
+  # TL;DR: Helm is not yet ready to upgrade CRDs and this can cause an outage.
+  # For more info read https://github.com/helm/helm/issues/7735
+  #
+  # Manually install CRDs with:
+  # kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.16.0/cert-manager.crds.yaml
+  count      = var.create_eks && local.cluster_features["cert_manager"] ? 1 : 0
+  name       = "cert-manager"
+  repository = local.helm_jetstack_repository
+  chart      = "cert-manager"
+  namespace  = "cert-manager"
+  version    = "v0.16.0"
+
+  depends_on = [module.eks]
 }

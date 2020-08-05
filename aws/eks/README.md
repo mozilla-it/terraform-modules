@@ -10,6 +10,7 @@ by default, packages installed listed below:
  - `helm-operator` - This is an optional package and installs the flux helm operator
  - `kubernetes-external-secrets` - This is an optional package for transforming ASM secrets into Kubernetes secrets
  - `prometheus` - Optional package to install prometheus metric server
+ - `cert-manager` - Install cert-manager via Helm Chart. Defaults to false
 
 ## Usage
 Setting a node pool is optional, if omitted a default node pool will ber created.
@@ -71,6 +72,22 @@ module "eks" {
   admin_users_arn = ["arn:aws:iam::0123456789:role/maws-admin", "arn:aws:iam::0123456789:role/itsre-admin"]
 }
 ```
+
+## Cluster Add-ons
+### cert-manager
+Installing cert-manager into a cluster is slightly different from other cluster add-ons.
+In order to add it, first the CRDs used by cert-manager have to be installed in the cluster by hand running:
+`kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.16.0/cert-manager.crds.yaml`
+
+After, proceed setting it to true as for all other addons:
+```
+locals {
+  cluster_features = {
+    "cert_manager"       = true
+  }
+}
+```
+This might change at some point. For more information about why this step is needed read [this](https://github.com/helm/helm/issues/7735).
 
 ## Inputs
 

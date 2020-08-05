@@ -20,6 +20,7 @@ locals {
     "flux"               = false
     "flux_helm_operator" = false
     "external_secrets"   = false
+    "cert_manager"       = false
   }
   cluster_features = merge(local.cluster_features_defaults, var.cluster_features)
 
