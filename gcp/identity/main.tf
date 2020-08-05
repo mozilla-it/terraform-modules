@@ -1,12 +1,17 @@
 locals {
 
+  # Sort of a hack, sometimes ksa and gsa are not the same, but we only reach have this scenario
+  # when we don't use this module to create the ksa. If we don't use this module to create the ksa
+  # then we should provide our own ksa name
+  ksa_name = var.create_ksa ? var.name : var.ksa_name
+
   # Shamelessly stolen from https://registry.terraform.io/modules/terraform-google-modules/kubernetes-engine/google/7.1.0/submodules/workload-identity
-  k8s_sa_gcp_derived_name = "serviceAccount:${var.project_id}.svc.id.goog[${var.namespace}/${var.name}]"
+  k8s_sa_gcp_derived_name = "serviceAccount:${var.project_id}.svc.id.goog[${var.namespace}/${local.ksa_name}]"
   gsa_email               = var.enabled ? google_service_account.gsa[0].email : ""
   gsa_fqdn                = var.enabled ? "serviceAccount:${google_service_account.gsa[0].email}" : null
 
   # This will cause terraform to block returning outputs until the service account is created
-  output_k8s_name      = var.create_ksa ? kubernetes_service_account.ksa[0].metadata[0].name : var.name
+  output_k8s_name      = var.create_ksa ? kubernetes_service_account.ksa[0].metadata[0].name : local.ksa_name
   output_k8s_namespace = var.create_ksa ? kubernetes_service_account.ksa[0].metadata[0].namespace : var.namespace
 }
 

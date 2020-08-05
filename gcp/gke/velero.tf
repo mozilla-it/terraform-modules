@@ -42,9 +42,11 @@ resource "google_storage_bucket_iam_binding" "object_admin" {
 
 module "velero_workload_identity" {
   source                 = "github.com/mozilla-it/terraform-modules//gcp/identity?ref=master"
+  enabled                = local.cluster_features["velero"]
   create_ksa             = false
   additional_permissions = false
-  name                   = "velero"
+  name                   = "velero-${module.gke.name}"
+  ksa_name               = "velero"
   namespace              = "velero"
   gke_cluster            = module.gke.name
   project_id             = var.project_id
