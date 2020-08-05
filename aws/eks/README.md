@@ -72,6 +72,16 @@ module "eks" {
 }
 ```
 
+## Cluster Add-ons
+### Kubernetes External Secrets
+[kubernetes-external-secrets](https://github.com/godaddy/kubernetes-external-secrets) allows mapping secrets stored in AWS Secrets Manager to Kubernetes secrets.
+ 
+In order to allow the process to fetch secrets from the cloud secret store, the setting `external_secrets_settings.secrets_path` has to have a prefix value where your secrets are stored. This value is then used to create a IAM role with the right permissions. 
+
+For example when deploying a cluster for a stage environment, it's a good practice to namespace all the secrets used by the applications in that environment with `/stage/`, so an application could store its secrets in `/stage/my-application/secrets`. In this case the `secrets_paths` variable should be set to `secrets_path = "/stage/*"`.
+
+If not set, this will take the default value `*` which will allow kubernetes-external-secrets fetch all secrets in the cluster region.
+
 ## Inputs
 
 | Name                           | Description                                                                                          | Default      |

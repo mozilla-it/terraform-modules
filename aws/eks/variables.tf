@@ -134,12 +134,6 @@ variable "external_secrets_settings" {
   default     = {}
 }
 
-variable "external_secrets_secret_paths" {
-  description = "Paths to allow the new AWS role to fecth secrets from"
-  type        = list
-  default     = ["*"]
-}
-
 variable "admin_users_arn" {
   description = "List of ARNs to be mapped as a cluster global admins"
   type        = list
