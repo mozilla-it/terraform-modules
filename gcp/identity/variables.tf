@@ -1,6 +1,8 @@
 variable "project_id" {}
 
-variable "name" {}
+variable "name" {
+  description = "Name of the google service account to create, optionally if `var.create_ksa` is set to `true` then the ksa will be the same as the gsa"
+}
 
 variable "gke_cluster" {}
 
@@ -24,4 +26,9 @@ variable "additional_permissions" {
   description = "Option to add additonal `secretmanager.secretAccessor` and `logging.logWriter` permission to SA"
   type        = bool
   default     = true
+}
+
+variable "ksa_name" {
+  description = "Name of kubernetes service account, only configure this value if `var.create_ksa` is set to false"
+  default     = ""
 }
