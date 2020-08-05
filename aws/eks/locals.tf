@@ -12,8 +12,8 @@ locals {
   cluster_features_defaults = {
     "cluster_autoscaler" = true
     "metrics_server"     = true
-    "reloader"           = true
     "velero"             = true
+    "reloader"           = false
     "prometheus"         = false
     "aws_calico"         = false
     "alb_ingress"        = false
@@ -52,7 +52,7 @@ locals {
   cluster_autoscaler_settings = merge(local.cluster_autoscaler_defaults, var.cluster_autoscaler_settings)
 
   reloader_defaults = {
-    "reloader.deployment.image.tag" = "v0.0.58"
+    "reloader.deployment.image.tag" = "v0.0.65"
   }
   reloader_settings = merge(local.reloader_defaults, var.reloader_settings)
 
