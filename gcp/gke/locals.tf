@@ -54,4 +54,11 @@ locals {
   }
   external_secrets_settings = merge(local.external_secrets_defaults, var.external_secrets_settings)
 
+  flux_defaults = {
+    "serviceAccount.create"                                         = "true"
+    "serviceAccount.name"                                           = "flux"
+    "serviceAccount.annotations.iam\\.gke\\.io/gcp-service-account" = module.flux-workload-identity.gcp_service_account_email
+  }
+  flux_settings = merge(local.flux_defaults, var.flux_settings)
+
 }
