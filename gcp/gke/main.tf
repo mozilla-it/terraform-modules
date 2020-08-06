@@ -75,3 +75,12 @@ resource "kubernetes_storage_class" "ssd" {
     type = "pd-ssd"
   }
 }
+
+resource "random_string" "random" {
+  length  = 4
+  lower   = true
+  number  = false
+  upper   = false
+  special = false
+}
+

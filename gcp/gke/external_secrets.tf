@@ -1,4 +1,4 @@
-
+#TODO: Remove this resource and use `random_string.random` instead
 resource "random_string" "external_secrets_suffix" {
   length  = 4
   lower   = true
