@@ -19,6 +19,7 @@ module "gke" {
   ip_range_pods                   = var.ip_range_pods
   ip_range_services               = var.ip_range_services
   remove_default_node_pool        = true
+  grant_registry_access           = true
   horizontal_pod_autoscaling      = local.cluster_addons["horizontal_pod_autoscaling"]
   http_load_balancing             = local.cluster_addons["http_load_balancing"]
   dns_cache                       = local.cluster_addons["dns_cache"]
