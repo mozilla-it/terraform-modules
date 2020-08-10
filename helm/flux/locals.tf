@@ -17,7 +17,6 @@ locals {
     "serviceAccount.name"           = "flux"
     "rbac.pspEnabled"               = true
     "syncGarbageCollection.enabled" = true
-    "syncGarbageCollection.dry"     = true
     "namespace"                     = "fluxcd"
   }
   flux_settings = merge(local.flux_defaults, var.flux_settings)
