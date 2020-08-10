@@ -12,8 +12,12 @@ locals {
 
   flux_defaults = {
     "git.ciSkip"                    = true
+    "git.pollInterval"              = "2m"
+    "serviceAccount.create"         = true
+    "serviceAccount.name"           = "flux"
     "rbac.pspEnabled"               = true
     "syncGarbageCollection.enabled" = true
+    "syncGarbageCollection.dry"     = true
     "namespace"                     = "fluxcd"
   }
   flux_settings = merge(local.flux_defaults, var.flux_settings)

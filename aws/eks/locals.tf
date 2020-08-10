@@ -130,9 +130,7 @@ locals {
   roles_expanded = length(local.admin_users) > 0 ? concat(local.admin_users, var.map_roles) : var.map_roles
 
   flux_settings_defaults = {
-    "git.path"                  = "k8s/"
-    "syncGarbageCollection.dry" = true
-    "git.pollInterval"          = "2m"
+    "git.path" = "k8s/"
   }
   flux_settings_expanded = merge(local.flux_settings_defaults, var.flux_settings)
 
