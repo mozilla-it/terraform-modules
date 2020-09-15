@@ -85,8 +85,37 @@ resource "helm_release" "velero" {
   depends_on = [module.eks]
 }
 
-# NOTE: Does not install the CRD, to install the crd run this
-# kubectl apply -k github.com/aws/eks-charts/stable/aws-calico//crds?ref=master -n kube-system
+resource "null_resource" "calico_crd" {
+  count = var.create_eks && local.cluster_features["aws_calico"] ? 1 : 0
+
+  provisioner "local-exec" {
+    working_dir = path.module
+    command     = <<EOF
+for i in `seq 1 10`; do
+  echo $kube_config | base64 --decode > kube_config.yaml & \
+  kubectl apply -k github.com/aws/eks-charts/stable/aws-calico//crds?ref=master --kubeconfig kube_config.yaml && break ||
+  sleep 10; \
+done;
+rm kube_config.yaml;
+EOF
+    interpreter = ["/bin/bash", "-c"]
+    environment = {
+      kube_config = base64encode(module.eks.kubeconfig)
+    }
+  }
+
+  triggers = {
+    endpoint       = module.eks.cluster_endpoint
+    calico_version = helm_release.calico[0].version
+  }
+
+  depends_on = [
+    module.eks,
+    helm_release.calico[0]
+  ]
+
+}
+
 resource "helm_release" "calico" {
   count      = var.create_eks && local.cluster_features["aws_calico"] ? 1 : 0
   name       = "aws-calico"
