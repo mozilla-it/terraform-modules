@@ -56,6 +56,7 @@ locals {
 
   flux_defaults = {
     "git.path"                                                      = "k8s/"
+    "serviceAccount.name"                                           = "flux"
     "serviceAccount.annotations.iam\\.gke\\.io/gcp-service-account" = module.flux-workload-identity.gcp_service_account_email
   }
   flux_settings = merge(local.flux_defaults, var.flux_settings)
