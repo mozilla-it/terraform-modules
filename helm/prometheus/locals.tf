@@ -1,5 +1,6 @@
 locals {
-  helm_stable_repository = "https://kubernetes-charts.storage.googleapis.com"
+  helm_stable_repository     = "https://kubernetes-charts.storage.googleapis.com"
+  helm_prometheus_repository = "https://prometheus-community.github.io/helm-charts"
 
   storage_class_defaults = {
     "aws" = "gp2"

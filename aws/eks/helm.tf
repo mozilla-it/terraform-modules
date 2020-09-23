@@ -4,6 +4,8 @@ locals {
   helm_incubator_repository        = "http://storage.googleapis.com/kubernetes-charts-incubator"
   helm_vmware_tanzu_repository     = "https://vmware-tanzu.github.io/helm-charts"
   helm_external_secrets_repository = "https://godaddy.github.io/kubernetes-external-secrets"
+  helm_bitnami_repository          = "https://charts.bitnami.com/bitnami"
+  helm_autoscaler_repository       = "https://kubernetes.github.io/autoscaler"
 }
 
 resource "helm_release" "node_drain" {
@@ -18,23 +20,13 @@ resource "helm_release" "node_drain" {
 resource "helm_release" "metrics_server" {
   count      = var.create_eks && local.cluster_features["metrics_server"] ? 1 : 0
   name       = "metrics-server"
-  repository = local.helm_stable_repository
+  repository = local.helm_bitnami_repository
   chart      = "metrics-server"
-  namespace  = "kube-system"
-
-  depends_on = [module.eks]
-}
-
-resource "helm_release" "cluster_autoscaler" {
-  count      = var.create_eks && local.cluster_features["cluster_autoscaler"] ? 1 : 0
-  name       = "cluster-autoscaler"
-  repository = local.helm_stable_repository
-  chart      = "cluster-autoscaler"
   namespace  = "kube-system"
 
   dynamic "set" {
     iterator = item
-    for_each = local.cluster_autoscaler_settings
+    for_each = local.metrics_server_settings
 
     content {
       name  = item.key
@@ -45,16 +37,16 @@ resource "helm_release" "cluster_autoscaler" {
   depends_on = [module.eks]
 }
 
-resource "helm_release" "reloader" {
-  count      = var.create_eks && local.cluster_features["reloader"] ? 1 : 0
-  name       = "reloader"
-  repository = local.helm_stable_repository
-  chart      = "reloader"
+resource "helm_release" "cluster_autoscaler" {
+  count      = var.create_eks && local.cluster_features["cluster_autoscaler"] ? 1 : 0
+  name       = "cluster-autoscaler"
+  repository = local.helm_autoscaler_repository
+  chart      = "cluster-autoscaler-chart"
   namespace  = "kube-system"
 
   dynamic "set" {
     iterator = item
-    for_each = local.reloader_settings
+    for_each = local.cluster_autoscaler_settings
 
     content {
       name  = item.key
