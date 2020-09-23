@@ -92,8 +92,8 @@ variable "cluster_autoscaler_settings" {
   default     = {}
 }
 
-variable "reloader_settings" {
-  description = "Customize reloader helm chart"
+variable "metrics_server_settings" {
+  description = "Metrics server settings"
   type        = map(string)
   default     = {}
 }
