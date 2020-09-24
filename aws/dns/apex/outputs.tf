@@ -7,7 +7,7 @@ output "delegation_set_id" {
 }
 
 output "zone_name" {
-  value = var.domain_name
+  value = var.domain
 }
 
 output "zone_id" {
