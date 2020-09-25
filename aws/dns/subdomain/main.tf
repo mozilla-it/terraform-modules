@@ -1,10 +1,17 @@
 
 resource "aws_route53_zone" "subdomain" {
-  name              = var.domain_name
-  delegation_set_id = var.delegation_set_id
+  name = var.domain
 
   tags = {
-    "Name"      = var.domain_name
+    "Name"      = var.domain
     "Terraform" = "true"
   }
+}
+
+resource "aws_route53_record" "ns" {
+  zone_id = var.apex_zone_id
+  name    = var.domain
+  type    = "NS"
+  ttl     = var.nsrecord_ttl
+  records = var.nameservers
 }

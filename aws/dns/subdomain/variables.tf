@@ -1,8 +1,18 @@
 
-variable "domain_name" {
+variable "domain" {
   description = "Name of subdomain"
 }
 
-variable "delegation_set_id" {
-  description = "Delegation set ID, we require this so create your apex domain with a delegation set id"
+variable "nsrecord_ttl" {
+  description = "TTL of NS record for subdomain"
+  default     = "30"
+}
+
+variable "apex_zone_id" {
+  description = "Zone id of apex domain"
+}
+
+variable "nameservers" {
+  description = "Nameservers to use for ns record"
+  type        = list(string)
 }
