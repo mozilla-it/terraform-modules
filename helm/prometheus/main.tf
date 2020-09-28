@@ -13,7 +13,7 @@ resource "kubernetes_namespace" "monitoring" {
 resource "helm_release" "prometheus" {
   count      = var.enabled ? 1 : 0
   name       = "prometheus"
-  repository = local.helm_stable_repository
+  repository = local.helm_prometheus_repository
   chart      = "prometheus"
   namespace  = var.namespace
 
