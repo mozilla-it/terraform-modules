@@ -6,6 +6,7 @@ locals {
   helm_external_secrets_repository = "https://godaddy.github.io/kubernetes-external-secrets"
   helm_bitnami_repository          = "https://charts.bitnami.com/bitnami"
   helm_autoscaler_repository       = "https://kubernetes.github.io/autoscaler"
+  helm_mozilla_repository          = "https://mozilla-it.github.io/helm-charts"
 }
 
 resource "helm_release" "node_drain" {
@@ -145,10 +146,32 @@ resource "helm_release" "kubernetes_external_secrets" {
 
   depends_on = [module.eks]
 
-
   dynamic "set" {
     iterator = item
     for_each = local.external_secrets_settings
+
+    content {
+      name  = item.key
+      value = item.value
+    }
+  }
+}
+
+resource "helm_release" "fluentd_papertrail" {
+  count      = var.create_eks && local.cluster_features["fluentd_papertrail"] && local.cluster_features["external_secrets"] ? 1 : 0
+  name       = "fluentd-papertrail"
+  repository = local.helm_mozilla_repository
+  chart      = "fluentd-papertrail"
+  namespace  = "kube-system"
+
+  depends_on = [
+    module.eks,
+    helm_release.kubernetes_external_secrets
+  ]
+
+  dynamic "set" {
+    iterator = item
+    for_each = local.fluentd_papertrail_settings
 
     content {
       name  = item.key
