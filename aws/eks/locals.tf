@@ -136,12 +136,12 @@ locals {
   }
   flux_settings_expanded = merge(local.flux_settings_defaults, var.flux_settings)
 
-  fluentd_papertail_defaults = {
+  fluentd_papertrail_defaults = {
     "externalSecrets.enabled"    = true
     "externalSecrets.provider"   = "aws"
     "externalSecrets.secretsKey" = "${module.eks.cluster_id}-papertrail"
     "secrets.name"               = "fluentd-papertrail"
   }
-  fluentd_papertrail_settings = merge(local.fluentd_papertail_defaults, var.fluentd_papertail_settings)
+  fluentd_papertrail_settings = merge(local.fluentd_papertrail_defaults, var.fluentd_papertrail_settings)
 
 }
