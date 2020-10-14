@@ -134,6 +134,12 @@ variable "external_secrets_settings" {
   default     = {}
 }
 
+variable "fluentd_papertrail_settings" {
+  description = "Customize fluentd papertrail helm chart"
+  type        = map(string)
+  default     = {}
+}
+
 variable "admin_users_arn" {
   description = "List of ARNs to be mapped as a cluster global admins"
   type        = list
