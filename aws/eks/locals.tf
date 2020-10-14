@@ -138,7 +138,7 @@ locals {
 
   fluentd_papertail_defaults = {
     "externalSecrets.enabled"    = true
-    "externalSecrets.provide"    = "aws"
+    "externalSecrets.provider"   = "aws"
     "externalSecrets.secretsKey" = "${module.eks.cluster_id}-papertrail"
     "secrets.name"               = "fluentd-papertrail"
   }
