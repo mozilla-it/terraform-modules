@@ -149,7 +149,7 @@ data "aws_iam_policy_document" "alb" {
 
 module "alb_ingress_role" {
   source                        = "terraform-aws-modules/iam/aws//modules/iam-assumable-role-with-oidc"
-  version                       = "~> v2.12.0"
+  version                       = "~> v2.21.0"
   create_role                   = var.create_eks && local.cluster_features["alb_ingress"]
   role_name                     = local.alb_ingress_name_prefix
   provider_url                  = replace(module.eks.cluster_oidc_issuer_url, "https://", "")
