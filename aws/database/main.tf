@@ -88,6 +88,7 @@ resource "aws_db_instance" "default" {
   performance_insights_retention_period = var.performance_insights_enabled == "false" ? 0 : var.performance_insights_retention
   snapshot_identifier                   = var.snapshot_identifier
   allow_major_version_upgrade           = var.allow_major_version_upgrade
+  auto_minor_version_upgrade            = var.allow_auto_minor_version_upgrade
 
   tags = merge(
     local.tags,

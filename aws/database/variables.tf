@@ -143,6 +143,11 @@ variable "custom_subnet" {
   default     = ""
 }
 
+variable "allow_auto_minor_version_upgrade" {
+  description = "If set to 'true' allows upgrading automatically to new minor engine versions during maintenance windows"
+  default     = "true"
+}
+
 variable "allow_major_version_upgrade" {
   description = "If set to 'true', it enables engine major version upgrades"
   default     = "false"
