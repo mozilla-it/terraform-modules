@@ -27,7 +27,7 @@ locals {
 
   cluster_autoscaler_name_prefix               = "${module.eks.cluster_id}-cluster-autoscaler-${var.region}"
   cluster_autoscaler_service_account_namespace = "kube-system"
-  cluster_autoscaler_service_account_name      = "cluster-autoscaler-aws-cluster-autoscaler-chart"
+  cluster_autoscaler_service_account_name      = "cluster-autoscaler-aws-cluster-autoscaler"
 
   # Maps k8s version to an image version
   cluster_autoscaler_versions = {
@@ -46,6 +46,7 @@ locals {
     "autoDiscovery.clusterName"                                      = module.eks.cluster_id
     "autoDiscovery.enabled"                                          = "true"
     "rbac.create"                                                    = "true"
+    "rbac.serviceAccount.name"                                       = local.cluster_autoscaler_service_account_name
     "rbac.serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn" = module.cluster_autoscaler_role.this_iam_role_arn
     "extraArgs.skip-nodes-with-system-pods"                          = "false"
     "extraArgs.balance-similar-node-groups"                          = "true"
