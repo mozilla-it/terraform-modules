@@ -13,13 +13,13 @@ locals {
     "cluster_autoscaler" = true
     "metrics_server"     = true
     "velero"             = true
+    "external_secrets"   = true
     "fluentd_papertrail" = false # discuss
     "prometheus"         = false
     "aws_calico"         = false
     "alb_ingress"        = false
     "flux"               = false
     "flux_helm_operator" = false
-    "external_secrets"   = false
   }
   cluster_features = merge(local.cluster_features_defaults, var.cluster_features)
 
