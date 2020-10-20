@@ -68,6 +68,21 @@ variable "worker_groups" {
   default     = []
 }
 
+variable "worker_additional_security_group_ids" {
+  description = "A list of additional security group ids to attach to worker instances"
+  default     = []
+}
+
+variable "worker_create_cluster_primary_security_group_rules" {
+  description = "Whether to create security group rules to allow communication between pods on workers and pods using the primary cluster security group."
+  default     = false
+}
+
+variable "worker_create_security_group" {
+  description = "Whether to create a security group for the workers or attach the workers to worker_security_group_id"
+  default     = true
+}
+
 variable "enable_logging" {
   default = false
 }
