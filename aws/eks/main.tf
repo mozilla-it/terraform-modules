@@ -38,6 +38,12 @@ module "eks" {
   node_groups          = local.node_groups
   node_groups_defaults = local.node_groups_defaults
 
+  # non-managed worker nodes
+  worker_groups                                      = var.worker_groups
+  worker_additional_security_group_ids               = var.worker_additional_security_group_ids
+  worker_create_cluster_primary_security_group_rules = var.worker_create_cluster_primary_security_group_rules
+  worker_create_security_group                       = var.worker_create_security_group
+
   map_roles    = local.roles_expanded
   map_users    = var.map_users
   map_accounts = var.map_accounts
