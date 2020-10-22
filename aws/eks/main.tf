@@ -35,7 +35,7 @@ module "eks" {
   vpc_id  = var.vpc_id
   subnets = var.cluster_subnets
 
-  node_groups          = local.node_groups
+  node_groups          = var.node_groups
   node_groups_defaults = local.node_groups_defaults
 
   # non-managed worker nodes

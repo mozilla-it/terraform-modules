@@ -5,7 +5,7 @@ variable "region" {
 variable "cluster_name" {}
 
 variable "cluster_version" {
-  default = "1.16"
+  default = "1.18"
 }
 
 variable "vpc_id" {}
@@ -46,15 +46,7 @@ variable "map_accounts" {
 
 variable "node_groups" {
   description = "Map of map of node groups to create."
-  type = map(object({
-    desired_capacity = number,
-    min_capacity     = number,
-    max_capacity     = number,
-    instance_type    = string,
-    disk_size        = number,
-    subnets          = list(string)
-  }))
-  default = {}
+  default     = {}
 }
 
 variable "node_groups_defaults" {
