@@ -122,19 +122,6 @@ locals {
   }
   node_groups_defaults = merge(local.node_groups_attributes, var.node_groups_defaults)
 
-  default_node_groups = {
-    default_node_group = {
-      desired_capacity = 3,
-      min_capacity     = 3,
-      max_capacity     = 10,
-      instance_type    = "t3.large",
-      disk_size        = 100,
-      subnets          = var.cluster_subnets
-    }
-  }
-
-  node_groups = length(var.node_groups) > 0 ? var.node_groups : local.default_node_groups
-
   admin_users = [for role in var.admin_users_arn :
     {
       username = "cluster-admin",

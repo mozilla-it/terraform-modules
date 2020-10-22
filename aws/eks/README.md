@@ -11,14 +11,12 @@ by default, packages installed listed below:
  - `prometheus` - Optional package to install prometheus metric server
 
 ## Usage
-Setting a node pool is optional, if omitted a default node pool will ber created.
-
 Example usage:
 
 ```bash
 locals {
   cluster_name    = "my-cluster"
-  cluster_version = "1.16"
+  cluster_version = "1.18"
 
   node_groups = {
     default-ng = {
