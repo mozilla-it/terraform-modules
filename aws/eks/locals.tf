@@ -61,20 +61,33 @@ locals {
   # Settings taken from
   # https://github.com/vmware-tanzu/helm-charts/tree/master/charts/velero
   velero_defaults = {
-    "configuration.provider"                                           = "aws"
-    "configuration.backupStorageLocation.name"                         = "aws"
+    "configuration.provider"                              = "aws"
+    "configuration.backupStorageLocation.name"            = "aws"
+    "configuration.backupStorageLocation.bucket"          = module.velero.bucket_name
+    "configuration.backupStorageLocation.config.region"   = var.region
+    "configuration.backupStorageLocation.config.kmsKeyId" = module.velero.velero_kms_key_id
+    "configuration.volumeSnapshotLocation.name"           = "aws"
+    "configuration.volumeSnapshotLocation.config.region"  = var.region
+    # We are repeating here because velero wants a default
+    # storage location
+    "configuration.backupStorageLocation.name"                         = "default"
     "configuration.backupStorageLocation.bucket"                       = module.velero.bucket_name
     "configuration.backupStorageLocation.config.region"                = var.region
     "configuration.backupStorageLocation.config.kmsKeyId"              = module.velero.velero_kms_key_id
-    "configuration.volumeSnapshotLocation.name"                        = "aws"
+    "configuration.volumeSnapshotLocation.name"                        = "default"
     "configuration.volumeSnapshotLocation.config.region"               = var.region
     "serviceAccount.server.name"                                       = "velero"
     "serviceAccount.server.annotations.eks\\.amazonaws\\.com/role-arn" = module.velero.velero_role_arn
     "securityContext.fsGroup"                                          = "65534"
     "initContainers[0].name"                                           = "velero-plugin-for-aws"
-    "initContainers[0].image"                                          = "velero/velero-plugin-for-aws:v1.0.1"
+    "initContainers[0].image"                                          = "velero/velero-plugin-for-aws:v1.1.0"
     "initContainers[0].volumeMounts[0].mountPath"                      = "/target"
     "initContainers[0].volumeMounts[0].name"                           = "plugins"
+    "schedules.daily.schedule"                                         = "0 0 * * *"
+    "schedules.daily.template.ttl"                                     = "720h0m0s"
+    "schedules.daily.template.storageLocation"                         = "aws"
+    "schedules.daily.template.includedNamespaces[0]"                   = "*"
+    "schedules.daily.template.volumeSnapshotLocations[0]"              = "aws"
   }
   velero_settings = merge(local.velero_defaults, var.velero_settings)
 
