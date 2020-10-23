@@ -10,6 +10,7 @@ resource "kubernetes_namespace" "cert_manager" {
 }
 
 resource "aws_iam_policy" "cert_manager" {
+  count       = var.cert_manager_enable_dns_challenge ? 1 : 0
   name_prefix = "${local.cert_manager_name_prefix}-policy-"
   path        = "/"
   description = "IAM Policy for cert-manager on ${var.cluster_id}"
