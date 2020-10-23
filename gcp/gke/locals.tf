@@ -22,8 +22,8 @@ locals {
 
   cluster_features_defaults = {
     "velero"             = true
+    "external_secrets"   = true
     "prometheus"         = false
-    "external_secrets"   = false
     "flux"               = false
     "flux_helm_operator" = false
   }
@@ -37,11 +37,16 @@ locals {
     "configuration.backupStorageLocation.config.serviceAccount"            = module.velero_workload_identity.gcp_service_account_email
     "configuration.volumeSnapshotLocation.name"                            = "gcp"
     "initContainers[0].name"                                               = "velero-plugin-for-gcp"
-    "initContainers[0].image"                                              = "velero/velero-plugin-for-gcp:v1.0.1"
+    "initContainers[0].image"                                              = "velero/velero-plugin-for-gcp:v1.1.0"
     "initContainers[0].volumeMounts[0].mountPath"                          = "/target"
     "initContainers[0].volumeMounts[0].name"                               = "plugins"
     "serviceAccount.server.name"                                           = "velero"
     "serviceAccount.server.annotations.iam\\.gke\\.io/gcp-service-account" = module.velero_workload_identity.gcp_service_account_email
+    "schedules.daily.schedule"                                             = "0 0 * * *"
+    "schedules.daily.template.ttl"                                         = "720h0m0s"
+    "schedules.daily.template.storageLocation"                             = "gcp"
+    "schedules.daily.template.volumeSnapshotLocations[0]"                  = "gcp"
+    "schedules.daily.template.includedNamespaces[0]"                       = "*"
   }
   velero_settings = merge(local.velero_defaults, var.velero_settings)
 
