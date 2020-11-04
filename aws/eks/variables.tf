@@ -101,7 +101,7 @@ variable "cluster_autoscaler_settings" {
 
 variable "metrics_server_settings" {
   description = "Metrics server settings"
-  type        = map(string)
+  type        = map(any)
   default     = {}
 }
 
