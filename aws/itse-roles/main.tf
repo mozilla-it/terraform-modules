@@ -1,6 +1,5 @@
 provider "aws" {
-  region  = var.region
-  version = "~> 2"
+  region = var.region
 }
 
 data "aws_iam_policy_document" "assume_role_policy" {
