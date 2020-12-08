@@ -149,6 +149,6 @@ variable "fluentd_papertrail_settings" {
 
 variable "admin_users_arn" {
   description = "List of ARNs to be mapped as a cluster global admins"
-  type        = list
+  type        = list(any)
   default     = []
 }

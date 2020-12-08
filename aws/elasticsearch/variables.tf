@@ -19,7 +19,7 @@ variable "ebs_volume_size" {
 }
 
 variable "subnet_ids" {
-  type    = list
+  type    = list(any)
   default = []
 }
 
