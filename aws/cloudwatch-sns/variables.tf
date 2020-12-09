@@ -31,6 +31,7 @@ variable "pagerduty_endpoint_discover" {
 variable "pagerduty_endpoint" {
   description = "Option to provide pagerduty endpoint instead of forcing ssm to auto discover it, this value is a secret and must be set if pagerduty_endpoint_discover is set to false"
   default     = ""
+  sensitive   = true
 }
 
 variable "tags" {

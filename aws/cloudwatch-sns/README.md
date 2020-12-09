@@ -9,12 +9,25 @@ Once you have the endpoint you have 2 option for this module, you place the inte
 $ aws ssm put-parameter --name "/cloudwatch_to_pagerduty/endpoint" --type SecureString --key-id alias/aws/ssm --value "https://events.pagerduty.com/integration/[INTEGRATION KEY]/enqueue"
 ```
 
-Or you can set it as an input argument in this terraform module. Caveat: If you do set it as an argument you must find a way to encrypt or hide the integration endpoint as it contains the integration key
+Or you can set it as an input argument in this terraform module. Caveat: If you do set it as an argument you must find a way to encrypt or hide the integration endpoint as it contains the integration key, the input argument is called `pagerduty_endpoint`
 
 ## Usage
+Using module with integration endpoint auto discovery
+
 ```hcl
 module "sns" {
   source     = "github.com/mozilla-it/terraform-modules//aws/cloudwatch-sns?ref=master"
   topic_name = "cloudwatch-to-pd"
+}
+```
+
+Example of setting the `pagerduty_endpoint` as an argument and not use AWS SSM
+
+```hcl
+module "sns" {
+  source                      = "github.com/mozilla-it/terraform-modules//aws/cloudwatch-sns?ref=master"
+  topic_name                  = "cloudwatch-to-pd"
+  pagerduty_endpoint_discover = false
+  pagerduty_endpoint          = "https://events.pagerduty.com/integration/[INTEGRATION KEY]/enqueue"
 }
 ```
