@@ -42,7 +42,7 @@ resource "helm_release" "cluster_autoscaler" {
   count      = var.create_eks && local.cluster_features["cluster_autoscaler"] ? 1 : 0
   name       = "cluster-autoscaler"
   repository = local.helm_autoscaler_repository
-  chart      = "cluster-autoscaler-chart"
+  chart      = "cluster-autoscaler"
   namespace  = "kube-system"
 
   dynamic "set" {
