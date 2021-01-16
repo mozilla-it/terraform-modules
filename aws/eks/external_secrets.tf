@@ -22,7 +22,7 @@ data "aws_iam_policy_document" "external_secrets" {
 
 module "external_secrets" {
   source                        = "terraform-aws-modules/iam/aws//modules/iam-assumable-role-with-oidc"
-  version                       = "~> v2.21.0"
+  version                       = "~> v3.6.0"
   create_role                   = var.create_eks && local.cluster_features["external_secrets"]
   role_name                     = local.external_secrets_role_name
   provider_url                  = replace(module.eks.cluster_oidc_issuer_url, "https://", "")
