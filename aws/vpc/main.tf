@@ -29,7 +29,7 @@ locals {
 
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
-  version = "2.57.0"
+  version = "2.70.0"
 
   create_vpc             = var.enable_vpc
   name                   = var.name
@@ -70,3 +70,7 @@ module "vpc" {
   }
 }
 
+data "aws_vpc_endpoint_service" "s3" {
+  service      = "s3"
+  service_type = "Gateway"
+}
