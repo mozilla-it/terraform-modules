@@ -27,19 +27,17 @@ resource "random_password" "password" {
 }
 
 resource "aws_ssm_parameter" "secret" {
-  count  = var.password_store == "ssm" ? var.enabled ? 1 : 0 : 0
-  name   = local.password_path
-  type   = "SecureString"
-  key_id = "aws/ssm"
-  value  = random_password.password[0].result
-  tags   = merge({ "Name" = var.service_name }, local.default_tags)
+  count = var.password_store == "ssm" ? var.enabled ? 1 : 0 : 0
+  name  = local.password_path
+  type  = "SecureString"
+  value = random_password.password[0].result
+  tags  = merge({ "Name" = var.service_name }, local.default_tags)
 }
 
 resource "aws_secretsmanager_secret" "secret" {
-  count      = var.password_store == "secretsmanager" ? var.enabled ? 1 : 0 : 0
-  name       = local.password_path
-  kms_key_id = "aws/secretsmanager"
-  tags       = merge({ "Name" = var.service_name }, local.default_tags)
+  count = var.password_store == "secretsmanager" ? var.enabled ? 1 : 0 : 0
+  name  = local.password_path
+  tags  = merge({ "Name" = var.service_name }, local.default_tags)
 }
 
 resource "aws_secretsmanager_secret_version" "secret" {
