@@ -2,6 +2,14 @@ provider "aws" {
   region = var.region
 }
 
+locals {
+  default_tags = {
+    Name      = "itsre-admin"
+    Purpose   = "IT SRE delegated role"
+    Terraform = "true"
+  }
+}
+
 data "aws_iam_policy_document" "assume_role_policy" {
   statement {
     actions = ["sts:AssumeRole"]
@@ -18,12 +26,7 @@ resource "aws_iam_role" "admin_role" {
   description          = "IT SRE Delegated Admin role"
   max_session_duration = var.max_session_duration
   assume_role_policy   = data.aws_iam_policy_document.assume_role_policy.json
-
-  tags = {
-    Name      = "itsre-admin"
-    Purpose   = "IT SRE delegated role"
-    Terraform = "true"
-  }
+  tags                 = merge({ "Name" = "itsre-admin" }, local.default_tags)
 }
 
 resource "aws_iam_role" "readonly_role" {
@@ -31,12 +34,7 @@ resource "aws_iam_role" "readonly_role" {
   description          = "IT SRE Delegated Readonly role"
   max_session_duration = var.max_session_duration
   assume_role_policy   = data.aws_iam_policy_document.assume_role_policy.json
-
-  tags = {
-    Name      = "itsre-admin"
-    Purpose   = "IT SRE delegated role"
-    Terraform = "true"
-  }
+  tags                 = merge({ "Name" = "itsre-readonly" }, local.default_tags)
 }
 
 resource "aws_iam_role" "poweruser_role" {
@@ -44,12 +42,7 @@ resource "aws_iam_role" "poweruser_role" {
   description          = "IT SRE Delegated PowerUser role"
   max_session_duration = var.max_session_duration
   assume_role_policy   = data.aws_iam_policy_document.assume_role_policy.json
-
-  tags = {
-    Name      = "itsre-admin"
-    Purpose   = "IT SRE delegated role"
-    Terraform = "true"
-  }
+  tags                 = merge({ "Name" = "itsre-poweruser" }, local.default_tags)
 }
 
 resource "aws_iam_role_policy_attachment" "admin_attach" {
