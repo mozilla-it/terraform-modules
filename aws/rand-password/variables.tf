@@ -13,6 +13,11 @@ variable "keyname" {
   default     = "password"
 }
 
+variable "password_path" {
+  description = "The path to place the password in ssm or secretsmanager"
+  default     = ""
+}
+
 variable "password_config" {
   description = "Password config map"
   type        = map(string)

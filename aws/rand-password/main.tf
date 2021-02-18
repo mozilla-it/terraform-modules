@@ -1,6 +1,6 @@
 
 locals {
-  password_path = "/${var.environment}/${var.service_name}/${var.keyname}"
+  password_path = var.password_path == "" ? "/${var.environment}/${var.service_name}/${var.keyname}" : var.password_path
 
   password_defaults = {
     length      = "24"
