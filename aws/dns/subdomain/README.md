@@ -10,9 +10,9 @@ module "example_com" {
 }
 
 module "foo_example_com" {
-  source            = "github.com/mozilla-it/terraform-modules//aws/dns/subdomain?ref=master"
-  domain            = "foo.example.com"
-  apex_zone_zone_id = module.example_com.zone_id
-  nameservers       = module.example_com.delegation_set_ns
+  source       = "github.com/mozilla-it/terraform-modules//aws/dns/subdomain?ref=master"
+  domain	   = "foo.example.com"
+  apex_zone_id = module.example_com.zone_id
+  nameservers  = module.example_com.delegation_set_ns
 }
 ```
