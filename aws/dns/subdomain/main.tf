@@ -13,5 +13,7 @@ resource "aws_route53_record" "ns" {
   name    = var.domain
   type    = "NS"
   ttl     = var.nsrecord_ttl
-  records = var.nameservers
+  records = aws_route53_zone.subdomain.name_servers
+
+  depends_on = [aws_route53_zone.subdomain]
 }
