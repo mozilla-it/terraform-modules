@@ -11,8 +11,3 @@ variable "nsrecord_ttl" {
 variable "apex_zone_id" {
   description = "Zone id of apex domain"
 }
-
-variable "nameservers" {
-  description = "Nameservers to use for ns record"
-  type        = list(string)
-}
