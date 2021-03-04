@@ -7,6 +7,10 @@ output "vpc_id" {
   value = data.aws_vpc.this.id
 }
 
+output "vpc_cidr_block" {
+  value = data.aws_vpc.this.cidr_block
+}
+
 output "public_subnets" {
   value = data.aws_subnet_ids.public.ids
 }
