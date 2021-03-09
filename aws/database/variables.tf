@@ -95,7 +95,7 @@ variable "parameter_group_name" {
 }
 
 variable "backup_retention_period" {
-  default = 0
+  default = 30
 }
 
 variable "replica_enabled" {
