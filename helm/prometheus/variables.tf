@@ -29,3 +29,9 @@ variable "prometheus_helm_settings" {
   type        = map(string)
   default     = {}
 }
+
+variable "influxdb" {
+  description = "A switch to set the default settings for influx"
+  type        = bool
+  default     = false
+}

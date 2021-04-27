@@ -9,11 +9,13 @@ locals {
     var.tags,
   )
 
+
   cluster_features_defaults = {
     "cluster_autoscaler" = true
     "metrics_server"     = true
     "velero"             = true
     "external_secrets"   = true
+    "configmapsecrets"   = true
     "fluentd_papertrail" = false # discuss
     "prometheus"         = false
     "aws_calico"         = false
@@ -21,6 +23,8 @@ locals {
     "flux"               = false
     "flux_helm_operator" = false
   }
+
+
   cluster_features = merge(local.cluster_features_defaults, var.cluster_features)
 
   cluster_log_type = var.enable_logging ? ["api", "audit", "authenticator", "controllerManager", "scheduler"] : []
@@ -144,5 +148,12 @@ locals {
     "secrets.name"               = "fluentd-papertrail"
   }
   fluentd_papertrail_settings = merge(local.fluentd_papertrail_defaults, var.fluentd_papertrail_settings)
+
+  prometheus_customization_defaults = {
+    "influxdb.enabled" = "True"
+    "prom.clustername" = module.eks.cluster_id
+  }
+
+  prometheus_customization_settings = merge(local.prometheus_customization_defaults, var.prometheus_customization_settings)
 
 }

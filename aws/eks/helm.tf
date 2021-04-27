@@ -157,6 +157,13 @@ resource "helm_release" "kubernetes_external_secrets" {
   }
 }
 
+module "configmapsecrets" {
+  source                         = "github.com/mozilla-it/terraform-modules//helm/configmapsecrets?ref=master"
+  enabled                        = local.cluster_features["configmapsecrets"]
+  configmapsecrets_helm_settings = var.configmapsecrets_settings
+}
+
+
 resource "helm_release" "fluentd_papertrail" {
   count      = var.create_eks && local.cluster_features["fluentd_papertrail"] && local.cluster_features["external_secrets"] ? 1 : 0
   name       = "fluentd-papertrail"
@@ -179,3 +186,4 @@ resource "helm_release" "fluentd_papertrail" {
     }
   }
 }
+
