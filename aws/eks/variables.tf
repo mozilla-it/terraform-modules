@@ -135,6 +135,18 @@ variable "prometheus_settings" {
   default     = {}
 }
 
+variable "prometheus_customization_settings" {
+  description = "Customized or override prometheus helm chart values"
+  type        = map(string)
+  default     = {}
+}
+
+variable "configmapsecrets_settings" {
+  description = "Customized or override configmapsecrets helm chart values"
+  type        = map(string)
+  default     = {}
+}
+
 variable "external_secrets_settings" {
   description = "Customize or override kubernetes_external_secrets helm chart values"
   type        = map(string)
@@ -151,4 +163,10 @@ variable "admin_users_arn" {
   description = "List of ARNs to be mapped as a cluster global admins"
   type        = list(any)
   default     = []
+}
+
+variable "influxdb" {
+  description = "A switch to set the default settings for influx"
+  type        = bool
+  default     = false
 }
