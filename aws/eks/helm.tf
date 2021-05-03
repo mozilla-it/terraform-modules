@@ -158,7 +158,7 @@ resource "helm_release" "kubernetes_external_secrets" {
 }
 
 module "configmapsecrets" {
-  count = local.cluster_features["configmapsecrets"] ? 1 : 0
+  count                          = local.cluster_features["configmapsecrets"] ? 1 : 0
   source                         = "../../helm/configmapsecrets/"
   configmapsecrets_helm_settings = var.configmapsecrets_settings
 }
