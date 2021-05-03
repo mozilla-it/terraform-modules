@@ -15,7 +15,7 @@ locals {
     "metrics_server"     = true
     "velero"             = true
     "external_secrets"   = true
-    "configmapsecrets"   = true
+    "configmapsecrets"   = false
     "fluentd_papertrail" = false # discuss
     "prometheus"         = false
     "aws_calico"         = false

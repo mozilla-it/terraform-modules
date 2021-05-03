@@ -1,6 +1,4 @@
-variable "enabled" {
-  default = true
-}
+
 
 variable "create_namespace" {
   description = "Flag to create namespace or use existing namespace"
