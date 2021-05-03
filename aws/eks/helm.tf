@@ -158,7 +158,7 @@ resource "helm_release" "kubernetes_external_secrets" {
 }
 
 module "configmapsecrets" {
-  source                         = "github.com/mozilla-it/terraform-modules//helm/configmapsecrets?ref=master"
+  source                         = "../../helm/configmapsecrets/"
   enabled                        = local.cluster_features["configmapsecrets"]
   configmapsecrets_helm_settings = var.configmapsecrets_settings
 }
