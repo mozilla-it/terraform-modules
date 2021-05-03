@@ -1,6 +1,6 @@
 
 resource "kubernetes_namespace" "configmapsecrets" {
-  count = var.enabled && var.create_namespace ? 1 : 0
+  count = var.create_namespace ? 1 : 0
   metadata {
     name = var.namespace
 
@@ -11,7 +11,6 @@ resource "kubernetes_namespace" "configmapsecrets" {
 }
 
 resource "helm_release" "configmapsecrets" {
-  count      = var.enabled ? 1 : 0
   name       = "configmapsecrets"
   repository = local.helm_configmapsecrets_repository
   chart      = "configmapsecrets"
