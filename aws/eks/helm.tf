@@ -44,6 +44,7 @@ resource "helm_release" "cluster_autoscaler" {
   repository = local.helm_autoscaler_repository
   chart      = "cluster-autoscaler"
   namespace  = "kube-system"
+  version    = "9.9.2"
 
   dynamic "set" {
     iterator = item
