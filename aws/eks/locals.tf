@@ -22,6 +22,7 @@ locals {
     "alb_ingress"        = false
     "flux"               = false
     "flux_helm_operator" = false
+    "k8s_rbac_view"      = false
   }
 
 
