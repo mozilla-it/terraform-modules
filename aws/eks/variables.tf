@@ -153,6 +153,12 @@ variable "external_secrets_settings" {
   default     = {}
 }
 
+variable "external_secrets_paths" {
+  description = "External Secrets paths (in AWS or GCP)"
+  type        = list(string)
+  default     = ["*"]
+}
+
 variable "fluentd_papertrail_settings" {
   description = "Customize fluentd papertrail helm chart"
   type        = map(string)
