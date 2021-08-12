@@ -5,7 +5,7 @@ data "aws_iam_policy_document" "external_secrets" {
     ]
 
     resources = [
-      for secrets_path in var.external_secrets_paths :
+      for secrets_path in local.external_secrets_paths :
       "arn:aws:secretsmanager:${var.region}:${data.aws_caller_identity.current.account_id}:secret:${secrets_path}"
     ]
   }

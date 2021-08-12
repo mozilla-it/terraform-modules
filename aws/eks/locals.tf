@@ -111,8 +111,14 @@ locals {
     "securityContext.fsGroup"                                   = "65534"
     "serviceAccount.name"                                       = "kubernetes-external-secrets"
     "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn" = module.external_secrets.this_iam_role_arn
+    "secrets_path"                                              = "*"
   }
   external_secrets_settings = merge(local.external_secrets_defaults, var.external_secrets_settings)
+
+  external_secrets_paths = try(
+    [tostring(local.external_secrets_settings["secrets_path"])],
+    tolist(local.external_secrets_settings["secrets_path"]),
+  )
 
   node_groups_attributes = {
     k8s_labels = {
