@@ -149,7 +149,10 @@ resource "helm_release" "kubernetes_external_secrets" {
 
   dynamic "set" {
     iterator = item
-    for_each = local.external_secrets_settings
+    for_each = {
+      for k, v in local.external_secrets_settings : k => v
+      if k != "secrets_path"
+    }
 
     content {
       name  = item.key
