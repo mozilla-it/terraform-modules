@@ -149,14 +149,8 @@ variable "configmapsecrets_settings" {
 
 variable "external_secrets_settings" {
   description = "Customize or override kubernetes_external_secrets helm chart values"
-  type        = map(string)
+  type        = map(any)
   default     = {}
-}
-
-variable "external_secrets_prefixes" {
-  description = "Set kubernetes_external_secrets role permissions to access AWS Secrets prefixes"
-  type        = list(string)
-  default     = ["*"]
 }
 
 variable "fluentd_papertrail_settings" {

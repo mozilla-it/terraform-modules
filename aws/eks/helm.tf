@@ -152,8 +152,11 @@ resource "helm_release" "kubernetes_external_secrets" {
     for_each = local.external_secrets_settings
 
     content {
-      name  = item.key
-      value = item.value
+      name = item.key
+      value = try(
+        tostring(join(", ", item.value)),
+        tostring(item.value),
+      )
     }
   }
 }
