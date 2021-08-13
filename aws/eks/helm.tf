@@ -149,14 +149,14 @@ resource "helm_release" "kubernetes_external_secrets" {
 
   dynamic "set" {
     iterator = item
-    for_each = local.external_secrets_settings
+    for_each = {
+      for key, value in local.external_secrets_settings :
+      key => value if key != "secrets_path"
+    }
 
     content {
-      name = item.key
-      value = try(
-        tostring(join(", ", item.value)),
-        tostring(item.value),
-      )
+      name  = item.key
+      value = item.value
     }
   }
 }
