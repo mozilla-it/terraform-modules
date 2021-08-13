@@ -153,6 +153,12 @@ variable "external_secrets_settings" {
   default     = {}
 }
 
+variable "external_secrets_prefixes" {
+  description = "Set kubernetes_external_secrets role permissions to access AWS Secrets prefixes"
+  type        = list(string)
+  default     = ["*"]
+}
+
 variable "fluentd_papertrail_settings" {
   description = "Customize fluentd papertrail helm chart"
   type        = map(string)
