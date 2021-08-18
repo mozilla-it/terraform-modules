@@ -20,13 +20,7 @@ locals {
   }
   cluster_addons = merge(local.cluster_addons_defaults, var.cluster_addons)
 
-  cluster_features_defaults = {
-    "velero"             = true
-    "external_secrets"   = true
-    "prometheus"         = false
-    "flux"               = false
-    "flux_helm_operator" = false
-  }
+  cluster_features_defaults = {}
   cluster_features = merge(local.cluster_features_defaults, var.cluster_features)
 
   velero_defaults = {
