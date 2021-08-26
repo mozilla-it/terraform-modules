@@ -9,7 +9,7 @@ locals {
     upper       = true
     min_numeric = 2
   }
-  password_config = merge(var.password_config, local.password_defaults)
+  password_config = merge(local.password_defaults, var.password_config)
 
   default_tags = {
     Environment = var.environment
