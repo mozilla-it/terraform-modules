@@ -89,6 +89,7 @@ resource "aws_db_instance" "default" {
   snapshot_identifier                   = var.snapshot_identifier
   allow_major_version_upgrade           = var.allow_major_version_upgrade
   auto_minor_version_upgrade            = var.allow_auto_minor_version_upgrade
+  character_set_name                    = var.character_set_name
 
   tags = merge(
     local.tags,

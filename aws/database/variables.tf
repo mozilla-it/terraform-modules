@@ -157,3 +157,8 @@ variable "replica_allow_major_version_upgrade" {
   description = "If set to 'true', it enables engine major version upgrades for replica DB"
   default     = "false"
 }
+
+variable "character_set_name" {
+  description = "Character Set Name for the Database."
+  default     = ""
+}
