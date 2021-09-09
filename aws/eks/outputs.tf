@@ -26,6 +26,10 @@ output "worker_asg_names" {
   value = module.eks.workers_asg_names
 }
 
+output "worker_iam_role_name" {
+  value = module.eks.worker_iam_role_name
+}
+
 output "worker_iam_role_arn" {
   value = module.eks.worker_iam_role_arn
 }
