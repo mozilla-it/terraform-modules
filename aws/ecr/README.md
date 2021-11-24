@@ -14,11 +14,14 @@ module "ecr" {
 ## Inputs
 Here are the inputs
 
-| Inputs            | Description                                                                                               |
-| ------------------|-----------------------------------------------------------------------------------------------------------|
-| `repo_name`       | Name of ECR Repo                                                                                          |
-| `create_user`     | (Optional) Create a role so that your CI system has permissions to push to the repo (default: `true`)     |
-| `ecr_expire`      | (Optional) Creates a lifecycle rule to delete images after a certain number of days (default: `false`)    |
+| Inputs              | Description                                                                                               |
+| --------------------|-----------------------------------------------------------------------------------------------------------|
+| `repo_name`         | Name of ECR Repo                                                                                          |
+| `create_user`       | (Optional) Create a user so that your CI system has permissions to push to the repo (default: `true`)     |
+| `ecr_expire`        | (Optional) Creates a lifecycle rule to delete images after a certain number of days (default: `false`)    |
+| `create_gha_role`   | (Optional) Creates IAM role for Github Actions (default: `false`)                                         |
+| `gha_subs`          | (Optional) The fully qualified OIDC subjects to be added to the role policy  (default: `[]`)              |
+| `gha_sub_wildcards` | (Optional) The OIDC subject using wildcards to be added to the role policy  (default: `[]`)               |
 
 
 ## Outputs
@@ -33,3 +36,4 @@ List of outputs
 | `ecr_iam_user`                |
 | `ecr_iam_access_key`          |
 | `ecr_iam_secret_access_key`   |
+| `ecr_iam_role_arn`            |
