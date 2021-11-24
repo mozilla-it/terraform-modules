@@ -1,8 +1,10 @@
 locals {
-  ecr_expire      = var.ecr_expire ? 1 : 0
-  ecr_create_user = var.create_user ? 1 : 0
+  ecr_expire          = var.ecr_expire ? 1 : 0
+  ecr_create_user     = var.create_user ? 1 : 0
+  ecr_create_gha_role = var.create_gha_role ? 1 : 0
 }
 
+# ECR
 resource "aws_ecr_repository" "this" {
   name = var.repo_name
 
@@ -42,29 +44,6 @@ resource "aws_ecr_lifecycle_policy" "this" {
 EOF
 }
 
-resource "aws_iam_user" "this" {
-  count = local.ecr_create_user
-  name  = "ecr-${var.repo_name}-iam"
-
-  tags = {
-    Name      = "ecr-${var.repo_name}-iam"
-    Terraform = "true"
-  }
-}
-
-resource "aws_iam_access_key" "this" {
-  count = local.ecr_create_user
-  user  = aws_iam_user.this[0].name
-}
-
-## TODO: Instead of giving the user direct policies, we should instead use a role
-resource "aws_iam_user_policy" "this" {
-  count  = local.ecr_create_user
-  name   = "ecr-${var.repo_name}-access"
-  user   = aws_iam_user.this[0].name
-  policy = data.aws_iam_policy_document.repo_access.json
-}
-
 data "aws_iam_policy_document" "repo_access" {
   statement {
     sid    = "GetAuthorizationToken"
@@ -94,5 +73,61 @@ data "aws_iam_policy_document" "repo_access" {
     resources = [
       aws_ecr_repository.this.arn,
     ]
+  }
+}
+
+# IAM user
+resource "aws_iam_user" "this" {
+  count = local.ecr_create_user
+  name  = "ecr-${var.repo_name}-iam"
+
+  tags = {
+    Name      = "ecr-${var.repo_name}-iam"
+    Terraform = "true"
+  }
+}
+
+resource "aws_iam_access_key" "this" {
+  count = local.ecr_create_user
+  user  = aws_iam_user.this[0].name
+}
+
+resource "aws_iam_user_policy" "this" {
+  count  = local.ecr_create_user
+  name   = "ecr-${var.repo_name}-access"
+  user   = aws_iam_user.this[0].name
+  policy = data.aws_iam_policy_document.repo_access.json
+}
+
+
+# Github Actions IAM Role
+resource "aws_iam_policy" "this" {
+  count = local.ecr_create_gha_role
+  name  = "ecr-${var.repo_name}-iam"
+
+  policy = data.aws_iam_policy_document.repo_access.json
+
+}
+
+module "iam_assumable_role_github_actions" {
+  count  = local.ecr_create_gha_role
+  source = "terraform-aws-modules/iam/aws//modules/iam-assumable-role-with-oidc"
+
+  create_role = true
+
+  role_name = "ecr-${var.repo_name}-iam"
+
+  provider_url = "https://token.actions.githubusercontent.com"
+
+  role_policy_arns = [
+    aws_iam_policy.this[0].arn
+  ]
+
+  oidc_fully_qualified_subjects = var.gha_subs
+  oidc_subjects_with_wildcards  = var.gha_sub_wildcards
+
+  tags = {
+    Name      = "ecr-${var.repo_name}-iam"
+    Terraform = "true"
   }
 }
