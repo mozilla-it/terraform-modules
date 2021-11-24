@@ -1,0 +1,39 @@
+name: Terraform CI
+
+on:
+- push
+- pull_request
+
+jobs:
+  matrixify:
+    name: Matrixify
+    outputs:
+      matrix: ${{ steps.search.outputs.matrix }}
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Get Changed TF directories
+      id: search
+      uses: mozilla/tf-actions/matrixify@OPST-180
+      with:
+        filter_file: "*.tf"
+        default_branch: "master"
+    - name: Outputs
+      run: echo "${{ steps.search.outputs.matrix }}"
+
+  terraform-ci:
+    name: TF CI on "${{ matrix.directory }}"
+
+    if: ${{ fromJSON(needs.matrixify.outputs.matrix).include[0] }}
+    needs: matrixify
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix: ${{fromJson(needs.matrixify.outputs.matrix)}}
+
+    steps:
+    - id: terraform-checks
+      name: Terraform Checks
+      uses: mozilla/tf-actions/ci@v0.0.2
+      with:
+        tfpath: ${{ matrix.directory }}
