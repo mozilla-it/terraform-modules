@@ -24,6 +24,7 @@ output "ecr_iam_access_key" {
 
 output "ecr_iam_secret_access_key" {
   value = var.create_user ? aws_iam_access_key.this[0].secret : ""
+  sensitive = true
 }
 
 output "ecr_iam_role_arn" {
