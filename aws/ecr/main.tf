@@ -107,6 +107,10 @@ resource "aws_iam_policy" "this" {
 
   policy = data.aws_iam_policy_document.repo_access.json
 
+  tags = {
+    Name      = "ecr-${var.repo_name}-iam"
+    Terraform = "true"
+  }
 }
 
 module "iam_assumable_role_github_actions" {
