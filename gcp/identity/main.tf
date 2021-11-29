@@ -13,6 +13,7 @@ locals {
   # This will cause terraform to block returning outputs until the service account is created
   output_k8s_name      = var.create_ksa ? kubernetes_service_account.ksa[0].metadata[0].name : local.ksa_name
   output_k8s_namespace = var.create_ksa ? kubernetes_service_account.ksa[0].metadata[0].namespace : var.namespace
+  iam                  = var.imavariablethatdoesntexist
 }
 
 resource "google_service_account" "gsa" {
