@@ -141,6 +141,12 @@ variable "prometheus_customization_settings" {
   default     = {}
 }
 
+variable "prometheus_customization_settings_chart_version" {
+  description = "helm chart version"
+  type        = string
+  default     = "0.0.3"
+}
+
 variable "configmapsecrets_settings" {
   description = "Customized or override configmapsecrets helm chart values"
   type        = map(string)

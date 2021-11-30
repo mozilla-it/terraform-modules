@@ -13,6 +13,7 @@ resource "helm_release" "prometheus_customizations" {
   repository = local.helm_mozilla_repository
   chart      = "prometheus-customizations"
   namespace  = module.prometheus.namespace
+  version    = var.prometheus_customization_settings_chart_version
 
   dynamic "set" {
     iterator = item
