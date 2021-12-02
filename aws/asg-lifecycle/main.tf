@@ -1,3 +1,18 @@
+/**
+ * # ASG Lifecycle
+ * A module to create Autoscaling Group lifecycle hooks, this assumes the hook listens to an SNS queue. Very handy if you are using lifecycled.
+ *
+ *
+ * ## Usage
+ * ```
+ * module "asg_lifecycle" {
+ * 	name			= "MyASGHook"
+ * 	worker_asg		= [ "myasg-1" ]
+ * 	worker_iam_role = "myworker-role-name"
+ * }
+ * ```
+ */
+
 resource "aws_autoscaling_lifecycle_hook" "lifecycle_hook" {
   count                   = var.worker_asg_count
   name                    = "${var.name}-termination-hook-${count.index}"
@@ -12,12 +27,6 @@ resource "aws_autoscaling_lifecycle_hook" "lifecycle_hook" {
 resource "aws_cloudwatch_log_group" "lifecycled" {
   name              = var.lifecycled_log_group
   retention_in_days = var.retention_log_days
-
-  tags = {
-    Name      = var.name
-    Region    = var.region
-    Terraform = "true"
-  }
 }
 
 resource "aws_sns_topic" "main" {
@@ -128,4 +137,3 @@ resource "aws_iam_role_policy" "worker_permission" {
   role   = var.worker_iam_role
   policy = data.aws_iam_policy_document.worker_permissions.json
 }
-
