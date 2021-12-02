@@ -9,4 +9,3 @@ output "asg_lifecycle_role" {
 output "asg_lifecycle_role_arn" {
   value = aws_iam_role.lifecycle_hook.arn
 }
-
