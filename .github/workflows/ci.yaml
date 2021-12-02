@@ -14,7 +14,7 @@ jobs:
     steps:
     - name: Get Changed TF directories
       id: search
-      uses: mozilla/tf-actions/matrixify@OPST-180
+      uses: mozilla/tf-actions/matrixify@main
       with:
         filter_file: "*.tf"
         default_branch: "master"
@@ -34,6 +34,6 @@ jobs:
     steps:
     - id: terraform-checks
       name: Terraform Checks
-      uses: mozilla/tf-actions/ci@v0.0.2
+      uses: mozilla/tf-actions/ci@main
       with:
         tfpath: ${{ matrix.directory }}
