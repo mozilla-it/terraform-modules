@@ -7,13 +7,13 @@ output "velero_iam_user_name" {
 }
 
 output "velero_iam_user_access_key" {
-  value = try(aws_iam_access_key.velero_iam_access_key.*.id[0], "")
-  sensitive   = true
+  value     = try(aws_iam_access_key.velero_iam_access_key.*.id[0], "")
+  sensitive = true
 }
 
 output "velero_iam_user_secret_key" {
-  value = try(aws_iam_access_key.velero_iam_access_key.*.secret[0], "")
-  sensitive   = true
+  value     = try(aws_iam_access_key.velero_iam_access_key.*.secret[0], "")
+  sensitive = true
 }
 
 output "velero_role_name" {
