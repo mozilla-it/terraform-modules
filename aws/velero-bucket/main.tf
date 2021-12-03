@@ -57,7 +57,7 @@ resource "aws_iam_user_policy" "velero_iam_user_policy" {
 
 module "velero_role" {
   source                        = "terraform-aws-modules/iam/aws//modules/iam-assumable-role-with-oidc"
-  version                       = "~> v3.6.0"
+  version                       = "~> 4.3"
   create_role                   = var.create_role
   role_name                     = "${local.backup_user}-role"
   provider_url                  = var.create_role ? replace(data.aws_eks_cluster.this[0].identity.0.oidc.0.issuer, "https://", "") : ""
