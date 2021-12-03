@@ -1,17 +1,17 @@
 output "bucket_name" {
-  value = element(concat(aws_s3_bucket.this.*.id, list("")), 0)
+  value = element(concat(aws_s3_bucket.this.*.id, tolist([""])), 0)
 }
 
 output "velero_iam_user_name" {
-  value = element(concat(aws_iam_user.velero_iam_user.*.name, list("")), 0)
+  value = element(concat(aws_iam_user.velero_iam_user.*.name, tolist([""])), 0)
 }
 
 output "velero_iam_user_access_key" {
-  value = element(concat(aws_iam_access_key.velero_iam_access_key.*.id, list("")), 0)
+  value = element(concat(aws_iam_access_key.velero_iam_access_key.*.id, tolist([""])), 0)
 }
 
 output "velero_iam_user_secret_key" {
-  value = element(concat(aws_iam_access_key.velero_iam_access_key.*.secret, list("")), 0)
+  value = element(concat(aws_iam_access_key.velero_iam_access_key.*.secret, tolist([""])), 0)
 }
 
 output "velero_role_name" {
