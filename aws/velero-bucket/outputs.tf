@@ -17,11 +17,11 @@ output "velero_iam_user_secret_key" {
 }
 
 output "velero_role_name" {
-  value = module.velero_role.this_iam_role_name
+  value = module.velero_role.iam_role_name
 }
 
 output "velero_role_arn" {
-  value = module.velero_role.this_iam_role_arn
+  value = module.velero_role.iam_role_arn
 }
 
 output "velero_kms_key_arn" {
