@@ -21,7 +21,7 @@ resource "aws_iam_role_policy_attachment" "ssm" {
 module "eks" {
   source                        = "terraform-aws-modules/eks/aws"
   create_eks                    = var.create_eks
-  version                       = "~> 13"
+  version                       = "~> 13, < 18.0.0"
   cluster_name                  = var.cluster_name
   cluster_version               = var.cluster_version
   cluster_enabled_log_types     = local.cluster_log_type

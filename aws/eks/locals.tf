@@ -148,6 +148,7 @@ locals {
     "externalSecrets.enabled"    = true
     "externalSecrets.provider"   = "aws"
     "externalSecrets.secretsKey" = "${module.eks.cluster_id}-papertrail"
+    "externalSecrets.region"     = "${var.region}"
     "secrets.name"               = "fluentd-papertrail"
   }
   fluentd_papertrail_settings = merge(local.fluentd_papertrail_defaults, var.fluentd_papertrail_settings)
