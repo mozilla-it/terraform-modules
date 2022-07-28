@@ -69,13 +69,13 @@ locals {
   # Settings taken from
   # https://github.com/vmware-tanzu/helm-charts/tree/master/charts/velero
   velero_defaults = {
-    "configuration.provider"                              = "aws"
-    "configuration.backupStorageLocation.name"            = "aws"
-    "configuration.backupStorageLocation.bucket"          = module.velero.bucket_name
-    "configuration.backupStorageLocation.config.region"   = var.region
-    "configuration.backupStorageLocation.config.kmsKeyId" = module.velero.velero_kms_key_id
-    "configuration.volumeSnapshotLocation.name"           = "aws"
-    "configuration.volumeSnapshotLocation.config.region"  = var.region
+    "configuration.provider"                                           = "aws"
+    "configuration.backupStorageLocation.name"                         = "aws"
+    "configuration.backupStorageLocation.bucket"                       = module.velero.bucket_name
+    "configuration.backupStorageLocation.config.region"                = var.region
+    "configuration.backupStorageLocation.config.kmsKeyId"              = module.velero.velero_kms_key_id
+    "configuration.volumeSnapshotLocation.name"                        = "aws"
+    "configuration.volumeSnapshotLocation.config.region"               = var.region
     "serviceAccount.server.name"                                       = "velero"
     "serviceAccount.server.annotations.eks\\.amazonaws\\.com/role-arn" = module.velero.velero_role_arn
     "securityContext.fsGroup"                                          = "65534"
