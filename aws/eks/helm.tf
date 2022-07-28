@@ -1,12 +1,12 @@
 locals {
-  helm_eks_repository              = "https://aws.github.io/eks-charts"
-  helm_stable_repository           = "https://kubernetes-charts.storage.googleapis.com"
-  helm_incubator_repository        = "http://storage.googleapis.com/kubernetes-charts-incubator"
-  helm_vmware_tanzu_repository     = "https://vmware-tanzu.github.io/helm-charts"
-  helm_external_secrets_repository = "https://external-secrets.github.io/kubernetes-external-secrets"
-  helm_bitnami_repository          = "https://charts.bitnami.com/bitnami"
-  helm_autoscaler_repository       = "https://kubernetes.github.io/autoscaler"
-  helm_mozilla_repository          = "https://mozilla-it.github.io/helm-charts"
+  helm_eks_repository                = "https://aws.github.io/eks-charts"
+  helm_stable_repository             = "https://kubernetes-charts.storage.googleapis.com"
+  helm_incubator_repository          = "http://storage.googleapis.com/kubernetes-charts-incubator"
+  helm_vmware_tanzu_repository       = "https://vmware-tanzu.github.io/helm-charts"
+  helm_external_secrets_repository   = "https://external-secrets.github.io/kubernetes-external-secrets"
+  helm_metrics_server_kubernetes_sig = "https://kubernetes-sigs.github.io/metrics-server"
+  helm_autoscaler_repository         = "https://kubernetes.github.io/autoscaler"
+  helm_mozilla_repository            = "https://mozilla-it.github.io/helm-charts"
 }
 
 resource "helm_release" "node_drain" {
@@ -21,7 +21,7 @@ resource "helm_release" "node_drain" {
 resource "helm_release" "metrics_server" {
   count      = var.create_eks && local.cluster_features["metrics_server"] ? 1 : 0
   name       = "metrics-server"
-  repository = local.helm_bitnami_repository
+  repository = local.helm_metrics_server_kubernetes_sig
   chart      = "metrics-server"
   namespace  = "kube-system"
 
