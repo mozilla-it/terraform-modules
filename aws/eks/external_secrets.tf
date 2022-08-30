@@ -1,7 +1,10 @@
 data "aws_iam_policy_document" "external_secrets" {
   statement {
     actions = [
+      "secretsmanager:DescribeSecret",
+      "secretsmanager:GetResourcePolicy",
       "secretsmanager:GetSecretValue",
+      "secretsmanager:ListSecretVersionIds",
     ]
 
     resources = [
